@@ -15,7 +15,7 @@ import javax.persistence.PersistenceContext;
  */
 @Stateless
 public class IappFacturaFacade extends AbstractFacade<IappFactura> {
-    @PersistenceContext(unitName = "DinamicPortal-ejbPU")
+    @PersistenceContext(unitName = "e-learning-ejb_PU")
     private EntityManager em;
 
     @Override

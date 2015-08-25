@@ -53,12 +53,12 @@ public class IappStreaming implements Serializable {
     private Collection<IappStreamingEstudiante> iappStreamingEstudianteCollection;
     @JoinColumn(name = "id_usuario", referencedColumnName = "id_usuario")
     @ManyToOne
-    private IappUsuario idUsuario;
+    private IappUser idUsuario;
     @Column(name = "estado")
     private String estado;    
     @JoinColumn(name = "id_curso", referencedColumnName = "id_curso")
     @ManyToOne(optional = false)
-    private IappCursos idCurso;    
+    private IappCourses idCurso;    
     @Column(name = "fecha_creacion")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaCreacion;
@@ -115,11 +115,11 @@ public class IappStreaming implements Serializable {
         this.urlJoinEstudiantes = urlJoinEstudiantes;
     }
 
-    public IappUsuario getIdUsuario() {
+    public IappUser getIdUsuario() {
         return idUsuario;
     }
 
-    public void setIdUsuario(IappUsuario idUsuario) {
+    public void setIdUsuario(IappUser idUsuario) {
         this.idUsuario = idUsuario;
     }
     
@@ -142,11 +142,11 @@ public class IappStreaming implements Serializable {
         this.estado = estado;
     }
 
-    public IappCursos getIdCurso() {
+    public IappCourses getIdCurso() {
         return idCurso;
     }
 
-    public void setIdCurso(IappCursos idCurso) {
+    public void setIdCurso(IappCourses idCurso) {
         this.idCurso = idCurso;
     }
 

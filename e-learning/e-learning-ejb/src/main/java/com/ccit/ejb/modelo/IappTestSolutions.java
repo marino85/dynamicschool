@@ -16,17 +16,17 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author innovasoft
  */
 @Entity
-@Table(name = "iapp_soluciones", schema="general")
+@Table(name = "iapp_test_solutions", schema="general")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "IappSoluciones.findAll", query = "SELECT i FROM IappSoluciones i"),
-    @NamedQuery(name = "IappSoluciones.findByIdSolucion", query = "SELECT i FROM IappSoluciones i WHERE i.idSolucion = :idSolucion"),
-    @NamedQuery(name = "IappSoluciones.findByFechaCreacion", query = "SELECT i FROM IappSoluciones i WHERE i.fechaCreacion = :fechaCreacion"),
-    @NamedQuery(name = "IappSoluciones.findByFechaModificacion", query = "SELECT i FROM IappSoluciones i WHERE i.fechaModificacion = :fechaModificacion"),
-    @NamedQuery(name = "IappSoluciones.findByUsuarioCreacion", query = "SELECT i FROM IappSoluciones i WHERE i.usuarioCreacion = :usuarioCreacion"),
-    @NamedQuery(name = "IappSoluciones.findByUsuarioModificacion", query = "SELECT i FROM IappSoluciones i WHERE i.usuarioModificacion = :usuarioModificacion"),
-    @NamedQuery(name = "IappSoluciones.findByEstadoRegistro", query = "SELECT i FROM IappSoluciones i WHERE i.estadoRegistro = :estadoRegistro")})
-public class IappSoluciones implements Serializable {
+    @NamedQuery(name = "IappTestSolutions.findAll", query = "SELECT i FROM IappTestSolutions i"),
+    @NamedQuery(name = "IappTestSolutions.findByIdSolucion", query = "SELECT i FROM IappTestSolutions i WHERE i.idSolucion = :idSolucion"),
+    @NamedQuery(name = "IappTestSolutions.findByFechaCreacion", query = "SELECT i FROM IappTestSolutions i WHERE i.fechaCreacion = :fechaCreacion"),
+    @NamedQuery(name = "IappTestSolutions.findByFechaModificacion", query = "SELECT i FROM IappTestSolutions i WHERE i.fechaModificacion = :fechaModificacion"),
+    @NamedQuery(name = "IappTestSolutions.findByUsuarioCreacion", query = "SELECT i FROM IappTestSolutions i WHERE i.usuarioCreacion = :usuarioCreacion"),
+    @NamedQuery(name = "IappTestSolutions.findByUsuarioModificacion", query = "SELECT i FROM IappTestSolutions i WHERE i.usuarioModificacion = :usuarioModificacion"),
+    @NamedQuery(name = "IappTestSolutions.findByEstadoRegistro", query = "SELECT i FROM IappTestSolutions i WHERE i.estadoRegistro = :estadoRegistro")})
+public class IappTestSolutions implements Serializable {
     @Basic(optional =     false)
     @NotNull
     @Column(name = "fecha_creacion")
@@ -62,19 +62,19 @@ public class IappSoluciones implements Serializable {
     private String estadoRegistro;
     @JoinColumn(name = "id_respuesta", referencedColumnName = "id_respuesta")
     @ManyToOne(optional = false)
-    private IappRespuestas idRespuesta;
+    private IappTestQuestionAnswers idRespuesta;
     @JoinColumn(name = "id_matricula", referencedColumnName = "id_matricula")
     @ManyToOne(optional = false)
-    private IappMatriculas idMatricula;
+    private IappEnrollments idMatricula;
 
-    public IappSoluciones() {
+    public IappTestSolutions() {
     }
 
-    public IappSoluciones(Integer idSolucion) {
+    public IappTestSolutions(Integer idSolucion) {
         this.idSolucion = idSolucion;
     }
 
-    public IappSoluciones(Integer idSolucion, Date fechaCreacion, Date fechaModificacion, String usuarioCreacion, String usuarioModificacion, String estadoRegistro) {
+    public IappTestSolutions(Integer idSolucion, Date fechaCreacion, Date fechaModificacion, String usuarioCreacion, String usuarioModificacion, String estadoRegistro) {
         this.idSolucion = idSolucion;
         this.fechaCreacion = fechaCreacion;
         this.fechaModificacion = fechaModificacion;
@@ -131,19 +131,19 @@ public class IappSoluciones implements Serializable {
         this.estadoRegistro = estadoRegistro;
     }
 
-    public IappRespuestas getIdRespuesta() {
+    public IappTestQuestionAnswers getIdRespuesta() {
         return idRespuesta;
     }
 
-    public void setIdRespuesta(IappRespuestas idRespuesta) {
+    public void setIdRespuesta(IappTestQuestionAnswers idRespuesta) {
         this.idRespuesta = idRespuesta;
     }
 
-    public IappMatriculas getIdMatricula() {
+    public IappEnrollments getIdMatricula() {
         return idMatricula;
     }
 
-    public void setIdMatricula(IappMatriculas idMatricula) {
+    public void setIdMatricula(IappEnrollments idMatricula) {
         this.idMatricula = idMatricula;
     }
 
@@ -157,10 +157,10 @@ public class IappSoluciones implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof IappSoluciones)) {
+        if (!(object instanceof IappTestSolutions)) {
             return false;
         }
-        IappSoluciones other = (IappSoluciones) object;
+        IappTestSolutions other = (IappTestSolutions) object;
         if ((this.idSolucion == null && other.idSolucion != null) || (this.idSolucion != null && !this.idSolucion.equals(other.idSolucion))) {
             return false;
         }
@@ -169,6 +169,6 @@ public class IappSoluciones implements Serializable {
 
     @Override
     public String toString() {
-        return "com.innovasoft.ejb.modelo.IappSoluciones[ idSolucion=" + idSolucion + " ]";
+        return "com.innovasoft.ejb.modelo.IappTestSolutions[ idSolucion=" + idSolucion + " ]";
     }
 }

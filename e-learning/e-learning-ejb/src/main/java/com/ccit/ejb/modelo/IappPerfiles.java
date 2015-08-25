@@ -35,7 +35,7 @@ public class IappPerfiles implements Serializable {
     private String descripcion;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPerfil")
     @OrderBy(value="nombres ASC")
-    private Collection<IappUsuario> iappUsuarioCollection;
+    private Collection<IappUser> iappUsuarioCollection;
 
     public IappPerfiles() {
     }
@@ -61,11 +61,11 @@ public class IappPerfiles implements Serializable {
     }
 
     @XmlTransient
-    public Collection<IappUsuario> getIappUsuarioCollection() {
+    public Collection<IappUser> getIappUsuarioCollection() {
         return iappUsuarioCollection;
     }
 
-    public void setIappUsuarioCollection(Collection<IappUsuario> iappUsuarioCollection) {
+    public void setIappUsuarioCollection(Collection<IappUser> iappUsuarioCollection) {
         this.iappUsuarioCollection = iappUsuarioCollection;
     }
 

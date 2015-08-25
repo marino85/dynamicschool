@@ -7,8 +7,8 @@ package com.ccit.ejb.fachada;
 import com.ccit.ejb.dto.FiltroUsuariosDto;
 import com.ccit.ejb.dto.UsuarioDTo;
 import com.ccit.ejb.fachada.impl.IappUsuarioFacade;
-import com.ccit.ejb.modelo.IappCursos;
-import com.ccit.ejb.modelo.IappUsuario;
+import com.ccit.ejb.modelo.IappCourses;
+import com.ccit.ejb.modelo.IappUser;
 import com.ccit.exception.IappException;
 import java.util.List;
 import javax.ejb.EJB;
@@ -26,13 +26,13 @@ public class UsuariosFacade {
     private IappUsuarioFacade iappUsuarioFacade;
     
     
-    public void crearUsuario(IappUsuario usuario)throws IappException{
+    public void crearUsuario(IappUser usuario)throws IappException{
         iappUsuarioFacade.create(usuario);
     }
     
     public void editUserAfterFirstLogin(UsuarioDTo usuario)throws IappException{
         
-        IappUsuario u = iappUsuarioFacade.find(usuario.getIdUsuario());
+        IappUser u = iappUsuarioFacade.find(usuario.getIdUsuario());
         
         if(u!=null){
             u.setPasswd(usuario.getPass());
@@ -45,33 +45,33 @@ public class UsuariosFacade {
         }
     }
     
-    public void eliminarUsuario(IappUsuario usuario)throws IappException{
+    public void eliminarUsuario(IappUser usuario)throws IappException{
         iappUsuarioFacade.remove(usuario);
     }
     
-    public List<IappUsuario> buscarUsuarios(){
+    public List<IappUser> buscarUsuarios(){
        return iappUsuarioFacade.findAll();
     }
     
-    public IappUsuario findUser(String ndoc){
+    public IappUser findUser(String ndoc){
         return iappUsuarioFacade.findUser(ndoc);
     }
-    public IappUsuario findUser(String numDoc,String tipoDoc){
+    public IappUser findUser(String numDoc,String tipoDoc){
         return iappUsuarioFacade.findUser(numDoc, tipoDoc);
     }
     
-    public void merge(IappUsuario u)throws IappException{
+    public void merge(IappUser u)throws IappException{
         
         
          iappUsuarioFacade.edit(u);
     }
 
-    public List<IappUsuario> consultarUsuariosPorPerfil(Integer id_perfil) {
+    public List<IappUser> consultarUsuariosPorPerfil(Integer id_perfil) {
         return iappUsuarioFacade.findUserByPerfil(id_perfil);
     }
     
     
-     public List<IappUsuario> findRange(int[] range) {
+     public List<IappUser> findRange(int[] range) {
         return iappUsuarioFacade.findRange(range);
     }
 
@@ -79,16 +79,16 @@ public class UsuariosFacade {
       return  iappUsuarioFacade.count();
     }
 
-    public List<IappUsuario> getEstudiantes(IappCursos editCourse){
+    public List<IappUser> getEstudiantes(IappCourses editCourse){
         return iappUsuarioFacade.getEstudiantesNoCurso(editCourse);
     } 
     
-    public List<IappUsuario> getEstudiantesActivos(){
+    public List<IappUser> getEstudiantesActivos(){
         return iappUsuarioFacade.getEstudiantesActivos();
     }
     
     
-    public List<IappUsuario> getEstudiantes(FiltroUsuariosDto filtro) {
+    public List<IappUser> getEstudiantes(FiltroUsuariosDto filtro) {
         return iappUsuarioFacade.getEstudiantes(filtro);
     }
 }

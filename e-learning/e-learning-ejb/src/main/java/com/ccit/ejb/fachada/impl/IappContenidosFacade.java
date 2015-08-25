@@ -4,7 +4,7 @@
  */
 package com.ccit.ejb.fachada.impl;
 
-import com.ccit.ejb.modelo.IappContenidos;
+import com.ccit.ejb.modelo.IappContent;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -14,8 +14,8 @@ import javax.persistence.PersistenceContext;
  * @author marino
  */
 @Stateless
-public class IappContenidosFacade extends AbstractFacade<IappContenidos> {
-    @PersistenceContext(unitName = "DinamicPortal-ejbPU")
+public class IappContenidosFacade extends AbstractFacade<IappContent> {
+    @PersistenceContext(unitName = "e-learning-ejb_PU")
     private EntityManager em;
 
     @Override
@@ -24,6 +24,6 @@ public class IappContenidosFacade extends AbstractFacade<IappContenidos> {
     }
 
     public IappContenidosFacade() {
-        super(IappContenidos.class);
+        super(IappContent.class);
     } 
 }

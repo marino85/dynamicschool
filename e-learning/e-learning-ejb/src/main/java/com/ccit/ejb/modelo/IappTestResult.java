@@ -18,18 +18,18 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author innovasoft
  */
 @Entity
-@Table(name = "iapp_cal_evaluacion", schema="general")
+@Table(name = "iapp_test_results", schema="general")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "IappCalEvaluacion.findAll", query = "SELECT i FROM IappCalEvaluacion i"),
-    @NamedQuery(name = "IappCalEvaluacion.findByIdCalificacion", query = "SELECT i FROM IappCalEvaluacion i WHERE i.idCalificacion = :idCalificacion"),
-    @NamedQuery(name = "IappCalEvaluacion.findByFechaCreacion", query = "SELECT i FROM IappCalEvaluacion i WHERE i.fechaCreacion = :fechaCreacion"),
-    @NamedQuery(name = "IappCalEvaluacion.findByFechaModificacion", query = "SELECT i FROM IappCalEvaluacion i WHERE i.fechaModificacion = :fechaModificacion"),
-    @NamedQuery(name = "IappCalEvaluacion.findByUsuarioCreacion", query = "SELECT i FROM IappCalEvaluacion i WHERE i.usuarioCreacion = :usuarioCreacion"),
-    @NamedQuery(name = "IappCalEvaluacion.findByUsuarioModificacion", query = "SELECT i FROM IappCalEvaluacion i WHERE i.usuarioModificacion = :usuarioModificacion"),
-    @NamedQuery(name = "IappCalEvaluacion.findByEstadoRegistro", query = "SELECT i FROM IappCalEvaluacion i WHERE i.estadoRegistro = :estadoRegistro"),
-    @NamedQuery(name = "IappCalEvaluacion.findByNoCorrectas", query = "SELECT i FROM IappCalEvaluacion i WHERE i.noCorrectas = :noCorrectas")})
-public class IappCalEvaluacion implements Serializable {
+    @NamedQuery(name = "IappTestResult.findAll", query = "SELECT i FROM IappTestResult i"),
+    @NamedQuery(name = "IappTestResult.findByIdCalificacion", query = "SELECT i FROM IappTestResult i WHERE i.idCalificacion = :idCalificacion"),
+    @NamedQuery(name = "IappTestResult.findByFechaCreacion", query = "SELECT i FROM IappTestResult i WHERE i.fechaCreacion = :fechaCreacion"),
+    @NamedQuery(name = "IappTestResult.findByFechaModificacion", query = "SELECT i FROM IappTestResult i WHERE i.fechaModificacion = :fechaModificacion"),
+    @NamedQuery(name = "IappTestResult.findByUsuarioCreacion", query = "SELECT i FROM IappTestResult i WHERE i.usuarioCreacion = :usuarioCreacion"),
+    @NamedQuery(name = "IappTestResult.findByUsuarioModificacion", query = "SELECT i FROM IappTestResult i WHERE i.usuarioModificacion = :usuarioModificacion"),
+    @NamedQuery(name = "IappTestResult.findByEstadoRegistro", query = "SELECT i FROM IappTestResult i WHERE i.estadoRegistro = :estadoRegistro"),
+    @NamedQuery(name = "IappTestResult.findByNoCorrectas", query = "SELECT i FROM IappTestResult i WHERE i.noCorrectas = :noCorrectas")})
+public class IappTestResult implements Serializable {
     @Basic(optional =     false)
     @NotNull
     @Column(name = "fecha_creacion")
@@ -75,19 +75,19 @@ public class IappCalEvaluacion implements Serializable {
     private Integer noCorrectas;
     @JoinColumn(name = "id_matricula", referencedColumnName = "id_matricula")
     @ManyToOne
-    private IappMatriculas idMatricula;
+    private IappEnrollments idMatricula;
     @JoinColumn(name = "id_evaluacion", referencedColumnName = "id_evaluacion")
     @ManyToOne(optional = false)
-    private IappEvaluaciones idEvaluacion;
+    private IappTests idEvaluacion;
 
-    public IappCalEvaluacion() {
+    public IappTestResult() {
     }
 
-    public IappCalEvaluacion(Integer idCalificacion) {
+    public IappTestResult(Integer idCalificacion) {
         this.idCalificacion = idCalificacion;
     }
 
-    public IappCalEvaluacion(Integer idCalificacion, Date fechaCreacion, Date fechaModificacion, String usuarioCreacion, String usuarioModificacion, String estadoRegistro) {
+    public IappTestResult(Integer idCalificacion, Date fechaCreacion, Date fechaModificacion, String usuarioCreacion, String usuarioModificacion, String estadoRegistro) {
         this.idCalificacion = idCalificacion;
         this.fechaCreacion = fechaCreacion;
         this.fechaModificacion = fechaModificacion;
@@ -152,19 +152,19 @@ public class IappCalEvaluacion implements Serializable {
         this.noCorrectas = noCorrectas;
     }
 
-    public IappMatriculas getIdMatricula() {
+    public IappEnrollments getIdMatricula() {
         return idMatricula;
     }
 
-    public void setIdMatricula(IappMatriculas idMatricula) {
+    public void setIdMatricula(IappEnrollments idMatricula) {
         this.idMatricula = idMatricula;
     }
 
-    public IappEvaluaciones getIdEvaluacion() {
+    public IappTests getIdEvaluacion() {
         return idEvaluacion;
     }
 
-    public void setIdEvaluacion(IappEvaluaciones idEvaluacion) {
+    public void setIdEvaluacion(IappTests idEvaluacion) {
         this.idEvaluacion = idEvaluacion;
     }
     
@@ -185,10 +185,10 @@ public class IappCalEvaluacion implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof IappCalEvaluacion)) {
+        if (!(object instanceof IappTestResult)) {
             return false;
         }
-        IappCalEvaluacion other = (IappCalEvaluacion) object;
+        IappTestResult other = (IappTestResult) object;
         if ((this.idCalificacion == null && other.idCalificacion != null) || (this.idCalificacion != null && !this.idCalificacion.equals(other.idCalificacion))) {
             return false;
         }
@@ -197,7 +197,7 @@ public class IappCalEvaluacion implements Serializable {
 
     @Override
     public String toString() {
-        return "com.innovasoft.ejb.modelo.IappCalEvaluacion[ idCalificacion=" + idCalificacion + " ]";
+        return "com.innovasoft.ejb.modelo.IappTestResult[ idCalificacion=" + idCalificacion + " ]";
     }
 
     public Date getFechaInicio() {

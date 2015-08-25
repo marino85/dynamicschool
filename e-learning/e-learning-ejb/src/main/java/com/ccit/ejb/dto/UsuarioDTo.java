@@ -5,7 +5,7 @@
 package com.ccit.ejb.dto;
 
 import com.ccit.ejb.constants.Constants;
-import com.ccit.ejb.modelo.IappUsuario;
+import com.ccit.ejb.modelo.IappUser;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -30,7 +30,7 @@ public class UsuarioDTo {
     private Integer idPerfil;
     private String email;
     private String indicadorTiempo;
-    private IappUsuario iappUsuario;
+    private IappUser iappUsuario;
     
     
     
@@ -171,11 +171,11 @@ public class UsuarioDTo {
         this.indicadorTiempo = indicadorTiempo;
     }
 
-    public IappUsuario getIappUsuario() {
+    public IappUser getIappUsuario() {
         return iappUsuario;
     }
 
-    public void setIappUsuario(IappUsuario iappUsuario) {
+    public void setIappUsuario(IappUser iappUsuario) {
         this.iappUsuario = iappUsuario;
     }
     

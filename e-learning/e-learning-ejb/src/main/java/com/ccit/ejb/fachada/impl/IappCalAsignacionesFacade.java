@@ -4,7 +4,7 @@
  */
 package com.ccit.ejb.fachada.impl;
 
-import com.ccit.ejb.modelo.IappCalAsignaciones;
+import com.ccit.ejb.modelo.IappQualificationHomeWorks;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -14,8 +14,8 @@ import javax.persistence.PersistenceContext;
  * @author innovasoft
  */
 @Stateless
-public class IappCalAsignacionesFacade extends AbstractFacade<IappCalAsignaciones> {
-    @PersistenceContext(unitName = "DinamicPortal-ejbPU")
+public class IappCalAsignacionesFacade extends AbstractFacade<IappQualificationHomeWorks> {
+    @PersistenceContext(unitName = "e-learning-ejb_PU")
     private EntityManager em;
 
     @Override
@@ -24,7 +24,7 @@ public class IappCalAsignacionesFacade extends AbstractFacade<IappCalAsignacione
     }
 
     public IappCalAsignacionesFacade() {
-        super(IappCalAsignaciones.class);
+        super(IappQualificationHomeWorks.class);
     }
     
 }

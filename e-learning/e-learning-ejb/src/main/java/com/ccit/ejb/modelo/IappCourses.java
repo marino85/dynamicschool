@@ -20,20 +20,20 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author innovasoft
  */
 @Entity
-@Table(name = "iapp_cursos", schema = "general")
+@Table(name = "iapp_courses", schema = "general")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "IappCursos.findAll", query = "SELECT i FROM IappCursos i"),
-    @NamedQuery(name = "IappCursos.findByIdCurso", query = "SELECT i FROM IappCursos i WHERE i.idCurso = :idCurso"),
-    @NamedQuery(name = "IappCursos.findByNombre", query = "SELECT i FROM IappCursos i WHERE i.nombre = :nombre"),
-    @NamedQuery(name = "IappCursos.findByDescripcion", query = "SELECT i FROM IappCursos i WHERE i.descripcion = :descripcion"),
-    @NamedQuery(name = "IappCursos.findByFechaCreacion", query = "SELECT i FROM IappCursos i WHERE i.fechaCreacion = :fechaCreacion"),
-    @NamedQuery(name = "IappCursos.findByFechaModificacion", query = "SELECT i FROM IappCursos i WHERE i.fechaModificacion = :fechaModificacion"),
-    @NamedQuery(name = "IappCursos.findByUsuarioCreacion", query = "SELECT i FROM IappCursos i WHERE i.usuarioCreacion = :usuarioCreacion"),
-    @NamedQuery(name = "IappCursos.findByUsuarioModificacion", query = "SELECT i FROM IappCursos i WHERE i.usuarioModificacion = :usuarioModificacion"),
-    @NamedQuery(name = "IappCursos.findByEstadoRegistro", query = "SELECT i FROM IappCursos i WHERE i.estadoRegistro = :estadoRegistro"),
-    @NamedQuery(name = "IappCursos.findByTipoCurso", query = "SELECT i FROM IappCursos i WHERE i.tipoCurso = :tipoCurso")})
-public class IappCursos implements Serializable {
+    @NamedQuery(name = "IappCourses.findAll", query = "SELECT i FROM IappCourses i"),
+    @NamedQuery(name = "IappCourses.findByIdCurso", query = "SELECT i FROM IappCourses i WHERE i.idCurso = :idCurso"),
+    @NamedQuery(name = "IappCourses.findByNombre", query = "SELECT i FROM IappCourses i WHERE i.nombre = :nombre"),
+    @NamedQuery(name = "IappCourses.findByDescripcion", query = "SELECT i FROM IappCourses i WHERE i.descripcion = :descripcion"),
+    @NamedQuery(name = "IappCourses.findByFechaCreacion", query = "SELECT i FROM IappCourses i WHERE i.fechaCreacion = :fechaCreacion"),
+    @NamedQuery(name = "IappCourses.findByFechaModificacion", query = "SELECT i FROM IappCourses i WHERE i.fechaModificacion = :fechaModificacion"),
+    @NamedQuery(name = "IappCourses.findByUsuarioCreacion", query = "SELECT i FROM IappCourses i WHERE i.usuarioCreacion = :usuarioCreacion"),
+    @NamedQuery(name = "IappCourses.findByUsuarioModificacion", query = "SELECT i FROM IappCourses i WHERE i.usuarioModificacion = :usuarioModificacion"),
+    @NamedQuery(name = "IappCourses.findByEstadoRegistro", query = "SELECT i FROM IappCourses i WHERE i.estadoRegistro = :estadoRegistro"),
+    @NamedQuery(name = "IappCourses.findByTipoCurso", query = "SELECT i FROM IappCourses i WHERE i.tipoCurso = :tipoCurso")})
+public class IappCourses implements Serializable {
 
     @Basic(optional =     false)
     @NotNull
@@ -68,17 +68,11 @@ public class IappCursos implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "valor")
-    private BigDecimal valor;
-    @JoinColumn(name = "id_nivel", referencedColumnName = "id_nivel")
-    @ManyToOne(optional = false)
-    @OrderBy
-    private IappNiveles idNivel;
+    private BigDecimal valor;  
     @JoinColumn(name = "id_profesor", referencedColumnName = "id_usuario")
     @ManyToOne(optional = false)
-    private IappUsuario idProfesor;
-    @JoinColumn(name = "id_estado_curso", referencedColumnName = "id_estado_curso")
-    @ManyToOne(optional = false)
-    private IappEstadosCurso idEstadoCurso;
+    private IappUser idProfesor;
+  
     private static final long serialVersionUID = 1L;
     @Id
     @SequenceGenerator(allocationSize = 1, name = "PGSSQL_COURSE_SEQ", schema = "general", sequenceName = "iapp_curso_id_curso_seq")
@@ -113,19 +107,19 @@ public class IappCursos implements Serializable {
     @Column(name = "estado_registro")
     private String estadoRegistro;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCurso",fetch= FetchType.LAZY)
-    private Collection<IappMatriculas> iappMatriculasCollection;
+    private Collection<IappEnrollments> iappMatriculasCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCurso", orphanRemoval = true,fetch= FetchType.LAZY)
     @OrderBy(value = "idModulo ASC")
-    private Collection<IappModulos> iappModulosCollection;
+    private Collection<IappSprints> iappModulosCollection;
 
-    public IappCursos() {
+    public IappCourses() {
     }
 
-    public IappCursos(Integer idCurso) {
+    public IappCourses(Integer idCurso) {
         this.idCurso = idCurso;
     }
 
-    public IappCursos(Integer idCurso, String nombre, String descripcion, Date fechaCreacion, Date fechaModificacion, String usuarioCreacion, String usuarioModificacion, String estadoRegistro) {
+    public IappCourses(Integer idCurso, String nombre, String descripcion, Date fechaCreacion, Date fechaModificacion, String usuarioCreacion, String usuarioModificacion, String estadoRegistro) {
         this.idCurso = idCurso;
         this.nombre = nombre;
         this.descripcion = descripcion;
@@ -201,20 +195,20 @@ public class IappCursos implements Serializable {
     }
 
     @XmlTransient
-    public Collection<IappMatriculas> getIappMatriculasCollection() {
+    public Collection<IappEnrollments> getIappMatriculasCollection() {
         return iappMatriculasCollection;
     }
 
-    public void setIappMatriculasCollection(Collection<IappMatriculas> iappMatriculasCollection) {
+    public void setIappMatriculasCollection(Collection<IappEnrollments> iappMatriculasCollection) {
         this.iappMatriculasCollection = iappMatriculasCollection;
     }
 
     @XmlTransient
-    public Collection<IappModulos> getIappModulosCollection() {
+    public Collection<IappSprints> getIappModulosCollection() {
         return iappModulosCollection;
     }
 
-    public void setIappModulosCollection(Collection<IappModulos> iappModulosCollection) {
+    public void setIappModulosCollection(Collection<IappSprints> iappModulosCollection) {
         this.iappModulosCollection = iappModulosCollection;
     }
 
@@ -228,10 +222,10 @@ public class IappCursos implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof IappCursos)) {
+        if (!(object instanceof IappCourses)) {
             return false;
         }
-        IappCursos other = (IappCursos) object;
+        IappCourses other = (IappCourses) object;
         if ((this.idCurso == null && other.idCurso != null) || (this.idCurso != null && !this.idCurso.equals(other.idCurso))) {
             return false;
         }
@@ -247,19 +241,13 @@ public class IappCursos implements Serializable {
 
     }
 
-    public IappEstadosCurso getIdEstadoCurso() {
-        return idEstadoCurso;
-    }
+    
 
-    public void setIdEstadoCurso(IappEstadosCurso idEstadoCurso) {
-        this.idEstadoCurso = idEstadoCurso;
-    }
-
-    public IappUsuario getIdProfesor() {
+    public IappUser getIdProfesor() {
         return idProfesor;
     }
 
-    public void setIdProfesor(IappUsuario idProfesor) {
+    public void setIdProfesor(IappUser idProfesor) {
         this.idProfesor = idProfesor;
     }
 
@@ -279,17 +267,11 @@ public class IappCursos implements Serializable {
         this.valor = valor;
     }
 
-    public IappNiveles getIdNivel() {
-        return idNivel;
-    }
-
-    public void setIdNivel(IappNiveles idNivel) {
-        this.idNivel = idNivel;
-    }
+    
 
     @Override
     public String toString() {
-        return "com.innovasoft.ejb.modelo.IappCursos[ idCurso=" + idCurso + " ]";
+        return "com.innovasoft.ejb.modelo.IappCourses[ idCurso=" + idCurso + " ]";
     }
 
   

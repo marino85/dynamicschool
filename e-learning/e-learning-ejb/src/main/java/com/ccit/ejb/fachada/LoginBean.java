@@ -7,7 +7,7 @@ package com.ccit.ejb.fachada;
 import com.ccit.ejb.constants.Constants;
 import com.ccit.ejb.dto.UsuarioDTo;
 import com.ccit.ejb.fachada.impl.IappUsuarioFacade;
-import com.ccit.ejb.modelo.IappUsuario;
+import com.ccit.ejb.modelo.IappUser;
 import com.ccit.ejb.utilidades.EncrytUtil;
 import java.util.Calendar;
 import javax.ejb.EJB;
@@ -33,7 +33,7 @@ public class LoginBean {
      * @return
      */
     public UsuarioDTo login(String user, String pass) {
-        IappUsuario usuario = null;
+        IappUser usuario = null;
         try {
             usuario = iappUsuarioFacade.findUser(user);
         } catch (Exception e) {
@@ -50,10 +50,10 @@ public class LoginBean {
                 u.setCont(usuario.getCont());
                 u.setPerfil(usuario.getIdPerfil().getDescripcion());
                 u.setNumDoc(usuario.getNumeroDoc());
-                u.setTipoDoc(usuario.getTipoDoc().getIdTipoDoc());
+              //  u.setTipoDoc(usuario.getTipoDoc().getIdTipoDoc());
                 u.setIdUsuario(usuario.getIdUsuario());
                 u.setLogin(usuario.getNumeroDoc());
-                u.setIdNivel(usuario.getIdNivel().getIdNivel());
+//                u.setIdNivel(usuario.getIdNivel().getIdNivel());
                 u.setIdPerfil(usuario.getIdPerfil().getIdPerfil());
                 u.setEmail(usuario.getEmail());
                 u.setIappUsuario(usuario);

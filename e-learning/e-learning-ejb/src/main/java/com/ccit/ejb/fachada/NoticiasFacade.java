@@ -5,7 +5,7 @@
 package com.ccit.ejb.fachada;
 
 import com.ccit.ejb.fachada.impl.IappNoticiasFacade;
-import com.ccit.ejb.modelo.IappNoticias;
+import com.ccit.ejb.modelo.IappNews;
 import com.ccit.exception.IappException;
 import java.util.List;
 import javax.ejb.EJB;
@@ -23,19 +23,19 @@ public class NoticiasFacade {
     private IappNoticiasFacade iappNoticiasFacade;
 
       
-    public void crearNoticia(IappNoticias noticia)throws IappException{
+    public void crearNoticia(IappNews noticia)throws IappException{
         iappNoticiasFacade.create(noticia);
     }
-    public void editarNoticia(IappNoticias noticia)throws IappException{
+    public void editarNoticia(IappNews noticia)throws IappException{
         iappNoticiasFacade.edit(noticia);
     }
-    public void eliminarNoticia(IappNoticias noticia)throws IappException{
+    public void eliminarNoticia(IappNews noticia)throws IappException{
         iappNoticiasFacade.remove(noticia);
     }
-    public List<IappNoticias> consultarNoticias(){
+    public List<IappNews> consultarNoticias(){
         return iappNoticiasFacade.findAll();
     }
-    public List<IappNoticias> findLastNews(){
+    public List<IappNews> findLastNews(){
         return iappNoticiasFacade.findLastNews();
     }
     

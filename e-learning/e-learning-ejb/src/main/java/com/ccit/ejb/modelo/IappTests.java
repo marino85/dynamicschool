@@ -18,21 +18,21 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author innovasoft
  */
 @Entity
-@Table(name = "iapp_evaluaciones", schema = "general")
+@Table(name = "iapp_tests", schema = "general")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "IappEvaluaciones.findAll", query = "SELECT i FROM IappEvaluaciones i"),
-    @NamedQuery(name = "IappEvaluaciones.findByIdEvaluacion", query = "SELECT i FROM IappEvaluaciones i WHERE i.idEvaluacion = :idEvaluacion"),
-    @NamedQuery(name = "IappEvaluaciones.findByNombre", query = "SELECT i FROM IappEvaluaciones i WHERE i.nombre = :nombre"),
-    @NamedQuery(name = "IappEvaluaciones.findByDescripcion", query = "SELECT i FROM IappEvaluaciones i WHERE i.descripcion = :descripcion"),
-    @NamedQuery(name = "IappEvaluaciones.findByFechaInicio", query = "SELECT i FROM IappEvaluaciones i WHERE i.fechaInicio = :fechaInicio"),
-    @NamedQuery(name = "IappEvaluaciones.findByFechaLimite", query = "SELECT i FROM IappEvaluaciones i WHERE i.fechaLimite = :fechaLimite"),
-    @NamedQuery(name = "IappEvaluaciones.findByFechaCreacion", query = "SELECT i FROM IappEvaluaciones i WHERE i.fechaCreacion = :fechaCreacion"),
-    @NamedQuery(name = "IappEvaluaciones.findByFechaModificacion", query = "SELECT i FROM IappEvaluaciones i WHERE i.fechaModificacion = :fechaModificacion"),
-    @NamedQuery(name = "IappEvaluaciones.findByUsuarioCreacion", query = "SELECT i FROM IappEvaluaciones i WHERE i.usuarioCreacion = :usuarioCreacion"),
-    @NamedQuery(name = "IappEvaluaciones.findByUsuarioModificacion", query = "SELECT i FROM IappEvaluaciones i WHERE i.usuarioModificacion = :usuarioModificacion"),
-    @NamedQuery(name = "IappEvaluaciones.findByEstadoRegistro", query = "SELECT i FROM IappEvaluaciones i WHERE i.estadoRegistro = :estadoRegistro")})
-public class IappEvaluaciones implements Serializable {
+    @NamedQuery(name = "IappTests.findAll", query = "SELECT i FROM IappTests i"),
+    @NamedQuery(name = "IappTests.findByIdEvaluacion", query = "SELECT i FROM IappTests i WHERE i.idEvaluacion = :idEvaluacion"),
+    @NamedQuery(name = "IappTests.findByNombre", query = "SELECT i FROM IappTests i WHERE i.nombre = :nombre"),
+    @NamedQuery(name = "IappTests.findByDescripcion", query = "SELECT i FROM IappTests i WHERE i.descripcion = :descripcion"),
+    @NamedQuery(name = "IappTests.findByFechaInicio", query = "SELECT i FROM IappTests i WHERE i.fechaInicio = :fechaInicio"),
+    @NamedQuery(name = "IappTests.findByFechaLimite", query = "SELECT i FROM IappTests i WHERE i.fechaLimite = :fechaLimite"),
+    @NamedQuery(name = "IappTests.findByFechaCreacion", query = "SELECT i FROM IappTests i WHERE i.fechaCreacion = :fechaCreacion"),
+    @NamedQuery(name = "IappTests.findByFechaModificacion", query = "SELECT i FROM IappTests i WHERE i.fechaModificacion = :fechaModificacion"),
+    @NamedQuery(name = "IappTests.findByUsuarioCreacion", query = "SELECT i FROM IappTests i WHERE i.usuarioCreacion = :usuarioCreacion"),
+    @NamedQuery(name = "IappTests.findByUsuarioModificacion", query = "SELECT i FROM IappTests i WHERE i.usuarioModificacion = :usuarioModificacion"),
+    @NamedQuery(name = "IappTests.findByEstadoRegistro", query = "SELECT i FROM IappTests i WHERE i.estadoRegistro = :estadoRegistro")})
+public class IappTests implements Serializable {
 
     @Basic(optional = false)
     @NotNull
@@ -91,21 +91,21 @@ public class IappEvaluaciones implements Serializable {
     private String estadoRegistro;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEvaluacion", orphanRemoval = true)
     @OrderBy(value = "idPregunta ASC")
-    private Collection<IappPreguntas> iappPreguntasCollection;
+    private Collection<IappTestQuestions> iappPreguntasCollection;
     @JoinColumn(name = "id_modulo", referencedColumnName = "id_modulo")
     @ManyToOne(optional = false)
-    private IappModulos idModulo;
+    private IappSprints idModulo;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEvaluacion", fetch = FetchType.EAGER)
-    private Collection<IappCalEvaluacion> iappCalEvaluacionCollection;
+    private Collection<IappTestResult> iappCalEvaluacionCollection;
 
-    public IappEvaluaciones() {
+    public IappTests() {
     }
 
-    public IappEvaluaciones(Integer idEvaluacion) {
+    public IappTests(Integer idEvaluacion) {
         this.idEvaluacion = idEvaluacion;
     }
 
-    public IappEvaluaciones(Integer idEvaluacion, String nombre, Date fechaInicio, Date fechaLimite, Integer duracion, Date fechaCreacion, Date fechaModificacion, String usuarioCreacion, String usuarioModificacion, String estadoRegistro) {
+    public IappTests(Integer idEvaluacion, String nombre, Date fechaInicio, Date fechaLimite, Integer duracion, Date fechaCreacion, Date fechaModificacion, String usuarioCreacion, String usuarioModificacion, String estadoRegistro) {
         this.idEvaluacion = idEvaluacion;
         this.nombre = nombre;
         this.fechaInicio = fechaInicio;
@@ -199,19 +199,19 @@ public class IappEvaluaciones implements Serializable {
     }
 
     @XmlTransient
-    public Collection<IappPreguntas> getIappPreguntasCollection() {
+    public Collection<IappTestQuestions> getIappPreguntasCollection() {
         return iappPreguntasCollection;
     }
 
-    public void setIappPreguntasCollection(Collection<IappPreguntas> iappPreguntasCollection) {
+    public void setIappPreguntasCollection(Collection<IappTestQuestions> iappPreguntasCollection) {
         this.iappPreguntasCollection = iappPreguntasCollection;
     }
 
-    public IappModulos getIdModulo() {
+    public IappSprints getIdModulo() {
         return idModulo;
     }
 
-    public void setIdModulo(IappModulos idModulo) {
+    public void setIdModulo(IappSprints idModulo) {
         this.idModulo = idModulo;
     }
 
@@ -233,10 +233,10 @@ public class IappEvaluaciones implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof IappEvaluaciones)) {
+        if (!(object instanceof IappTests)) {
             return false;
         }
-        IappEvaluaciones other = (IappEvaluaciones) object;
+        IappTests other = (IappTests) object;
         if ((this.idEvaluacion == null && other.idEvaluacion != null) || (this.idEvaluacion != null && !this.idEvaluacion.equals(other.idEvaluacion))) {
             return false;
         }
@@ -245,7 +245,7 @@ public class IappEvaluaciones implements Serializable {
 
     @Override
     public String toString() {
-        return "com.innovasoft.ejb.modelo.IappEvaluaciones[ idEvaluacion=" + idEvaluacion + " ]";
+        return "com.innovasoft.ejb.modelo.IappTests[ idEvaluacion=" + idEvaluacion + " ]";
     }
 
     public int getDuracion() {
@@ -257,17 +257,17 @@ public class IappEvaluaciones implements Serializable {
     }
 
     @XmlTransient
-    public Collection<IappCalEvaluacion> getIappCalEvaluacionCollection() {
+    public Collection<IappTestResult> getIappCalEvaluacionCollection() {
         return iappCalEvaluacionCollection;
     }
 
-    public void setIappCalEvaluacionCollection(Collection<IappCalEvaluacion> iappCalEvaluacionCollection) {
+    public void setIappCalEvaluacionCollection(Collection<IappTestResult> iappCalEvaluacionCollection) {
         this.iappCalEvaluacionCollection = iappCalEvaluacionCollection;
     }
 
-    public IappCalEvaluacion getCalificacion(IappMatriculas matricula) {
+    public IappTestResult getCalificacion(IappEnrollments matricula) {
         if (this.getIappCalEvaluacionCollection() != null) {
-            for (IappCalEvaluacion cal : this.getIappCalEvaluacionCollection()) {
+            for (IappTestResult cal : this.getIappCalEvaluacionCollection()) {
                 if(matricula!=null){
                     
                 if (cal.getIdMatricula().getIdMatricula() == matricula.getIdMatricula()) {

@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class IappStreamingEstudiante implements Serializable {
     @JoinColumn(name = "id_usuario", referencedColumnName = "id_usuario")
     @ManyToOne
-    private IappUsuario idUsuario;
+    private IappUser idUsuario;
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -87,11 +87,11 @@ public class IappStreamingEstudiante implements Serializable {
         return "com.other.sesion.IappStreamingEstudiante[ idStreamingEstudiante=" + idStreamingEstudiante + " ]";
     }
 
-    public IappUsuario getIdUsuario() {
+    public IappUser getIdUsuario() {
         return idUsuario;
     }
 
-    public void setIdUsuario(IappUsuario idUsuario) {
+    public void setIdUsuario(IappUser idUsuario) {
         this.idUsuario = idUsuario;
     }
     

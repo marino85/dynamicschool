@@ -6,9 +6,9 @@ package com.ccit.ejb.fachada.impl;
 
 import com.ccit.ejb.constants.Constants;
 import com.ccit.ejb.dto.FiltroUsuariosDto;
-import com.ccit.ejb.modelo.IappCursos;
+import com.ccit.ejb.modelo.IappCourses;
 import com.ccit.ejb.modelo.IappPerfiles;
-import com.ccit.ejb.modelo.IappUsuario;
+import com.ccit.ejb.modelo.IappUser;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -20,17 +20,15 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import javax.persistence.metamodel.EntityType;
-import javax.persistence.metamodel.Metamodel;
 
 /**
  *
  * @author marino
  */
 @Stateless
-public class IappUsuarioFacade extends AbstractFacade<IappUsuario> {
+public class IappUsuarioFacade extends AbstractFacade<IappUser> {
 
-    @PersistenceContext(unitName = "DinamicPortal-ejbPU")
+    @PersistenceContext(unitName = "e-learning-ejb_PU")
     private EntityManager em;
 
     @Override
@@ -39,22 +37,22 @@ public class IappUsuarioFacade extends AbstractFacade<IappUsuario> {
     }
 
     public IappUsuarioFacade() {
-        super(IappUsuario.class);
+        super(IappUser.class);
     }
 
-    public IappUsuario findUser(String numDoc) {
-        return getEntityManager().createNamedQuery("IappUsuario.findByNumeroDoc", IappUsuario.class).setParameter("numeroDoc", numDoc).getSingleResult();
+    public IappUser findUser(String numDoc) {
+        return getEntityManager().createNamedQuery("IappUsuario.findByNumeroDoc", IappUser.class).setParameter("numeroDoc", numDoc).getSingleResult();
     }
 
-    public IappUsuario findUser(String numDoc, String tipoDoc) {
-        return getEntityManager().createNamedQuery("IappUsuario.findByNumeroDocTipoDoc", IappUsuario.class).setParameter("numeroDoc", numDoc).setParameter("tipoDoc", tipoDoc).getSingleResult();
+    public IappUser findUser(String numDoc, String tipoDoc) {
+        return getEntityManager().createNamedQuery("IappUsuario.findByNumeroDocTipoDoc", IappUser.class).setParameter("numeroDoc", numDoc).setParameter("tipoDoc", tipoDoc).getSingleResult();
     }
 
     public List findUserByPerfil(Integer id_perfil) {
         return (List) ((IappPerfiles) getEntityManager().createNamedQuery("IappPerfiles.findByIdPerfil", IappPerfiles.class).setParameter("idPerfil", id_perfil).getSingleResult()).getIappUsuarioCollection();
     }
 
-    public List<IappUsuario> getEstudiantesActivos() {
+    public List<IappUser> getEstudiantesActivos() {
 
         Query q = em.createQuery("SELECT o FROM IappUsuario o WHERE o.idPerfil.idPerfil = :idPerfil "
                 + "AND o.estadoUsuario.idEstadoUsuario = :idEstadoUsuario").setParameter("idPerfil", Constants.PERFIL_ESTUDIANTE).setParameter("idEstadoUsuario",
@@ -63,7 +61,7 @@ public class IappUsuarioFacade extends AbstractFacade<IappUsuario> {
         return q.getResultList();
     }
 
-    public List<IappUsuario> getEstudiantesNoCursoFiltro(IappCursos editCourse, Integer idjornada, Integer idNivel, String nombres, String apellidos,String matricula) {
+    public List<IappUser> getEstudiantesNoCursoFiltro(IappCourses editCourse, Integer idjornada, Integer idNivel, String nombres, String apellidos,String matricula) {
         StringBuilder sb = new StringBuilder();
         sb.append(" SELECT  DISTINCT( u.id_usuario ) as \"ID_USUARIO\", u.nombres as \"NOMBRES\", u.apellidos as \"APELLIDOS\" ,u.id_nivel as \"ID_NIVEL\", u.id_jornada as \"ID_JORNADA\" ,u.codigo as \"CODIGO\"");
         sb.append(" FROM general.iapp_matriculas e");
@@ -98,14 +96,14 @@ public class IappUsuarioFacade extends AbstractFacade<IappUsuario> {
         }
 
 
-        Query q = em.createNativeQuery(sb.toString(), IappUsuario.class);
+        Query q = em.createNativeQuery(sb.toString(), IappUser.class);
         q.setParameter(1, Constants.PERFIL_ESTUDIANTE);
         q.setParameter(2, (editCourse.getIdCurso() == null) ? -1 : editCourse.getIdCurso());
         q.setParameter(3, (editCourse.getIdCurso() == null) ? -1 : editCourse.getIdCurso());
         return q.getResultList();
     }
 
-    public List<IappUsuario> getEstudiantesNoCurso(IappCursos editCourse) {
+    public List<IappUser> getEstudiantesNoCurso(IappCourses editCourse) {
         Query q = em.createNativeQuery("SELECT e.id_usuario as \"ID_USUARIO\", e.nombres as \"NOMBRES\", e.apellidos as \"APELLIDOS\" ,e.id_nivel as \"ID_NIVEL\", e.id_jornada as \"ID_JORNADA\" "
                 + " FROM general.iapp_usuario e"
                 + " WHERE e.id_Perfil = ?"
@@ -113,18 +111,18 @@ public class IappUsuarioFacade extends AbstractFacade<IappUsuario> {
                 + " SELECT e.id_usuario,e.nombres,e.apellidos,e.id_nivel, e.id_jornada"
                 + " FROM general.iapp_usuario e"
                 + " LEFT JOIN general.iapp_matriculas m ON (e.id_usuario = m.id_usuario )"
-                + " WHERE m.id_Curso = ?", IappUsuario.class);
+                + " WHERE m.id_Curso = ?", IappUser.class);
         q.setParameter(1, Constants.PERFIL_ESTUDIANTE);
         q.setParameter(2, (editCourse.getIdCurso() == null) ? -1 : editCourse.getIdCurso());
         return q.getResultList();
     }
 
-    public List<IappUsuario> getEstudiantes(FiltroUsuariosDto filtro) {
+    public List<IappUser> getEstudiantes(FiltroUsuariosDto filtro) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
 //        Metamodel m = em.getMetamodel();
-//        EntityType<IappUsuario> usuario_ = m.entity(IappUsuario.class);
-        CriteriaQuery<IappUsuario> cr = cb.createQuery(IappUsuario.class);
-        Root<IappUsuario> usuario = cr.from(IappUsuario.class);
+//        EntityType<IappUsuario> usuario_ = m.entity(IappUser.class);
+        CriteriaQuery<IappUser> cr = cb.createQuery(IappUser.class);
+        Root<IappUser> usuario = cr.from(IappUser.class);
         List<Predicate> prediates = new ArrayList<Predicate>();
 
 
@@ -165,7 +163,7 @@ public class IappUsuarioFacade extends AbstractFacade<IappUsuario> {
             cr.where(prediates.toArray(new Predicate[prediates.size()]));
         }
         //cr.where(p1, p2, p3, p4, p5, p6, p7);
-        TypedQuery<IappUsuario> tq = em.createQuery(cr);
+        TypedQuery<IappUser> tq = em.createQuery(cr);
 
         return tq.getResultList();
 

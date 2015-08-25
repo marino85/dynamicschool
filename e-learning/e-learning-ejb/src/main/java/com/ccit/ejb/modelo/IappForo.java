@@ -83,7 +83,7 @@ public class IappForo implements Serializable {
     private Collection<IappMensajes> iappMensajesCollection;
     @JoinColumn(name = "id_modulo", referencedColumnName = "id_modulo")
     @ManyToOne(optional = false)
-    private IappModulos idModulo;
+    private IappSprints idModulo;
 
     public IappForo() {
     }
@@ -178,11 +178,11 @@ public class IappForo implements Serializable {
         this.iappMensajesCollection = iappMensajesCollection;
     }
 
-    public IappModulos getIdModulo() {
+    public IappSprints getIdModulo() {
         return idModulo;
     }
 
-    public void setIdModulo(IappModulos idModulo) {
+    public void setIdModulo(IappSprints idModulo) {
         this.idModulo = idModulo;
     }
 

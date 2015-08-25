@@ -18,19 +18,19 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author innovasoft
  */
 @Entity
-@Table(name = "iapp_respuestas", schema="general")
+@Table(name = "iapp_test_question_answers", schema="general")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "IappRespuestas.findAll", query = "SELECT i FROM IappRespuestas i"),
-    @NamedQuery(name = "IappRespuestas.findByIdRespuesta", query = "SELECT i FROM IappRespuestas i WHERE i.idRespuesta = :idRespuesta"),
-    @NamedQuery(name = "IappRespuestas.findByDescripcion", query = "SELECT i FROM IappRespuestas i WHERE i.descripcion = :descripcion"),
-    @NamedQuery(name = "IappRespuestas.findByCorrecta", query = "SELECT i FROM IappRespuestas i WHERE i.correcta = :correcta"),
-    @NamedQuery(name = "IappRespuestas.findByFechaCreacion", query = "SELECT i FROM IappRespuestas i WHERE i.fechaCreacion = :fechaCreacion"),
-    @NamedQuery(name = "IappRespuestas.findByFechaModificacion", query = "SELECT i FROM IappRespuestas i WHERE i.fechaModificacion = :fechaModificacion"),
-    @NamedQuery(name = "IappRespuestas.findByUsuarioCreacion", query = "SELECT i FROM IappRespuestas i WHERE i.usuarioCreacion = :usuarioCreacion"),
-    @NamedQuery(name = "IappRespuestas.findByUsuarioModificacion", query = "SELECT i FROM IappRespuestas i WHERE i.usuarioModificacion = :usuarioModificacion"),
-    @NamedQuery(name = "IappRespuestas.findByEstadoRegistro", query = "SELECT i FROM IappRespuestas i WHERE i.estadoRegistro = :estadoRegistro")})
-public class IappRespuestas implements Serializable {
+    @NamedQuery(name = "IappTestQuestionAnswers.findAll", query = "SELECT i FROM IappTestQuestionAnswers i"),
+    @NamedQuery(name = "IappTestQuestionAnswers.findByIdRespuesta", query = "SELECT i FROM IappTestQuestionAnswers i WHERE i.idRespuesta = :idRespuesta"),
+    @NamedQuery(name = "IappTestQuestionAnswers.findByDescripcion", query = "SELECT i FROM IappTestQuestionAnswers i WHERE i.descripcion = :descripcion"),
+    @NamedQuery(name = "IappTestQuestionAnswers.findByCorrecta", query = "SELECT i FROM IappTestQuestionAnswers i WHERE i.correcta = :correcta"),
+    @NamedQuery(name = "IappTestQuestionAnswers.findByFechaCreacion", query = "SELECT i FROM IappTestQuestionAnswers i WHERE i.fechaCreacion = :fechaCreacion"),
+    @NamedQuery(name = "IappTestQuestionAnswers.findByFechaModificacion", query = "SELECT i FROM IappTestQuestionAnswers i WHERE i.fechaModificacion = :fechaModificacion"),
+    @NamedQuery(name = "IappTestQuestionAnswers.findByUsuarioCreacion", query = "SELECT i FROM IappTestQuestionAnswers i WHERE i.usuarioCreacion = :usuarioCreacion"),
+    @NamedQuery(name = "IappTestQuestionAnswers.findByUsuarioModificacion", query = "SELECT i FROM IappTestQuestionAnswers i WHERE i.usuarioModificacion = :usuarioModificacion"),
+    @NamedQuery(name = "IappTestQuestionAnswers.findByEstadoRegistro", query = "SELECT i FROM IappTestQuestionAnswers i WHERE i.estadoRegistro = :estadoRegistro")})
+public class IappTestQuestionAnswers implements Serializable {
     @Basic(optional =     false)
     @NotNull
     @Column(name = "fecha_creacion")
@@ -75,18 +75,18 @@ public class IappRespuestas implements Serializable {
     private String estadoRegistro;
     @JoinColumn(name = "id_pregunta", referencedColumnName = "id_pregunta")
     @ManyToOne(optional = false)
-    private IappPreguntas idPregunta;
+    private IappTestQuestions idPregunta;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idRespuesta")
-    private Collection<IappSoluciones> iappSolucionesCollection;
+    private Collection<IappTestSolutions> iappSolucionesCollection;
 
-    public IappRespuestas() {
+    public IappTestQuestionAnswers() {
     }
 
-    public IappRespuestas(Integer idRespuesta) {
+    public IappTestQuestionAnswers(Integer idRespuesta) {
         this.idRespuesta = idRespuesta;
     }
 
-    public IappRespuestas(Integer idRespuesta, String descripcion, boolean correcta, Date fechaCreacion, Date fechaModificacion, String usuarioCreacion, String usuarioModificacion, String estadoRegistro) {
+    public IappTestQuestionAnswers(Integer idRespuesta, String descripcion, boolean correcta, Date fechaCreacion, Date fechaModificacion, String usuarioCreacion, String usuarioModificacion, String estadoRegistro) {
         this.idRespuesta = idRespuesta;
         this.descripcion = descripcion;
         this.correcta = correcta;
@@ -161,20 +161,20 @@ public class IappRespuestas implements Serializable {
         this.estadoRegistro = estadoRegistro;
     }
 
-    public IappPreguntas getIdPregunta() {
+    public IappTestQuestions getIdPregunta() {
         return idPregunta;
     }
 
-    public void setIdPregunta(IappPreguntas idPregunta) {
+    public void setIdPregunta(IappTestQuestions idPregunta) {
         this.idPregunta = idPregunta;
     }
 
     @XmlTransient
-    public Collection<IappSoluciones> getIappSolucionesCollection() {
+    public Collection<IappTestSolutions> getIappSolucionesCollection() {
         return iappSolucionesCollection;
     }
 
-    public void setIappSolucionesCollection(Collection<IappSoluciones> iappSolucionesCollection) {
+    public void setIappSolucionesCollection(Collection<IappTestSolutions> iappSolucionesCollection) {
         this.iappSolucionesCollection = iappSolucionesCollection;
     }
 
@@ -187,6 +187,6 @@ public class IappRespuestas implements Serializable {
 
     @Override
     public String toString() {
-        return "com.innovasoft.ejb.modelo.IappRespuestas[ idRespuesta=" + idRespuesta + " ]";
+        return "com.innovasoft.ejb.modelo.IappTestQuestionAnswers[ idRespuesta=" + idRespuesta + " ]";
     }
 }

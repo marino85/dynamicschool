@@ -46,7 +46,7 @@ public class IappFactura implements Serializable {
     
     @JoinColumn(name="id_usuario",referencedColumnName="id_usuario")
     @ManyToOne
-    private IappUsuario idUsuario;
+    private IappUser idUsuario;
 
     public IappFactura() {
     }
@@ -95,11 +95,11 @@ public class IappFactura implements Serializable {
         this.baseiva = baseiva;
     }
 
-    public IappUsuario getIdUsuario() {
+    public IappUser getIdUsuario() {
         return idUsuario;
     }
 
-    public void setIdUsuario(IappUsuario idUsuario) {
+    public void setIdUsuario(IappUser idUsuario) {
         this.idUsuario = idUsuario;
     }
     

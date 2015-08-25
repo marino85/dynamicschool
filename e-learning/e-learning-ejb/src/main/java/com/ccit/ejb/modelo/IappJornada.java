@@ -34,7 +34,7 @@ public class IappJornada implements Serializable {
     @Column(name = "descripcion")
     private String descripcion;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idJornada")
-    private Collection<IappUsuario> iappUsuarioCollection;
+    private Collection<IappUser> iappUsuarioCollection;
 
     public IappJornada() {
     }
@@ -60,11 +60,11 @@ public class IappJornada implements Serializable {
     }
 
     @XmlTransient
-    public Collection<IappUsuario> getIappUsuarioCollection() {
+    public Collection<IappUser> getIappUsuarioCollection() {
         return iappUsuarioCollection;
     }
 
-    public void setIappUsuarioCollection(Collection<IappUsuario> iappUsuarioCollection) {
+    public void setIappUsuarioCollection(Collection<IappUser> iappUsuarioCollection) {
         this.iappUsuarioCollection = iappUsuarioCollection;
     }
 

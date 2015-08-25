@@ -17,18 +17,18 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author innovasoft
  */
 @Entity
-@Table(name = "iapp_cal_asignaciones", schema="general")
+@Table(name = "iapp_qualification_home_works", schema="general")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "IappCalAsignaciones.findAll", query = "SELECT i FROM IappCalAsignaciones i"),
-    @NamedQuery(name = "IappCalAsignaciones.findByIdCalificacion", query = "SELECT i FROM IappCalAsignaciones i WHERE i.idCalificacion = :idCalificacion"),
-    @NamedQuery(name = "IappCalAsignaciones.findByCalificacion", query = "SELECT i FROM IappCalAsignaciones i WHERE i.calificacion = :calificacion"),
-    @NamedQuery(name = "IappCalAsignaciones.findByFechaCreacion", query = "SELECT i FROM IappCalAsignaciones i WHERE i.fechaCreacion = :fechaCreacion"),
-    @NamedQuery(name = "IappCalAsignaciones.findByFechaModificacion", query = "SELECT i FROM IappCalAsignaciones i WHERE i.fechaModificacion = :fechaModificacion"),
-    @NamedQuery(name = "IappCalAsignaciones.findByUsuarioCreacion", query = "SELECT i FROM IappCalAsignaciones i WHERE i.usuarioCreacion = :usuarioCreacion"),
-    @NamedQuery(name = "IappCalAsignaciones.findByUsuarioModificacion", query = "SELECT i FROM IappCalAsignaciones i WHERE i.usuarioModificacion = :usuarioModificacion"),
-    @NamedQuery(name = "IappCalAsignaciones.findByEstadoRegistro", query = "SELECT i FROM IappCalAsignaciones i WHERE i.estadoRegistro = :estadoRegistro")})
-public class IappCalAsignaciones implements Serializable {
+    @NamedQuery(name = "IappQualificationHomeWorks.findAll", query = "SELECT i FROM IappQualificationHomeWorks i"),
+    @NamedQuery(name = "IappQualificationHomeWorks.findByIdCalificacion", query = "SELECT i FROM IappQualificationHomeWorks i WHERE i.idCalificacion = :idCalificacion"),
+    @NamedQuery(name = "IappQualificationHomeWorks.findByCalificacion", query = "SELECT i FROM IappQualificationHomeWorks i WHERE i.calificacion = :calificacion"),
+    @NamedQuery(name = "IappQualificationHomeWorks.findByFechaCreacion", query = "SELECT i FROM IappQualificationHomeWorks i WHERE i.fechaCreacion = :fechaCreacion"),
+    @NamedQuery(name = "IappQualificationHomeWorks.findByFechaModificacion", query = "SELECT i FROM IappQualificationHomeWorks i WHERE i.fechaModificacion = :fechaModificacion"),
+    @NamedQuery(name = "IappQualificationHomeWorks.findByUsuarioCreacion", query = "SELECT i FROM IappQualificationHomeWorks i WHERE i.usuarioCreacion = :usuarioCreacion"),
+    @NamedQuery(name = "IappQualificationHomeWorks.findByUsuarioModificacion", query = "SELECT i FROM IappQualificationHomeWorks i WHERE i.usuarioModificacion = :usuarioModificacion"),
+    @NamedQuery(name = "IappQualificationHomeWorks.findByEstadoRegistro", query = "SELECT i FROM IappQualificationHomeWorks i WHERE i.estadoRegistro = :estadoRegistro")})
+public class IappQualificationHomeWorks implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @SequenceGenerator(allocationSize = 1, name = "PGSSQL_WORKSCAL_SEQ", schema = "general", sequenceName = "iapp_cal_asignaciones_id_calificacion_seq")
@@ -69,19 +69,19 @@ public class IappCalAsignaciones implements Serializable {
     private String estadoRegistro;
     @JoinColumn(name = "id_matricula", referencedColumnName = "id_matricula")
     @ManyToOne(optional = false)
-    private IappMatriculas idMatricula;
+    private IappEnrollments idMatricula;
     @JoinColumn(name = "id_asignacion", referencedColumnName = "id_asignacion")
     @ManyToOne(optional = false)
-    private IappAsignaciones idAsignacion;
+    private IappHomeWorks idAsignacion;
 
-    public IappCalAsignaciones() {
+    public IappQualificationHomeWorks() {
     }
 
-    public IappCalAsignaciones(Integer idCalificacion) {
+    public IappQualificationHomeWorks(Integer idCalificacion) {
         this.idCalificacion = idCalificacion;
     }
 
-    public IappCalAsignaciones(Integer idCalificacion, BigDecimal calificacion, Date fechaCreacion, Date fechaModificacion, String usuarioCreacion, String usuarioModificacion, String estadoRegistro) {
+    public IappQualificationHomeWorks(Integer idCalificacion, BigDecimal calificacion, Date fechaCreacion, Date fechaModificacion, String usuarioCreacion, String usuarioModificacion, String estadoRegistro) {
         this.idCalificacion = idCalificacion;
         this.calificacion = calificacion;
         this.fechaCreacion = fechaCreacion;
@@ -147,19 +147,19 @@ public class IappCalAsignaciones implements Serializable {
         this.estadoRegistro = estadoRegistro;
     }
 
-    public IappMatriculas getIdMatricula() {
+    public IappEnrollments getIdMatricula() {
         return idMatricula;
     }
 
-    public void setIdMatricula(IappMatriculas idMatricula) {
+    public void setIdMatricula(IappEnrollments idMatricula) {
         this.idMatricula = idMatricula;
     }
 
-    public IappAsignaciones getIdAsignacion() {
+    public IappHomeWorks getIdAsignacion() {
         return idAsignacion;
     }
 
-    public void setIdAsignacion(IappAsignaciones idAsignacion) {
+    public void setIdAsignacion(IappHomeWorks idAsignacion) {
         this.idAsignacion = idAsignacion;
     }
 
@@ -173,10 +173,10 @@ public class IappCalAsignaciones implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof IappCalAsignaciones)) {
+        if (!(object instanceof IappQualificationHomeWorks)) {
             return false;
         }
-        IappCalAsignaciones other = (IappCalAsignaciones) object;
+        IappQualificationHomeWorks other = (IappQualificationHomeWorks) object;
         if ((this.idCalificacion == null && other.idCalificacion != null) || (this.idCalificacion != null && !this.idCalificacion.equals(other.idCalificacion))) {
             return false;
         }
@@ -185,7 +185,7 @@ public class IappCalAsignaciones implements Serializable {
 
     @Override
     public String toString() {
-        return "com.innovasoft.ejb.modelo.IappCalAsignaciones[ idCalificacion=" + idCalificacion + " ]";
+        return "com.innovasoft.ejb.modelo.IappQualificationHomeWorks[ idCalificacion=" + idCalificacion + " ]";
     }
     
 }

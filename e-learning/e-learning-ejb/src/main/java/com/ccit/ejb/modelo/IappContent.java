@@ -16,21 +16,21 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author innovasoft
  */
 @Entity
-@Table(name = "iapp_contenidos",schema="general")
+@Table(name = "iapp_content",schema="general")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "IappContenidos.findAll", query = "SELECT i FROM IappContenidos i"),
-    @NamedQuery(name = "IappContenidos.findByIdContenido", query = "SELECT i FROM IappContenidos i WHERE i.idContenido = :idContenido"),
-    @NamedQuery(name = "IappContenidos.findByTitulo", query = "SELECT i FROM IappContenidos i WHERE i.titulo = :titulo"),
-    @NamedQuery(name = "IappContenidos.findByDescripcion", query = "SELECT i FROM IappContenidos i WHERE i.descripcion = :descripcion"),
-    @NamedQuery(name = "IappContenidos.findByNombre", query = "SELECT i FROM IappContenidos i WHERE i.nombre = :nombre"),
-    @NamedQuery(name = "IappContenidos.findByFile", query = "SELECT i FROM IappContenidos i WHERE i.file = :file"),
-    @NamedQuery(name = "IappContenidos.findByFechaCreacion", query = "SELECT i FROM IappContenidos i WHERE i.fechaCreacion = :fechaCreacion"),
-    @NamedQuery(name = "IappContenidos.findByFechaModificacion", query = "SELECT i FROM IappContenidos i WHERE i.fechaModificacion = :fechaModificacion"),
-    @NamedQuery(name = "IappContenidos.findByUsuarioCreacion", query = "SELECT i FROM IappContenidos i WHERE i.usuarioCreacion = :usuarioCreacion"),
-    @NamedQuery(name = "IappContenidos.findByUsuarioModificacion", query = "SELECT i FROM IappContenidos i WHERE i.usuarioModificacion = :usuarioModificacion"),
-    @NamedQuery(name = "IappContenidos.findByEstadoRegistro", query = "SELECT i FROM IappContenidos i WHERE i.estadoRegistro = :estadoRegistro")})
-public class IappContenidos implements Serializable {
+    @NamedQuery(name = "IappContent.findAll", query = "SELECT i FROM IappContent i"),
+    @NamedQuery(name = "IappContent.findByIdContenido", query = "SELECT i FROM IappContent i WHERE i.idContenido = :idContenido"),
+    @NamedQuery(name = "IappContent.findByTitulo", query = "SELECT i FROM IappContent i WHERE i.titulo = :titulo"),
+    @NamedQuery(name = "IappContent.findByDescripcion", query = "SELECT i FROM IappContent i WHERE i.descripcion = :descripcion"),
+    @NamedQuery(name = "IappContent.findByNombre", query = "SELECT i FROM IappContent i WHERE i.nombre = :nombre"),
+    @NamedQuery(name = "IappContent.findByFile", query = "SELECT i FROM IappContent i WHERE i.file = :file"),
+    @NamedQuery(name = "IappContent.findByFechaCreacion", query = "SELECT i FROM IappContent i WHERE i.fechaCreacion = :fechaCreacion"),
+    @NamedQuery(name = "IappContent.findByFechaModificacion", query = "SELECT i FROM IappContent i WHERE i.fechaModificacion = :fechaModificacion"),
+    @NamedQuery(name = "IappContent.findByUsuarioCreacion", query = "SELECT i FROM IappContent i WHERE i.usuarioCreacion = :usuarioCreacion"),
+    @NamedQuery(name = "IappContent.findByUsuarioModificacion", query = "SELECT i FROM IappContent i WHERE i.usuarioModificacion = :usuarioModificacion"),
+    @NamedQuery(name = "IappContent.findByEstadoRegistro", query = "SELECT i FROM IappContent i WHERE i.estadoRegistro = :estadoRegistro")})
+public class IappContent implements Serializable {
     @Basic(optional =     false)
     @NotNull
     @Column(name = "fecha_creacion")
@@ -86,18 +86,18 @@ public class IappContenidos implements Serializable {
     private String estadoRegistro;
     @JoinColumn(name = "id_modulo", referencedColumnName = "id_modulo")
     @ManyToOne(optional = false)
-    private IappModulos idModulo;
+    private IappSprints idModulo;
     @Transient
     private byte[] fileArray;
     
-    public IappContenidos() {
+    public IappContent() {
     }
 
-    public IappContenidos(Integer idContenido) {
+    public IappContent(Integer idContenido) {
         this.idContenido = idContenido;
     }
 
-    public IappContenidos(Integer idContenido, String titulo, String descripcion, String nombre, Date fechaCreacion, Date fechaModificacion, String usuarioCreacion, String usuarioModificacion, String estadoRegistro) {
+    public IappContent(Integer idContenido, String titulo, String descripcion, String nombre, Date fechaCreacion, Date fechaModificacion, String usuarioCreacion, String usuarioModificacion, String estadoRegistro) {
         this.idContenido = idContenido;
         this.titulo = titulo;
         this.descripcion = descripcion;
@@ -189,11 +189,11 @@ public class IappContenidos implements Serializable {
         this.estadoRegistro = estadoRegistro;
     }
 
-    public IappModulos getIdModulo() {
+    public IappSprints getIdModulo() {
         return idModulo;
     }
 
-    public void setIdModulo(IappModulos idModulo) {
+    public void setIdModulo(IappSprints idModulo) {
         this.idModulo = idModulo;
     }
 
@@ -219,10 +219,10 @@ public class IappContenidos implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof IappContenidos)) {
+        if (!(object instanceof IappContent)) {
             return false;
         }
-        IappContenidos other = (IappContenidos) object;
+        IappContent other = (IappContent) object;
         if ((this.idContenido == null && other.idContenido != null) || (this.idContenido != null && !this.idContenido.equals(other.idContenido))) {
             return false;
         }
@@ -231,6 +231,6 @@ public class IappContenidos implements Serializable {
 
     @Override
     public String toString() {
-        return "com.innovasoft.ejb.modelo.IappContenidos[ idContenido=" + idContenido + " ]";
+        return "com.innovasoft.ejb.modelo.IappContent[ idContenido=" + idContenido + " ]";
     }
 }

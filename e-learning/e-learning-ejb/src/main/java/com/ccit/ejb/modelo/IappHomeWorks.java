@@ -19,21 +19,21 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author innovasoft
  */
 @Entity
-@Table(name = "iapp_asignaciones",schema="general")
+@Table(name = "iapp_home_work",schema="general")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "IappAsignaciones.findAll", query = "SELECT i FROM IappAsignaciones i"),
-    @NamedQuery(name = "IappAsignaciones.findByIdAsignacion", query = "SELECT i FROM IappAsignaciones i WHERE i.idAsignacion = :idAsignacion"),
-    @NamedQuery(name = "IappAsignaciones.findByNombre", query = "SELECT i FROM IappAsignaciones i WHERE i.nombre = :nombre"),
-    @NamedQuery(name = "IappAsignaciones.findByDescripcion", query = "SELECT i FROM IappAsignaciones i WHERE i.descripcion = :descripcion"),
-    @NamedQuery(name = "IappAsignaciones.findByFechaInicial", query = "SELECT i FROM IappAsignaciones i WHERE i.fechaInicial = :fechaInicial"),
-    @NamedQuery(name = "IappAsignaciones.findByFechaFinal", query = "SELECT i FROM IappAsignaciones i WHERE i.fechaFinal = :fechaFinal"),
-    @NamedQuery(name = "IappAsignaciones.findByFechaCreacion", query = "SELECT i FROM IappAsignaciones i WHERE i.fechaCreacion = :fechaCreacion"),
-    @NamedQuery(name = "IappAsignaciones.findByFechaModificacion", query = "SELECT i FROM IappAsignaciones i WHERE i.fechaModificacion = :fechaModificacion"),
-    @NamedQuery(name = "IappAsignaciones.findByUsuarioCreacion", query = "SELECT i FROM IappAsignaciones i WHERE i.usuarioCreacion = :usuarioCreacion"),
-    @NamedQuery(name = "IappAsignaciones.findByUsuarioModificacion", query = "SELECT i FROM IappAsignaciones i WHERE i.usuarioModificacion = :usuarioModificacion"),
-    @NamedQuery(name = "IappAsignaciones.findByEstadoRegistro", query = "SELECT i FROM IappAsignaciones i WHERE i.estadoRegistro = :estadoRegistro")})
-public class IappAsignaciones implements Serializable {
+    @NamedQuery(name = "IappHomeWorks.findAll", query = "SELECT i FROM IappHomeWorks i"),
+    @NamedQuery(name = "IappHomeWorks.findByIdAsignacion", query = "SELECT i FROM IappHomeWorks i WHERE i.idAsignacion = :idAsignacion"),
+    @NamedQuery(name = "IappHomeWorks.findByNombre", query = "SELECT i FROM IappHomeWorks i WHERE i.nombre = :nombre"),
+    @NamedQuery(name = "IappHomeWorks.findByDescripcion", query = "SELECT i FROM IappHomeWorks i WHERE i.descripcion = :descripcion"),
+    @NamedQuery(name = "IappHomeWorks.findByFechaInicial", query = "SELECT i FROM IappHomeWorks i WHERE i.fechaInicial = :fechaInicial"),
+    @NamedQuery(name = "IappHomeWorks.findByFechaFinal", query = "SELECT i FROM IappHomeWorks i WHERE i.fechaFinal = :fechaFinal"),
+    @NamedQuery(name = "IappHomeWorks.findByFechaCreacion", query = "SELECT i FROM IappHomeWorks i WHERE i.fechaCreacion = :fechaCreacion"),
+    @NamedQuery(name = "IappHomeWorks.findByFechaModificacion", query = "SELECT i FROM IappHomeWorks i WHERE i.fechaModificacion = :fechaModificacion"),
+    @NamedQuery(name = "IappHomeWorks.findByUsuarioCreacion", query = "SELECT i FROM IappHomeWorks i WHERE i.usuarioCreacion = :usuarioCreacion"),
+    @NamedQuery(name = "IappHomeWorks.findByUsuarioModificacion", query = "SELECT i FROM IappHomeWorks i WHERE i.usuarioModificacion = :usuarioModificacion"),
+    @NamedQuery(name = "IappHomeWorks.findByEstadoRegistro", query = "SELECT i FROM IappHomeWorks i WHERE i.estadoRegistro = :estadoRegistro")})
+public class IappHomeWorks implements Serializable {
     @Basic(optional =     false)
     @NotNull
     @Column(name = "fecha_inicial")
@@ -60,10 +60,10 @@ public class IappAsignaciones implements Serializable {
     @Column(name = "file")
     private String file;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idAsignacion")
-    private Collection<IappCalAsignaciones> iappCalAsignacionesCollection;
+    private Collection<IappQualificationHomeWorks> iappCalAsignacionesCollection;
     @JoinColumn(name = "id_modulo", referencedColumnName = "id_modulo")
     @ManyToOne(optional = false)
-    private IappModulos idModulo;
+    private IappSprints idModulo;
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -104,18 +104,18 @@ public class IappAsignaciones implements Serializable {
     private String nombreFile;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idAsignacion")
     @OrderBy(value="idEntrega ASC")
-    private Collection<IappEntregas> iappEntregasCollection;
+    private Collection<IappSentFiles> iappEntregasCollection;
     @Transient
     private byte[] fileArray;
 
-    public IappAsignaciones() {
+    public IappHomeWorks() {
     }
 
-    public IappAsignaciones(Integer idAsignacion) {
+    public IappHomeWorks(Integer idAsignacion) {
         this.idAsignacion = idAsignacion;
     }
 
-    public IappAsignaciones(Integer idAsignacion, String nombre, String descripcion, Date fechaInicial, Date fechaFinal, Date fechaCreacion, Date fechaModificacion, String usuarioCreacion, String usuarioModificacion, String estadoRegistro) {
+    public IappHomeWorks(Integer idAsignacion, String nombre, String descripcion, Date fechaInicial, Date fechaFinal, Date fechaCreacion, Date fechaModificacion, String usuarioCreacion, String usuarioModificacion, String estadoRegistro) {
         this.idAsignacion = idAsignacion;
         this.nombre = nombre;
         this.descripcion = descripcion;
@@ -212,11 +212,11 @@ public class IappAsignaciones implements Serializable {
         this.estadoRegistro = estadoRegistro;
     }
     
-    public IappModulos getIdModulo() {
+    public IappSprints getIdModulo() {
         return idModulo;
     }
 
-    public void setIdModulo(IappModulos idModulo) {
+    public void setIdModulo(IappSprints idModulo) {
         this.idModulo = idModulo;
     }
 
@@ -235,10 +235,10 @@ public class IappAsignaciones implements Serializable {
     }
 
     @XmlTransient
-    public Collection<IappEntregas> iappEntregasFromUserCollection(IappMatriculas matricula) {
-        Collection <IappEntregas> list=new ArrayList<IappEntregas>();
+    public Collection<IappSentFiles> iappEntregasFromUserCollection(IappEnrollments matricula) {
+        Collection <IappSentFiles> list=new ArrayList<IappSentFiles>();
         if(iappEntregasCollection!=null&&matricula!=null){
-            for (IappEntregas iappEntregas : iappEntregasCollection) {
+            for (IappSentFiles iappEntregas : iappEntregasCollection) {
                 if(iappEntregas.getIdMatricula().getIdMatricula().intValue()==matricula.getIdMatricula().intValue()){
                     list.add(iappEntregas);
                 }
@@ -247,8 +247,8 @@ public class IappAsignaciones implements Serializable {
         return list;
     }
     @XmlTransient
-    public IappCalAsignaciones calificacion(IappMatriculas matricula) {
-        for ( IappCalAsignaciones calificacion : this.getIappCalAsignacionesCollection()) {
+    public IappQualificationHomeWorks calificacion(IappEnrollments matricula) {
+        for ( IappQualificationHomeWorks calificacion : this.getIappCalAsignacionesCollection()) {
             if(calificacion.getIdMatricula()==matricula){
                 return calificacion;
             }
@@ -257,11 +257,11 @@ public class IappAsignaciones implements Serializable {
     }
        
     @XmlTransient
-    public Collection<IappEntregas> getIappEntregasCollection() {
+    public Collection<IappSentFiles> getIappEntregasCollection() {
         return iappEntregasCollection;
     }
 
-    public void setIappEntregasCollection(Collection<IappEntregas> iappEntregasCollection) {
+    public void setIappEntregasCollection(Collection<IappSentFiles> iappEntregasCollection) {
         this.iappEntregasCollection = iappEntregasCollection;
     }
 
@@ -275,10 +275,10 @@ public class IappAsignaciones implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof IappAsignaciones)) {
+        if (!(object instanceof IappHomeWorks)) {
             return false;
         }
-        IappAsignaciones other = (IappAsignaciones) object;
+        IappHomeWorks other = (IappHomeWorks) object;
         if ((this.idAsignacion == null && other.idAsignacion != null) || (this.idAsignacion != null && !this.idAsignacion.equals(other.idAsignacion))) {
             return false;
         }
@@ -287,7 +287,7 @@ public class IappAsignaciones implements Serializable {
 
     @Override
     public String toString() {
-        return "com.innovasoft.ejb.modelo.IappAsignaciones[ idAsignacion=" + idAsignacion + " ]";
+        return "com.innovasoft.ejb.modelo.IappHomeWorks[ idAsignacion=" + idAsignacion + " ]";
     }
 
     public String getFile() {
@@ -307,11 +307,11 @@ public class IappAsignaciones implements Serializable {
     }
 
     @XmlTransient
-    public Collection<IappCalAsignaciones> getIappCalAsignacionesCollection() {
+    public Collection<IappQualificationHomeWorks> getIappCalAsignacionesCollection() {
         return iappCalAsignacionesCollection;
     }
 
-    public void setIappCalAsignacionesCollection(Collection<IappCalAsignaciones> iappCalAsignacionesCollection) {
+    public void setIappCalAsignacionesCollection(Collection<IappQualificationHomeWorks> iappCalAsignacionesCollection) {
         this.iappCalAsignacionesCollection = iappCalAsignacionesCollection;
     }
 }

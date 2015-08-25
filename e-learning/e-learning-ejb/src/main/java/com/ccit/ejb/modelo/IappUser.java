@@ -20,29 +20,29 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author innovasoft
  */
 @Entity
-@Table(name = "iapp_usuario",schema="general")
+@Table(name = "iapp_user",schema="general")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "IappUsuario.findAll", query = "SELECT i FROM IappUsuario i"),
-    @NamedQuery(name = "IappUsuario.findByNumeroDoc", query = "SELECT i FROM IappUsuario i WHERE i.numeroDoc = :numeroDoc"),
-    @NamedQuery(name = "IappUsuario.findByNumeroDocTipoDoc", query = "SELECT i FROM IappUsuario i WHERE i.numeroDoc = :numeroDoc AND i.tipoDoc.idTipoDoc = :tipoDoc"),
-    @NamedQuery(name = "IappUsuario.findByNombres", query = "SELECT i FROM IappUsuario i WHERE i.nombres = :nombres"),
-    @NamedQuery(name = "IappUsuario.findByApellidos", query = "SELECT i FROM IappUsuario i WHERE i.apellidos = :apellidos"),
-    @NamedQuery(name = "IappUsuario.findByDireccion", query = "SELECT i FROM IappUsuario i WHERE i.direccion = :direccion"),
-    @NamedQuery(name = "IappUsuario.findByTelefono", query = "SELECT i FROM IappUsuario i WHERE i.telefono = :telefono"),
-    @NamedQuery(name = "IappUsuario.findByEmail", query = "SELECT i FROM IappUsuario i WHERE i.email = :email"),
-    @NamedQuery(name = "IappUsuario.findByFechaNacimiento", query = "SELECT i FROM IappUsuario i WHERE i.fechaNacimiento = :fechaNacimiento"),
-    @NamedQuery(name = "IappUsuario.findBySexo", query = "SELECT i FROM IappUsuario i WHERE i.sexo = :sexo"),
-    @NamedQuery(name = "IappUsuario.findByNivelEducacion", query = "SELECT i FROM IappUsuario i WHERE i.nivelEducacion = :nivelEducacion"),
-    @NamedQuery(name = "IappUsuario.findByCodigo", query = "SELECT i FROM IappUsuario i WHERE i.codigo = :codigo"),
+    @NamedQuery(name = "IappUser.findAll", query = "SELECT i FROM IappUser i"),
+    @NamedQuery(name = "IappUser.findByNumeroDoc", query = "SELECT i FROM IappUser i WHERE i.numeroDoc = :numeroDoc"),
    
-    @NamedQuery(name = "IappUsuario.findByPasswd", query = "SELECT i FROM IappUsuario i WHERE i.passwd = :passwd"),
-    @NamedQuery(name = "IappUsuario.findByCont", query = "SELECT i FROM IappUsuario i WHERE i.cont = :cont"),
-    @NamedQuery(name = "IappUsuario.findByFechaInicio", query = "SELECT i FROM IappUsuario i WHERE i.fechaInicio = :fechaInicio"),
-    @NamedQuery(name = "IappUsuario.findByFechaFin", query = "SELECT i FROM IappUsuario i WHERE i.fechaFin = :fechaFin"),
-    @NamedQuery(name = "IappUsuario.findByIdUsuario", query = "SELECT i FROM IappUsuario i WHERE i.idUsuario = :idUsuario"),
-    @NamedQuery(name = "IappUsuario.findByIdPerfil", query = "SELECT i FROM IappUsuario i WHERE i.idPerfil.idPerfil = :idPerfil")})
-public class IappUsuario implements Serializable {
+    @NamedQuery(name = "IappUser.findByNombres", query = "SELECT i FROM IappUser i WHERE i.nombres = :nombres"),
+    @NamedQuery(name = "IappUser.findByApellidos", query = "SELECT i FROM IappUser i WHERE i.apellidos = :apellidos"),
+    @NamedQuery(name = "IappUser.findByDireccion", query = "SELECT i FROM IappUser i WHERE i.direccion = :direccion"),
+    @NamedQuery(name = "IappUser.findByTelefono", query = "SELECT i FROM IappUser i WHERE i.telefono = :telefono"),
+    @NamedQuery(name = "IappUser.findByEmail", query = "SELECT i FROM IappUser i WHERE i.email = :email"),
+    @NamedQuery(name = "IappUser.findByFechaNacimiento", query = "SELECT i FROM IappUser i WHERE i.fechaNacimiento = :fechaNacimiento"),
+    @NamedQuery(name = "IappUser.findBySexo", query = "SELECT i FROM IappUser i WHERE i.sexo = :sexo"),
+    @NamedQuery(name = "IappUser.findByNivelEducacion", query = "SELECT i FROM IappUser i WHERE i.nivelEducacion = :nivelEducacion"),
+    @NamedQuery(name = "IappUser.findByCodigo", query = "SELECT i FROM IappUser i WHERE i.codigo = :codigo"),
+   
+    @NamedQuery(name = "IappUser.findByPasswd", query = "SELECT i FROM IappUser i WHERE i.passwd = :passwd"),
+    @NamedQuery(name = "IappUser.findByCont", query = "SELECT i FROM IappUser i WHERE i.cont = :cont"),
+    @NamedQuery(name = "IappUser.findByFechaInicio", query = "SELECT i FROM IappUser i WHERE i.fechaInicio = :fechaInicio"),
+    @NamedQuery(name = "IappUser.findByFechaFin", query = "SELECT i FROM IappUser i WHERE i.fechaFin = :fechaFin"),
+    @NamedQuery(name = "IappUser.findByIdUsuario", query = "SELECT i FROM IappUser i WHERE i.idUsuario = :idUsuario"),
+    @NamedQuery(name = "IappUser.findByIdPerfil", query = "SELECT i FROM IappUser i WHERE i.idPerfil.idPerfil = :idPerfil")})
+public class IappUser implements Serializable {
     @Basic(optional =     false)
     @NotNull
     @Column(name = "fecha_nacimiento")
@@ -54,11 +54,10 @@ public class IappUsuario implements Serializable {
     @Column(name =     "fecha_fin")
     @Temporal(TemporalType.DATE)
     private Date fechaFin;
-    @OneToMany(mappedBy = "idUsuario")
-    private Collection<IappHorario> iappHorarioCollection;
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idProfesor")
     @OrderBy(value="nombre ASC")
-    private Collection<IappCursos> iappCursosCollection;
+    private Collection<IappCourses> iappCursosCollection;
     private static final long serialVersionUID = 1L;
     @Basic(optional = false)
     @NotNull
@@ -123,24 +122,18 @@ public class IappUsuario implements Serializable {
     @NotNull
     @Column(name = "id_usuario")
     private Integer idUsuario;
-    @JoinColumn(name = "tipo_doc", referencedColumnName = "id_tipo_doc")
-    @ManyToOne(optional = false)
-    private IappTipoDocumento tipoDoc;
+  
     @JoinColumn(name = "id_perfil", referencedColumnName = "id_perfil")
     @ManyToOne(optional = false)
     private IappPerfiles idPerfil;
     @JoinColumn(name = "id_jornada", referencedColumnName = "id_jornada")
     @ManyToOne(optional = false,fetch= FetchType.EAGER)
     private IappJornada idJornada;
-    @JoinColumn(name = "estado_usuario", referencedColumnName = "id_estado_usuario")
-    @ManyToOne(optional = false)
-    private IappEstadoUsuario estadoUsuario;
+ 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUsuario")
     @OrderBy(value="idMatricula ASC")
-    private Collection<IappMatriculas> iappMatriculasCollection;    
-    @JoinColumn(name = "id_nivel", referencedColumnName = "id_nivel")
-    @ManyToOne(optional = false,fetch= FetchType.EAGER)
-    private IappNiveles idNivel;
+    private Collection<IappEnrollments> iappMatriculasCollection;    
+  
     @OneToMany(cascade= CascadeType.REMOVE,mappedBy="idUsuario")
     private Collection<IappFactura> facturas;
     @Column(name = "id_profesor")
@@ -148,14 +141,14 @@ public class IappUsuario implements Serializable {
     @Column(name = "asistencia")
     private String asistencia;
 
-    public IappUsuario() {
+    public IappUser() {
     }
 
-    public IappUsuario(Integer idUsuario) {
+    public IappUser(Integer idUsuario) {
         this.idUsuario = idUsuario;
     }
 
-    public IappUsuario(Integer idUsuario, String numeroDoc, String nombres, String apellidos, String direccion, String telefono, String email, Date fechaNacimiento, String sexo, String nivelEducacion, String codigo, String nivelCursado, String passwd, int cont) {
+    public IappUser(Integer idUsuario, String numeroDoc, String nombres, String apellidos, String direccion, String telefono, String email, Date fechaNacimiento, String sexo, String nivelEducacion, String codigo, String nivelCursado, String passwd, int cont) {
         this.idUsuario = idUsuario;
         this.numeroDoc = numeroDoc;
         this.nombres = nombres;
@@ -294,13 +287,7 @@ public class IappUsuario implements Serializable {
         this.idUsuario = idUsuario;
     }
 
-    public IappTipoDocumento getTipoDoc() {
-        return tipoDoc;
-    }
-
-    public void setTipoDoc(IappTipoDocumento tipoDoc) {
-        this.tipoDoc = tipoDoc;
-    }
+  
 
     public IappPerfiles getIdPerfil() {
         return idPerfil;
@@ -318,21 +305,9 @@ public class IappUsuario implements Serializable {
         this.idJornada = idJornada;
     }
 
-    public IappEstadoUsuario getEstadoUsuario() {
-        return estadoUsuario;
-    }
+   
 
-    public void setEstadoUsuario(IappEstadoUsuario estadoUsuario) {
-        this.estadoUsuario = estadoUsuario;
-    }
-
-    public IappNiveles getIdNivel() {
-        return idNivel;
-    }
-
-    public void setIdNivel(IappNiveles idNivel) {
-        this.idNivel = idNivel;
-    }
+    
 
     public Collection<IappFactura> getFacturas() {
         return facturas;
@@ -345,11 +320,11 @@ public class IappUsuario implements Serializable {
     
 
     @XmlTransient
-    public Collection<IappMatriculas> getIappMatriculasCollection() {
+    public Collection<IappEnrollments> getIappMatriculasCollection() {
         return iappMatriculasCollection;
     }
 
-    public void setIappMatriculasCollection(Collection<IappMatriculas> iappMatriculasCollection) {
+    public void setIappMatriculasCollection(Collection<IappEnrollments> iappMatriculasCollection) {
         this.iappMatriculasCollection = iappMatriculasCollection;
     }
 
@@ -366,10 +341,10 @@ public class IappUsuario implements Serializable {
         if(object==this){
             return true;
         }
-        if (!(object instanceof IappUsuario)) {
+        if (!(object instanceof IappUser)) {
             return false;
         }
-        IappUsuario other = (IappUsuario) object;
+        IappUser other = (IappUser) object;
         if ((this.idUsuario == null && other.idUsuario != null) || (this.idUsuario != null && !this.idUsuario.equals(other.idUsuario))) {
             return false;
         }
@@ -378,29 +353,22 @@ public class IappUsuario implements Serializable {
 
     @Override
     public String toString() {
-        return "com.innovasoft.ejb.modelo.IappUsuario[ idUsuario=" + idUsuario + " ]";
+        return "com.innovasoft.ejb.modelo.IappUser[ idUsuario=" + idUsuario + " ]";
     }
 
 
     @XmlTransient
-    public Collection<IappCursos> getIappCursosCollection() {
+    public Collection<IappCourses> getIappCursosCollection() {
         return iappCursosCollection;
     }
 
-    public void setIappCursosCollection(Collection<IappCursos> iappCursosCollection) {
+    public void setIappCursosCollection(Collection<IappCourses> iappCursosCollection) {
         this.iappCursosCollection = iappCursosCollection;
     }
 
     
 
-    @XmlTransient
-    public Collection<IappHorario> getIappHorarioCollection() {
-        return iappHorarioCollection;
-    }
-
-    public void setIappHorarioCollection(Collection<IappHorario> iappHorarioCollection) {
-        this.iappHorarioCollection = iappHorarioCollection;
-    }
+   
 
     public Integer getIdProfesor() {
         return idProfesor;

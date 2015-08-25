@@ -3,12 +3,12 @@
  * and open the template in the editor.
  */
 package com.ccit.ejb.fachada;
-import com.ccit.ejb.modelo.IappEvaluaciones;
-import com.ccit.ejb.modelo.IappPreguntas;
-import com.ccit.ejb.modelo.IappMatriculas;
-import com.ccit.ejb.modelo.IappRespuestas;
-import com.ccit.ejb.modelo.IappCalEvaluacion;
-import com.ccit.ejb.modelo.IappSoluciones;
+import com.ccit.ejb.modelo.IappTests;
+import com.ccit.ejb.modelo.IappTestQuestions;
+import com.ccit.ejb.modelo.IappEnrollments;
+import com.ccit.ejb.modelo.IappTestQuestionAnswers;
+import com.ccit.ejb.modelo.IappTestResult;
+import com.ccit.ejb.modelo.IappTestSolutions;
 import com.ccit.ejb.fachada.impl.IappPreguntaFacade;
 import com.ccit.ejb.fachada.impl.IappSolucionesFacade;
 import com.ccit.ejb.fachada.impl.IappRespuestasFacade;
@@ -40,10 +40,10 @@ public class EvaluacionesFacade {
     private IappCalEvaluacionFacade iappCalEvaluacionFacade;
     
     
-    public void merge(IappEvaluaciones evl)throws IappException{
-        for(IappPreguntas prg:evl.getIappPreguntasCollection()){
+    public void merge(IappTests evl)throws IappException{
+        for(IappTestQuestions prg:evl.getIappPreguntasCollection()){
             if(prg.getIdPregunta()!=null){
-                for(IappRespuestas rsp:prg.getIappRespuestasCollection()){
+                for(IappTestQuestionAnswers rsp:prg.getIappRespuestasCollection()){
                     if(rsp.getIdRespuesta()==null){
                         iappRespuestasFacade.create(rsp);
                     }
@@ -56,32 +56,32 @@ public class EvaluacionesFacade {
         iappEvaluacionesFacade.edit(evl);
     }
 
-    public void crearEvaluacion(IappEvaluaciones newEvaluacion) throws IappException {
+    public void crearEvaluacion(IappTests newEvaluacion) throws IappException {
         iappEvaluacionesFacade.create(newEvaluacion);
     }
     
-    public void remove(IappEvaluaciones evl) throws IappException {
+    public void remove(IappTests evl) throws IappException {
         iappEvaluacionesFacade.remove(evl);
     }
     
-    public void enviarRespuestas(Collection <IappSoluciones> soluciones) throws IappException{
-        for(IappSoluciones solucion:soluciones){
+    public void enviarRespuestas(Collection <IappTestSolutions> soluciones) throws IappException{
+        for(IappTestSolutions solucion:soluciones){
             iappSolucionesFacade.create(solucion);
         }
     }
 
-    public void calificarExamen(IappMatriculas matricula, IappEvaluaciones evaluacion, IappCalEvaluacion calificacion) throws SQLException, IappException{
+    public void calificarExamen(IappEnrollments matricula, IappTests evaluacion, IappTestResult calificacion) throws SQLException, IappException{
         iappCalEvaluacionFacade.calificar(matricula,evaluacion,calificacion);
     }
-    public void refresh(IappEvaluaciones evaluacion) throws IappException {
+    public void refresh(IappTests evaluacion) throws IappException {
         iappEvaluacionesFacade.refreshEntity(evaluacion);
     }
 
-    public void refresh(IappPreguntas pregunta) throws IappException {
+    public void refresh(IappTestQuestions pregunta) throws IappException {
         iappPreguntaFacade.refreshEntity(pregunta);
     }
 
-    public void iniciarExamen(IappCalEvaluacion cal) throws IappException {
+    public void iniciarExamen(IappTestResult cal) throws IappException {
         iappCalEvaluacionFacade.create(cal);
     }
 }

@@ -20,20 +20,20 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author innovasoft
  */
 @Entity
-@Table(name = "iapp_modulos",schema="general")
+@Table(name = "iapp_sprints",schema="general")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "IappModulos.findAll", query = "SELECT i FROM IappModulos i"),
-    @NamedQuery(name = "IappModulos.findByIdModulo", query = "SELECT i FROM IappModulos i WHERE i.idModulo = :idModulo"),
-    @NamedQuery(name = "IappModulos.findByNombre", query = "SELECT i FROM IappModulos i WHERE i.nombre = :nombre"),
-    @NamedQuery(name = "IappModulos.findByDescripcion", query = "SELECT i FROM IappModulos i WHERE i.descripcion = :descripcion"),
-    @NamedQuery(name = "IappModulos.findByPorcentaje", query = "SELECT i FROM IappModulos i WHERE i.porcentaje = :porcentaje"),
-    @NamedQuery(name = "IappModulos.findByFechaCreacion", query = "SELECT i FROM IappModulos i WHERE i.fechaCreacion = :fechaCreacion"),
-    @NamedQuery(name = "IappModulos.findByFechaModificacion", query = "SELECT i FROM IappModulos i WHERE i.fechaModificacion = :fechaModificacion"),
-    @NamedQuery(name = "IappModulos.findByUsuarioCreacion", query = "SELECT i FROM IappModulos i WHERE i.usuarioCreacion = :usuarioCreacion"),
-    @NamedQuery(name = "IappModulos.findByUsuarioModificacion", query = "SELECT i FROM IappModulos i WHERE i.usuarioModificacion = :usuarioModificacion"),
-    @NamedQuery(name = "IappModulos.findByEstadoRegistro", query = "SELECT i FROM IappModulos i WHERE i.estadoRegistro = :estadoRegistro")})
-public class IappModulos implements Serializable {
+    @NamedQuery(name = "IappSprints.findAll", query = "SELECT i FROM IappSprints i"),
+    @NamedQuery(name = "IappSprints.findByIdModulo", query = "SELECT i FROM IappSprints i WHERE i.idModulo = :idModulo"),
+    @NamedQuery(name = "IappSprints.findByNombre", query = "SELECT i FROM IappSprints i WHERE i.nombre = :nombre"),
+    @NamedQuery(name = "IappSprints.findByDescripcion", query = "SELECT i FROM IappSprints i WHERE i.descripcion = :descripcion"),
+    @NamedQuery(name = "IappSprints.findByPorcentaje", query = "SELECT i FROM IappSprints i WHERE i.porcentaje = :porcentaje"),
+    @NamedQuery(name = "IappSprints.findByFechaCreacion", query = "SELECT i FROM IappSprints i WHERE i.fechaCreacion = :fechaCreacion"),
+    @NamedQuery(name = "IappSprints.findByFechaModificacion", query = "SELECT i FROM IappSprints i WHERE i.fechaModificacion = :fechaModificacion"),
+    @NamedQuery(name = "IappSprints.findByUsuarioCreacion", query = "SELECT i FROM IappSprints i WHERE i.usuarioCreacion = :usuarioCreacion"),
+    @NamedQuery(name = "IappSprints.findByUsuarioModificacion", query = "SELECT i FROM IappSprints i WHERE i.usuarioModificacion = :usuarioModificacion"),
+    @NamedQuery(name = "IappSprints.findByEstadoRegistro", query = "SELECT i FROM IappSprints i WHERE i.estadoRegistro = :estadoRegistro")})
+public class IappSprints implements Serializable {
     @Basic(optional =     false)
     @NotNull
     @Column(name = "fecha_creacion")
@@ -46,7 +46,7 @@ public class IappModulos implements Serializable {
     private Date fechaModificacion;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idModulo",orphanRemoval=true)
     @OrderBy(value="idAsignacion ASC")
-    private Collection<IappAsignaciones> iappAsignacionesCollection;
+    private Collection<IappHomeWorks> iappAsignacionesCollection;
     private static final long serialVersionUID = 1L;
     @Id
     @SequenceGenerator(allocationSize=1,name="PGSSQL_MODULE_SEQ",schema="general",sequenceName="iapp_modulos_id_modulo_seq")
@@ -85,23 +85,23 @@ public class IappModulos implements Serializable {
     @Column(name = "estado_registro")
     private String estadoRegistro;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idModulo")
-    private Collection<IappContenidos> iappContenidosCollection;
+    private Collection<IappContent> iappContenidosCollection;
     @JoinColumn(name = "id_curso", referencedColumnName = "id_curso")
     @ManyToOne(optional = false)
-    private IappCursos idCurso;
+    private IappCourses idCurso;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idModulo")
-    private Collection<IappEvaluaciones> iappEvaluacionesCollection;
+    private Collection<IappTests> iappEvaluacionesCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idModulo")
     private Collection<IappForo> iappForoCollection;
 
-    public IappModulos() {
+    public IappSprints() {
     }
 
-    public IappModulos(Integer idModulo) {
+    public IappSprints(Integer idModulo) {
         this.idModulo = idModulo;
     }
 
-    public IappModulos(Integer idModulo, String nombre, String descripcion, BigDecimal porcentaje, Date fechaCreacion, Date fechaModificacion, String usuarioCreacion, String usuarioModificacion, String estadoRegistro) {
+    public IappSprints(Integer idModulo, String nombre, String descripcion, BigDecimal porcentaje, Date fechaCreacion, Date fechaModificacion, String usuarioCreacion, String usuarioModificacion, String estadoRegistro) {
         this.idModulo = idModulo;
         this.nombre = nombre;
         this.descripcion = descripcion;
@@ -186,28 +186,28 @@ public class IappModulos implements Serializable {
     }
 
     @XmlTransient
-    public Collection<IappContenidos> getIappContenidosCollection() {
+    public Collection<IappContent> getIappContenidosCollection() {
         return iappContenidosCollection;
     }
 
-    public void setIappContenidosCollection(Collection<IappContenidos> iappContenidosCollection) {
+    public void setIappContenidosCollection(Collection<IappContent> iappContenidosCollection) {
         this.iappContenidosCollection = iappContenidosCollection;
     }
 
-    public IappCursos getIdCurso() {
+    public IappCourses getIdCurso() {
         return idCurso;
     }
 
-    public void setIdCurso(IappCursos idCurso) {
+    public void setIdCurso(IappCourses idCurso) {
         this.idCurso = idCurso;
     }
 
     @XmlTransient
-    public Collection<IappEvaluaciones> getIappEvaluacionesCollection() {
+    public Collection<IappTests> getIappEvaluacionesCollection() {
         return iappEvaluacionesCollection;
     }
 
-    public void setIappEvaluacionesCollection(Collection<IappEvaluaciones> iappEvaluacionesCollection) {
+    public void setIappEvaluacionesCollection(Collection<IappTests> iappEvaluacionesCollection) {
         this.iappEvaluacionesCollection = iappEvaluacionesCollection;
     }
 
@@ -231,15 +231,15 @@ public class IappModulos implements Serializable {
 
     @Override
     public String toString() {
-        return "com.innovasoft.ejb.modelo.IappModulos[ idModulo=" + idModulo + " ]";
+        return "com.innovasoft.ejb.modelo.IappSprints[ idModulo=" + idModulo + " ]";
     }
 
     @XmlTransient
-    public Collection<IappAsignaciones> getIappAsignacionesCollection() {
+    public Collection<IappHomeWorks> getIappAsignacionesCollection() {
         return iappAsignacionesCollection;
     }
 
-    public void setIappAsignacionesCollection(Collection<IappAsignaciones> iappAsignacionesCollection) {
+    public void setIappAsignacionesCollection(Collection<IappHomeWorks> iappAsignacionesCollection) {
         this.iappAsignacionesCollection = iappAsignacionesCollection;
     }
 }

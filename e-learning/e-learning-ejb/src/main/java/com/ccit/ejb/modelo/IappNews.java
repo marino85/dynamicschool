@@ -16,15 +16,15 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author marino
  */
 @Entity
-@Table(name = "iapp_noticias",schema="general")
+@Table(name = "iapp_news",schema="general")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "IappNoticias.findAll", query = "SELECT i FROM IappNoticias i"),
-    @NamedQuery(name = "IappNoticias.findByIdNoticias", query = "SELECT i FROM IappNoticias i WHERE i.idNoticias = :idNoticias"),
-    @NamedQuery(name = "IappNoticias.findByTitulo", query = "SELECT i FROM IappNoticias i WHERE i.titulo = :titulo"),
-    @NamedQuery(name = "IappNoticias.findByContenido", query = "SELECT i FROM IappNoticias i WHERE i.contenido = :contenido"),
-@NamedQuery(name = "IappNoticias.findByLastPublication", query = "SELECT i FROM IappNoticias i WHERE i.estado = 'A' ORDER BY i.fechaCreacion DESC ")})
-public class IappNoticias implements Serializable {
+    @NamedQuery(name = "IappNews.findAll", query = "SELECT i FROM IappNews i"),
+    @NamedQuery(name = "IappNews.findByIdNoticias", query = "SELECT i FROM IappNews i WHERE i.idNoticias = :idNoticias"),
+    @NamedQuery(name = "IappNews.findByTitulo", query = "SELECT i FROM IappNews i WHERE i.titulo = :titulo"),
+    @NamedQuery(name = "IappNews.findByContenido", query = "SELECT i FROM IappNews i WHERE i.contenido = :contenido"),
+@NamedQuery(name = "IappNews.findByLastPublication", query = "SELECT i FROM IappNews i WHERE i.estado = 'A' ORDER BY i.fechaCreacion DESC ")})
+public class IappNews implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -45,10 +45,10 @@ public class IappNoticias implements Serializable {
     @Column(name = "estado")
     private String estado;
 
-    public IappNoticias() {
+    public IappNews() {
     }
 
-    public IappNoticias(Integer idNoticias) {
+    public IappNews(Integer idNoticias) {
         this.idNoticias = idNoticias;
     }
 
@@ -104,10 +104,10 @@ public class IappNoticias implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof IappNoticias)) {
+        if (!(object instanceof IappNews)) {
             return false;
         }
-        IappNoticias other = (IappNoticias) object;
+        IappNews other = (IappNews) object;
         if ((this.idNoticias == null && other.idNoticias != null) || (this.idNoticias != null && !this.idNoticias.equals(other.idNoticias))) {
             return false;
         }
@@ -116,7 +116,7 @@ public class IappNoticias implements Serializable {
 
     @Override
     public String toString() {
-        return "com.innovasoft.ejb.modelo.IappNoticias[ idNoticias=" + idNoticias + " ]";
+        return "com.innovasoft.ejb.modelo.IappNews[ idNoticias=" + idNoticias + " ]";
     }
     
 }

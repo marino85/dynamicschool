@@ -4,8 +4,8 @@
  */
 package com.ccit.ejb.fachada.impl;
 
-import com.ccit.ejb.modelo.IappEvaluaciones;
-import com.ccit.ejb.modelo.IappPreguntas;
+import com.ccit.ejb.modelo.IappTests;
+import com.ccit.ejb.modelo.IappTestQuestions;
 import com.ccit.exception.IappException;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -17,9 +17,9 @@ import javax.persistence.Query;
  * @author innovasoft
  */
 @Stateless
-public class IappPreguntaFacade  extends AbstractFacade<IappPreguntas>  {
+public class IappPreguntaFacade  extends AbstractFacade<IappTestQuestions>  {
     
-    @PersistenceContext(unitName = "DinamicPortal-ejbPU")
+    @PersistenceContext(unitName = "e-learning-ejb_PU")
     private EntityManager em;
 
     @Override
@@ -28,10 +28,10 @@ public class IappPreguntaFacade  extends AbstractFacade<IappPreguntas>  {
     }
 
     public IappPreguntaFacade() {
-        super(IappPreguntas.class);
+        super(IappTestQuestions.class);
     } 
 
-    public void refreshEntity(IappPreguntas pregunta) throws IappException {
+    public void refreshEntity(IappTestQuestions pregunta) throws IappException {
         Query q= em.createQuery("SELECT e FROM IappRespuestas e WHERE e.idPregunta=:idPregunta");
         q.setParameter("idPregunta", pregunta);
         pregunta.setIappRespuestasCollection(q.getResultList());

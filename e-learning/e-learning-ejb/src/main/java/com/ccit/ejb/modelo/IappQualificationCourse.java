@@ -15,16 +15,16 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author marino
  */
 @Entity
-@Table(name = "iapp_cal_curso",schema="general")
+@Table(name = "iapp_qualification_course",schema="general")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "IappCalCurso.findAll", query = "SELECT i FROM IappCalCurso i"),
-    @NamedQuery(name = "IappCalCurso.findByIdMatricula", query = "SELECT i FROM IappCalCurso i WHERE i.idMatricula = :idMatricula"),
-    @NamedQuery(name = "IappCalCurso.findByCalTrabajos", query = "SELECT i FROM IappCalCurso i WHERE i.calTrabajos = :calTrabajos"),
-    @NamedQuery(name = "IappCalCurso.findByCalEvaluaciones", query = "SELECT i FROM IappCalCurso i WHERE i.calEvaluaciones = :calEvaluaciones"),
-    @NamedQuery(name = "IappCalCurso.findByCalAdicional", query = "SELECT i FROM IappCalCurso i WHERE i.calAdicional = :calAdicional"),
-    @NamedQuery(name = "IappCalCurso.findByCalTotal", query = "SELECT i FROM IappCalCurso i WHERE i.calTotal = :calTotal")})
-public class IappCalCurso implements Serializable {
+    @NamedQuery(name = "IappQualificationCourse.findAll", query = "SELECT i FROM IappQualificationCourse i"),
+    @NamedQuery(name = "IappQualificationCourse.findByIdMatricula", query = "SELECT i FROM IappQualificationCourse i WHERE i.idMatricula = :idMatricula"),
+    @NamedQuery(name = "IappQualificationCourse.findByCalTrabajos", query = "SELECT i FROM IappQualificationCourse i WHERE i.calTrabajos = :calTrabajos"),
+    @NamedQuery(name = "IappQualificationCourse.findByCalEvaluaciones", query = "SELECT i FROM IappQualificationCourse i WHERE i.calEvaluaciones = :calEvaluaciones"),
+    @NamedQuery(name = "IappQualificationCourse.findByCalAdicional", query = "SELECT i FROM IappQualificationCourse i WHERE i.calAdicional = :calAdicional"),
+    @NamedQuery(name = "IappQualificationCourse.findByCalTotal", query = "SELECT i FROM IappQualificationCourse i WHERE i.calTotal = :calTotal")})
+public class IappQualificationCourse implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -43,12 +43,12 @@ public class IappCalCurso implements Serializable {
     private BigDecimal calTotal;
     @JoinColumn(name = "id_matricula", referencedColumnName = "id_matricula", insertable = false, updatable = false)
     @OneToOne(optional = false)
-    private IappMatriculas iappMatriculas;
+    private IappEnrollments iappMatriculas;
 
-    public IappCalCurso() {
+    public IappQualificationCourse() {
     }
 
-    public IappCalCurso(Integer idMatricula) {
+    public IappQualificationCourse(Integer idMatricula) {
         this.idMatricula = idMatricula;
     }
 
@@ -92,11 +92,11 @@ public class IappCalCurso implements Serializable {
         this.calTotal = calTotal;
     }
 
-    public IappMatriculas getIappMatriculas() {
+    public IappEnrollments getIappMatriculas() {
         return iappMatriculas;
     }
 
-    public void setIappMatriculas(IappMatriculas iappMatriculas) {
+    public void setIappMatriculas(IappEnrollments iappMatriculas) {
         this.iappMatriculas = iappMatriculas;
     }
 
@@ -110,10 +110,10 @@ public class IappCalCurso implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof IappCalCurso)) {
+        if (!(object instanceof IappQualificationCourse)) {
             return false;
         }
-        IappCalCurso other = (IappCalCurso) object;
+        IappQualificationCourse other = (IappQualificationCourse) object;
         if ((this.idMatricula == null && other.idMatricula != null) || (this.idMatricula != null && !this.idMatricula.equals(other.idMatricula))) {
             return false;
         }
@@ -122,7 +122,7 @@ public class IappCalCurso implements Serializable {
 
     @Override
     public String toString() {
-        return "com.innovasoft.ejb.modelo.IappCalCurso[ idMatricula=" + idMatricula + " ]";
+        return "com.innovasoft.ejb.modelo.IappQualificationCourse[ idMatricula=" + idMatricula + " ]";
     }
     
 }

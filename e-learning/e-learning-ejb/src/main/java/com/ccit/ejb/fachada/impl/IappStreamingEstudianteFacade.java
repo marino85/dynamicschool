@@ -18,7 +18,7 @@ import javax.persistence.PersistenceContext;
  */
 @Stateless
 public class IappStreamingEstudianteFacade extends AbstractFacade<IappStreamingEstudiante> {
-    @PersistenceContext(unitName = "DinamicPortal-ejbPU")
+    @PersistenceContext
     private EntityManager em;
 
     @Override

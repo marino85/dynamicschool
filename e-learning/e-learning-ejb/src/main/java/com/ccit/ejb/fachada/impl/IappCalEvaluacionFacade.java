@@ -4,30 +4,27 @@
  */
 package com.ccit.ejb.fachada.impl;
 
-import com.ccit.ejb.constants.Constants;
-import com.ccit.ejb.modelo.IappCalEvaluacion;
-import com.ccit.ejb.modelo.IappEvaluaciones;
-import com.ccit.ejb.modelo.IappMatriculas;
+import com.ccit.ejb.modelo.IappTestResult;
+import com.ccit.ejb.modelo.IappTests;
+import com.ccit.ejb.modelo.IappEnrollments;
 import com.ccit.exception.IappException;
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Date;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 
 /**
  *
  * @author innovasoft
  */
 @Stateless
-public class IappCalEvaluacionFacade  extends AbstractFacade<IappCalEvaluacion>  {
+public class IappCalEvaluacionFacade  extends AbstractFacade<IappTestResult>  {
     
-    @PersistenceContext(unitName = "DinamicPortal-ejbPU")
+    @PersistenceContext(unitName = "e-learning-ejb_PU")
     private EntityManager em;
 
     @Override
@@ -36,10 +33,10 @@ public class IappCalEvaluacionFacade  extends AbstractFacade<IappCalEvaluacion> 
     }
 
     public IappCalEvaluacionFacade() {
-        super(IappCalEvaluacion.class);
+        super(IappTestResult.class);
     }
 
-    public void calificar(IappMatriculas matricula, IappEvaluaciones evaluacion, IappCalEvaluacion calificacion) throws SQLException, IappException {
+    public void calificar(IappEnrollments matricula, IappTests evaluacion, IappTestResult calificacion) throws SQLException, IappException {
         Connection con=em.unwrap(Connection.class);
         PreparedStatement query = con.prepareCall("select general.getcalificacionevaluacion(?,?) calificacion");
         System.out.println("evaluacion.getIdEvaluacion().intValue():"+evaluacion.getIdEvaluacion().intValue());

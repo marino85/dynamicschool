@@ -9,11 +9,11 @@ import com.ccit.ejb.fachada.impl.IappCursosFacade;
 import com.ccit.ejb.fachada.impl.IappMatriculasFacade;
 import com.ccit.ejb.fachada.impl.IappModulosFacade;
 import com.ccit.ejb.fachada.impl.IappUsuarioFacade;
-import com.ccit.ejb.modelo.IappCalCurso;
-import com.ccit.ejb.modelo.IappCursos;
-import com.ccit.ejb.modelo.IappMatriculas;
-import com.ccit.ejb.modelo.IappModulos;
-import com.ccit.ejb.modelo.IappUsuario;
+import com.ccit.ejb.modelo.IappQualificationCourse;
+import com.ccit.ejb.modelo.IappCourses;
+import com.ccit.ejb.modelo.IappEnrollments;
+import com.ccit.ejb.modelo.IappSprints;
+import com.ccit.ejb.modelo.IappUser;
 import com.ccit.exception.IappException;
 import java.util.List;
 import javax.ejb.EJB;
@@ -43,16 +43,16 @@ public class CursosFacade {
        return iappMatriculasFacade.findEvaluationsByCourse(idCourse, codigo, nombres);
      }
     
-    public List<IappMatriculas> findEstudentsByCourse(Integer idCourse, String codigo, String nombres) {
+    public List<IappEnrollments> findEstudentsByCourse(Integer idCourse, String codigo, String nombres) {
         return iappMatriculasFacade.findEstudentsByCourse(idCourse, codigo, nombres);
     }
-    public void merge(IappCursos c)throws IappException{
-        for(IappModulos m:c.getIappModulosCollection()){
+    public void merge(IappCourses c)throws IappException{
+        for(IappSprints m:c.getIappModulosCollection()){
             if(m.getIdModulo()==null){
                 iappModulosFacade.create(m);
             }
         }
-        for(IappMatriculas m:c.getIappMatriculasCollection()){
+        for(IappEnrollments m:c.getIappMatriculasCollection()){
             if(m.getIdMatricula()==null){
                 iappMatriculasFacade.create(m);
             }
@@ -60,25 +60,25 @@ public class CursosFacade {
         iappCursosFacade.edit(c);
     }
 
-    public void crearCurso(IappCursos newCourse) throws IappException {
+    public void crearCurso(IappCourses newCourse) throws IappException {
         iappCursosFacade.create(newCourse);
     }
 
-    public List<IappCursos> buscarCursos() {
+    public List<IappCourses> buscarCursos() {
         return iappCursosFacade.findAll();
     }
 
-    public void eliminarUsuario(IappCursos courseDelete) throws IappException {
+    public void eliminarUsuario(IappCourses courseDelete) throws IappException {
         iappCursosFacade.remove(courseDelete);
     }
 
-    public void eliminarModulos(List<IappModulos> modulesToDelete) throws IappException {
-        for(IappModulos mod:modulesToDelete){
+    public void eliminarModulos(List<IappSprints> modulesToDelete) throws IappException {
+        for(IappSprints mod:modulesToDelete){
             iappModulosFacade.remove(mod);
         }
     }
     
-    public void calificarCurso(IappCalCurso cal)throws IappException{
+    public void calificarCurso(IappQualificationCourse cal)throws IappException{
         calCurso.edit(cal);
     }
 }

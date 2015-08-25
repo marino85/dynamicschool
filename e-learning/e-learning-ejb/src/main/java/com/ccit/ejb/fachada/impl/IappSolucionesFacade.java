@@ -4,22 +4,19 @@
  */
 package com.ccit.ejb.fachada.impl;
 
-import com.ccit.ejb.modelo.IappEvaluaciones;
-import com.ccit.ejb.modelo.IappMatriculas;
-import com.ccit.ejb.modelo.IappSoluciones;
+import com.ccit.ejb.modelo.IappTestSolutions;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 
 /**
  *
  * @author innovasoft
  */
 @Stateless
-public class IappSolucionesFacade  extends AbstractFacade<IappSoluciones>  {
+public class IappSolucionesFacade  extends AbstractFacade<IappTestSolutions>  {
     
-    @PersistenceContext(unitName = "DinamicPortal-ejbPU")
+    @PersistenceContext(unitName = "e-learning-ejb_PU")
     private EntityManager em;
 
     @Override
@@ -28,6 +25,6 @@ public class IappSolucionesFacade  extends AbstractFacade<IappSoluciones>  {
     }
 
     public IappSolucionesFacade() {
-        super(IappSoluciones.class);
+        super(IappTestSolutions.class);
     }
 }

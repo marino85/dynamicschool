@@ -4,7 +4,7 @@
  */
 package com.ccit.ejb.fachada;
 import com.ccit.ejb.fachada.impl.IappContenidosFacade;
-import com.ccit.ejb.modelo.IappContenidos;
+import com.ccit.ejb.modelo.IappContent;
 import com.ccit.exception.IappException;
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
@@ -21,15 +21,15 @@ public class ContenidosFacade {
     private IappContenidosFacade iappContenidosFacade;
     
     
-    public void merge(IappContenidos cnt)throws IappException{
+    public void merge(IappContent cnt)throws IappException{
         iappContenidosFacade.edit(cnt);
     }
 
-    public void crearContenido(IappContenidos newContenido) throws IappException {
+    public void crearContenido(IappContent newContenido) throws IappException {
         iappContenidosFacade.create(newContenido);
     }
     
-    public void remove(IappContenidos contenido) throws IappException {
+    public void remove(IappContent contenido) throws IappException {
         iappContenidosFacade.remove(contenido);
     }
 }

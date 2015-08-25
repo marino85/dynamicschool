@@ -5,8 +5,8 @@
 package com.ccit.ejb.fachada.impl;
 
 import com.ccit.ejb.dto.EvaluacionesDto;
-import com.ccit.ejb.modelo.IappMatriculas;
-import com.ccit.ejb.modelo.IappUsuario;
+import com.ccit.ejb.modelo.IappEnrollments;
+import com.ccit.ejb.modelo.IappUser;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -24,9 +24,9 @@ import javax.persistence.criteria.Root;
  * @author innovasoft
  */
 @Stateless
-public class IappMatriculasFacade extends AbstractFacade<IappMatriculas> {
+public class IappMatriculasFacade extends AbstractFacade<IappEnrollments> {
 
-    @PersistenceContext(unitName = "DinamicPortal-ejbPU")
+    @PersistenceContext(unitName = "e-learning-ejb_PU")
     private EntityManager em;
 
     @Override
@@ -35,7 +35,7 @@ public class IappMatriculasFacade extends AbstractFacade<IappMatriculas> {
     }
 
     public IappMatriculasFacade() {
-        super(IappMatriculas.class);
+        super(IappEnrollments.class);
     }
     
     public List<EvaluacionesDto> findEvaluationsByCourse(Integer idCourse, String codigo, String nombres) {
@@ -50,11 +50,11 @@ public class IappMatriculasFacade extends AbstractFacade<IappMatriculas> {
 
     }
 
-    public List<IappMatriculas> findEstudentsByCourse(Integer idCourse, String codigo, String nombres) {
+    public List<IappEnrollments> findEstudentsByCourse(Integer idCourse, String codigo, String nombres) {
 
         CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery<IappMatriculas> cr = cb.createQuery(IappMatriculas.class);
-         Root<IappMatriculas> matriculas = cr.from(IappMatriculas.class); 
+        CriteriaQuery<IappEnrollments> cr = cb.createQuery(IappEnrollments.class);
+         Root<IappEnrollments> matriculas = cr.from(IappEnrollments.class); 
          List<Predicate> prediates = new ArrayList<Predicate>();
           prediates.add(cb.equal(matriculas.get("idCurso").get("idCurso"),idCourse));
         
@@ -76,7 +76,7 @@ public class IappMatriculasFacade extends AbstractFacade<IappMatriculas> {
             cr.where(prediates.toArray(new Predicate[prediates.size()]));
         }
         
-        TypedQuery<IappMatriculas> tq = em.createQuery(cr);
+        TypedQuery<IappEnrollments> tq = em.createQuery(cr);
 
         return tq.getResultList();
 //        Query q = em.createQuery(query.toString());

@@ -16,21 +16,21 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author innovasoft
  */
 @Entity
-@Table(name = "iapp_entregas",schema="general")
+@Table(name = "iapp_sent_files",schema="general")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "IappEntregas.findAll", query = "SELECT i FROM IappEntregas i"),
-    @NamedQuery(name = "IappEntregas.findByIdEntrega", query = "SELECT i FROM IappEntregas i WHERE i.idEntrega = :idEntrega"),
-    @NamedQuery(name = "IappEntregas.findByNombre", query = "SELECT i FROM IappEntregas i WHERE i.nombre = :nombre"),
-    @NamedQuery(name = "IappEntregas.findByDescripcion", query = "SELECT i FROM IappEntregas i WHERE i.descripcion = :descripcion"),
-    @NamedQuery(name = "IappEntregas.findByFile", query = "SELECT i FROM IappEntregas i WHERE i.file = :file"),
-    @NamedQuery(name = "IappEntregas.findByFechaEntrega", query = "SELECT i FROM IappEntregas i WHERE i.fechaEntrega = :fechaEntrega"),
-    @NamedQuery(name = "IappEntregas.findByFechaCreacion", query = "SELECT i FROM IappEntregas i WHERE i.fechaCreacion = :fechaCreacion"),
-    @NamedQuery(name = "IappEntregas.findByFechaModificacion", query = "SELECT i FROM IappEntregas i WHERE i.fechaModificacion = :fechaModificacion"),
-    @NamedQuery(name = "IappEntregas.findByUsuarioCreacion", query = "SELECT i FROM IappEntregas i WHERE i.usuarioCreacion = :usuarioCreacion"),
-    @NamedQuery(name = "IappEntregas.findByUsuarioModificacion", query = "SELECT i FROM IappEntregas i WHERE i.usuarioModificacion = :usuarioModificacion"),
-    @NamedQuery(name = "IappEntregas.findByEstadoRegistro", query = "SELECT i FROM IappEntregas i WHERE i.estadoRegistro = :estadoRegistro")})
-public class IappEntregas implements Serializable {
+    @NamedQuery(name = "IappSentFiles.findAll", query = "SELECT i FROM IappSentFiles i"),
+    @NamedQuery(name = "IappSentFiles.findByIdEntrega", query = "SELECT i FROM IappSentFiles i WHERE i.idEntrega = :idEntrega"),
+    @NamedQuery(name = "IappSentFiles.findByNombre", query = "SELECT i FROM IappSentFiles i WHERE i.nombre = :nombre"),
+    @NamedQuery(name = "IappSentFiles.findByDescripcion", query = "SELECT i FROM IappSentFiles i WHERE i.descripcion = :descripcion"),
+    @NamedQuery(name = "IappSentFiles.findByFile", query = "SELECT i FROM IappSentFiles i WHERE i.file = :file"),
+    @NamedQuery(name = "IappSentFiles.findByFechaEntrega", query = "SELECT i FROM IappSentFiles i WHERE i.fechaEntrega = :fechaEntrega"),
+    @NamedQuery(name = "IappSentFiles.findByFechaCreacion", query = "SELECT i FROM IappSentFiles i WHERE i.fechaCreacion = :fechaCreacion"),
+    @NamedQuery(name = "IappSentFiles.findByFechaModificacion", query = "SELECT i FROM IappSentFiles i WHERE i.fechaModificacion = :fechaModificacion"),
+    @NamedQuery(name = "IappSentFiles.findByUsuarioCreacion", query = "SELECT i FROM IappSentFiles i WHERE i.usuarioCreacion = :usuarioCreacion"),
+    @NamedQuery(name = "IappSentFiles.findByUsuarioModificacion", query = "SELECT i FROM IappSentFiles i WHERE i.usuarioModificacion = :usuarioModificacion"),
+    @NamedQuery(name = "IappSentFiles.findByEstadoRegistro", query = "SELECT i FROM IappSentFiles i WHERE i.estadoRegistro = :estadoRegistro")})
+public class IappSentFiles implements Serializable {
     @Basic(optional =     false)
     @NotNull
     @Column(name = "fecha_entrega")
@@ -86,22 +86,22 @@ public class IappEntregas implements Serializable {
     private String estadoRegistro;
     @JoinColumn(name = "id_matricula", referencedColumnName = "id_matricula")
     @ManyToOne(optional = false)
-    private IappMatriculas idMatricula;
+    private IappEnrollments idMatricula;
     @JoinColumn(name = "id_asignacion", referencedColumnName = "id_asignacion")
     @ManyToOne(optional = false)
-    private IappAsignaciones idAsignacion;
+    private IappHomeWorks idAsignacion;
     @Transient
     private byte[] fileArray;
 
     
-    public IappEntregas() {
+    public IappSentFiles() {
     }
 
-    public IappEntregas(Integer idEntrega) {
+    public IappSentFiles(Integer idEntrega) {
         this.idEntrega = idEntrega;
     }
 
-    public IappEntregas(Integer idEntrega, String nombre, String descripcion, Date fechaEntrega, Date fechaCreacion, Date fechaModificacion, String usuarioCreacion, String usuarioModificacion, String estadoRegistro) {
+    public IappSentFiles(Integer idEntrega, String nombre, String descripcion, Date fechaEntrega, Date fechaCreacion, Date fechaModificacion, String usuarioCreacion, String usuarioModificacion, String estadoRegistro) {
         this.idEntrega = idEntrega;
         this.nombre = nombre;
         this.descripcion = descripcion;
@@ -193,19 +193,19 @@ public class IappEntregas implements Serializable {
         this.estadoRegistro = estadoRegistro;
     }
 
-    public IappMatriculas getIdMatricula() {
+    public IappEnrollments getIdMatricula() {
         return idMatricula;
     }
 
-    public void setIdMatricula(IappMatriculas idMatricula) {
+    public void setIdMatricula(IappEnrollments idMatricula) {
         this.idMatricula = idMatricula;
     }
 
-    public IappAsignaciones getIdAsignacion() {
+    public IappHomeWorks getIdAsignacion() {
         return idAsignacion;
     }
 
-    public void setIdAsignacion(IappAsignaciones idAsignacion) {
+    public void setIdAsignacion(IappHomeWorks idAsignacion) {
         this.idAsignacion = idAsignacion;
     }
 
@@ -227,10 +227,10 @@ public class IappEntregas implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof IappEntregas)) {
+        if (!(object instanceof IappSentFiles)) {
             return false;
         }
-        IappEntregas other = (IappEntregas) object;
+        IappSentFiles other = (IappSentFiles) object;
         if ((this.idEntrega == null && other.idEntrega != null) || (this.idEntrega != null && !this.idEntrega.equals(other.idEntrega))) {
             return false;
         }
@@ -239,6 +239,6 @@ public class IappEntregas implements Serializable {
 
     @Override
     public String toString() {
-        return "com.innovasoft.ejb.modelo.IappEntregas[ idEntrega=" + idEntrega + " ]";
+        return "com.innovasoft.ejb.modelo.IappSentFiles[ idEntrega=" + idEntrega + " ]";
     }
 }
