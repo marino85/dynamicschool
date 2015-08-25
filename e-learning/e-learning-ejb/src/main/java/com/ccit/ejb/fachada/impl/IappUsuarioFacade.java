@@ -11,6 +11,7 @@ import com.ccit.ejb.modelo.IappPerfiles;
 import com.ccit.ejb.modelo.IappUser;
 import java.util.ArrayList;
 import java.util.List;
+import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -26,6 +27,7 @@ import javax.persistence.criteria.Root;
  * @author marino
  */
 @Stateless
+@LocalBean
 public class IappUsuarioFacade extends AbstractFacade<IappUser> {
 
     @PersistenceContext(unitName = "e-learning-ejb_PU")

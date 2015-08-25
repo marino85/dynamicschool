@@ -49,10 +49,10 @@ public class LoginBean {
                 u.setNombre(usuario.getNombres());
                 u.setCont(usuario.getCont());
                 u.setPerfil(usuario.getIdPerfil().getDescripcion());
-                u.setNumDoc(usuario.getNumeroDoc());
+                u.setNumDoc(usuario.getIdNumber());
               //  u.setTipoDoc(usuario.getTipoDoc().getIdTipoDoc());
                 u.setIdUsuario(usuario.getIdUsuario());
-                u.setLogin(usuario.getNumeroDoc());
+                u.setLogin(usuario.getIdNumber());
 //                u.setIdNivel(usuario.getIdNivel().getIdNivel());
                 u.setIdPerfil(usuario.getIdPerfil().getIdPerfil());
                 u.setEmail(usuario.getEmail());

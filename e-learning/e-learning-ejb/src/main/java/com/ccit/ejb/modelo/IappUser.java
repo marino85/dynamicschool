@@ -24,8 +24,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "IappUser.findAll", query = "SELECT i FROM IappUser i"),
-    @NamedQuery(name = "IappUser.findByNumeroDoc", query = "SELECT i FROM IappUser i WHERE i.numeroDoc = :numeroDoc"),
-   
+    @NamedQuery(name = "IappUser.findByNumeroDoc", query = "SELECT i FROM IappUser i WHERE i.idNumber = :numeroDoc"),   
     @NamedQuery(name = "IappUser.findByNombres", query = "SELECT i FROM IappUser i WHERE i.nombres = :nombres"),
     @NamedQuery(name = "IappUser.findByApellidos", query = "SELECT i FROM IappUser i WHERE i.apellidos = :apellidos"),
     @NamedQuery(name = "IappUser.findByDireccion", query = "SELECT i FROM IappUser i WHERE i.direccion = :direccion"),
@@ -62,8 +61,8 @@ public class IappUser implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 20)
-    @Column(name = "numero_doc")
-    private String numeroDoc;
+    @Column(name = "id_number")
+    private String idNumber;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 100)
@@ -150,7 +149,7 @@ public class IappUser implements Serializable {
 
     public IappUser(Integer idUsuario, String numeroDoc, String nombres, String apellidos, String direccion, String telefono, String email, Date fechaNacimiento, String sexo, String nivelEducacion, String codigo, String nivelCursado, String passwd, int cont) {
         this.idUsuario = idUsuario;
-        this.numeroDoc = numeroDoc;
+        this.idNumber = numeroDoc;
         this.nombres = nombres;
         this.apellidos = apellidos;
         this.direccion = direccion;
@@ -165,12 +164,12 @@ public class IappUser implements Serializable {
         this.cont = cont;
     }
 
-    public String getNumeroDoc() {
-        return numeroDoc;
+    public String getIdNumber() {
+        return idNumber;
     }
 
-    public void setNumeroDoc(String numeroDoc) {
-        this.numeroDoc = numeroDoc;
+    public void setIdNumber(String idNumber) {
+        this.idNumber = idNumber;
     }
 
     public String getNombres() {

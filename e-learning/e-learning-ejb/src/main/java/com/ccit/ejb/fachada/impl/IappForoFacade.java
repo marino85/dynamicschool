@@ -5,6 +5,7 @@
 package com.ccit.ejb.fachada.impl;
 
 import com.ccit.ejb.modelo.IappForo;
+import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -14,6 +15,7 @@ import javax.persistence.PersistenceContext;
  * @author marino
  */
 @Stateless
+@LocalBean
 public class IappForoFacade extends AbstractFacade<IappForo> {
     @PersistenceContext(unitName = "e-learning-ejb_PU")
     private EntityManager em;
