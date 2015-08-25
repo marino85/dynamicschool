@@ -6,8 +6,8 @@ package com.ccit.web.bean;
 
 import com.ccit.ejb.constants.Constants;
 import com.ccit.ejb.dto.UsuarioDTo;
-import com.ccit.ejb.modelo.IappCursos;
-import com.ccit.ejb.modelo.IappModulos;
+import com.ccit.ejb.modelo.IappCourses;
+import com.ccit.ejb.modelo.IappSprints;
 import com.ccit.web.util.WebUtil;
 import java.io.Serializable;
 import java.util.Calendar;
@@ -26,8 +26,8 @@ import javax.faces.event.ActionEvent;
 @SessionScoped
 public class ModulosBean implements Serializable {
 
-    private IappCursos editCourse;
-    private IappModulos module;
+    private IappCourses editCourse;
+    private IappSprints module;
     private String messaje;
     private boolean showDialog; 
 
@@ -69,24 +69,24 @@ public class ModulosBean implements Serializable {
     }
     
     public String createModule(){
-        module= new IappModulos();
+        module= new IappSprints();
         module.setIdCurso(editCourse);
         return "editarModulo";
     }
     
-    public IappCursos getEditCourse() {
+    public IappCourses getEditCourse() {
         return editCourse;
     }
 
-    public void setEditCourse(IappCursos editCourse) {
+    public void setEditCourse(IappCourses editCourse) {
         this.editCourse = editCourse;
     }
 
-    public IappModulos getModule() {
+    public IappSprints getModule() {
         return module;
     }
 
-    public void setModule(IappModulos module) {
+    public void setModule(IappSprints module) {
         this.module = module;
     }
 

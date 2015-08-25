@@ -7,7 +7,7 @@ package com.ccit.web.bean.pass;
 import com.ccit.ejb.dto.FiltroUsuariosDto;
 import com.ccit.ejb.fachada.GeneralFacadeBean;
 import com.ccit.ejb.fachada.UsuariosFacade;
-import com.ccit.ejb.modelo.IappUsuario;
+import com.ccit.ejb.modelo.IappUser;
 import com.ccit.ejb.utilidades.EncrytUtil;
 import com.ccit.exception.IappException;
 import java.io.Serializable;
@@ -37,7 +37,7 @@ public class LostPassBean implements Serializable {
    
     @EJB
     private GeneralFacadeBean generalFacade;
-    private IappUsuario userOnline;   
+    private IappUser userOnline;   
     private String tmpPass;
     private static ResourceBundle bundle = null;
     
@@ -45,7 +45,7 @@ public class LostPassBean implements Serializable {
     @PostConstruct
     public void init() {
         System.out.println("Init LostPassBean");
-        userOnline = new IappUsuario();
+        userOnline = new IappUser();
         
         bundle = ResourceBundle.getBundle("dynamic");
         
@@ -63,10 +63,10 @@ public class LostPassBean implements Serializable {
         dto.setNumeroDoc(userOnline.getNumeroDoc());
         dto.setCodigo(userOnline.getCodigo());
         
-        List<IappUsuario> consulta = usuariosFacade.getEstudiantes(dto);
+        List<IappUser> consulta = usuariosFacade.getEstudiantes(dto);
         
         if(!consulta.isEmpty()){
-            IappUsuario usuario = consulta.get(0);
+            IappUser usuario = consulta.get(0);
             String newPassword = EncrytUtil.nextSessionId();
             tmpPass= newPassword;
             usuario.setPasswd(EncrytUtil.encrypPwd(tmpPass));
@@ -74,7 +74,7 @@ public class LostPassBean implements Serializable {
             try {
                 usuariosFacade.merge(usuario);
                 sendEmail(usuario);               
-                userOnline = new IappUsuario();
+                userOnline = new IappUser();
                 tmpPass="";
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Se ha enviando un email con su nueva contraseña, Gracias"));
             } catch (IappException ex) {
@@ -96,7 +96,7 @@ public class LostPassBean implements Serializable {
 
     
 
-    private void sendEmail(IappUsuario user) {
+    private void sendEmail(IappUser user) {
         try {
             StringBuilder body = new StringBuilder();
             body.append("<div>");
@@ -137,11 +137,11 @@ public class LostPassBean implements Serializable {
     
 
     
-    public IappUsuario getUserOnline() {
+    public IappUser getUserOnline() {
         return userOnline;
     }
 
-    public void setUserOnline(IappUsuario userOnline) {
+    public void setUserOnline(IappUser userOnline) {
         this.userOnline = userOnline;
     }
 

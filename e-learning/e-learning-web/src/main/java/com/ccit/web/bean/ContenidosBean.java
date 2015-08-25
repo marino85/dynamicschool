@@ -7,8 +7,8 @@ package com.ccit.web.bean;
 import com.ccit.ejb.constants.Constants;
 import com.ccit.ejb.dto.UsuarioDTo;
 import com.ccit.ejb.fachada.ContenidosFacade;
-import com.ccit.ejb.modelo.IappContenidos;
-import com.ccit.ejb.modelo.IappModulos;
+import com.ccit.ejb.modelo.IappContent;
+import com.ccit.ejb.modelo.IappSprints;
 import com.ccit.exception.IappException;
 import com.ccit.web.util.WebUtil;
 import java.io.*;
@@ -37,8 +37,8 @@ public class ContenidosBean implements Serializable {
 
     @EJB
     ContenidosFacade contenidosFacade;
-    private IappModulos editModule;
-    private IappContenidos contenido;
+    private IappSprints editModule;
+    private IappContent contenido;
     private String messaje;
     private boolean verConfirmacion, verMensaje;
     private boolean nuevoContenidoDialog, verContenidoDialog, reproducirAudio, reproducirVideo;
@@ -54,7 +54,7 @@ public class ContenidosBean implements Serializable {
     @PostConstruct
     public void init() {
         Logger.getLogger(ContenidosBean.class.getName()).log(Level.INFO, "Inicia Contenido Bean");
-         contenido = new IappContenidos();
+         contenido = new IappContent();
     }
 
     public void eliminarContenido() {
@@ -168,7 +168,7 @@ public class ContenidosBean implements Serializable {
     }
 
     public void createContenido() {
-        contenido = new IappContenidos();
+        contenido = new IappContent();
         contenido.setIdModulo(editModule);
         setNuevoContenidoDialog(true);
     }
@@ -283,11 +283,11 @@ public class ContenidosBean implements Serializable {
         setVerContenidoDialog(true);
     }
 
-    public IappModulos getEditModule() {
+    public IappSprints getEditModule() {
         return editModule;
     }
 
-    public void setEditModule(IappModulos editModule) {
+    public void setEditModule(IappSprints editModule) {
         this.editModule = editModule;
     }
 
@@ -315,11 +315,11 @@ public class ContenidosBean implements Serializable {
         this.verMensaje = verMensaje;
     }
 
-    public IappContenidos getContenido() {
+    public IappContent getContenido() {
         return contenido;
     }
 
-    public void setContenido(IappContenidos contenido) {
+    public void setContenido(IappContent contenido) {
         this.contenido = contenido;
     }
 

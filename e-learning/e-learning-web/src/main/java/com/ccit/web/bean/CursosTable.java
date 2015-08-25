@@ -5,7 +5,7 @@
 package com.ccit.web.bean;
 
 import com.ccit.ejb.fachada.CursosFacade;
-import com.ccit.ejb.modelo.IappCursos;
+import com.ccit.ejb.modelo.IappCourses;
 import com.ccit.exception.IappException;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -26,9 +26,9 @@ public class CursosTable implements Serializable{
     @EJB
     private CursosFacade cursosFacade;
     
-    private ArrayList<IappCursos> selectedRows= new ArrayList<IappCursos>();
-    private IappCursos courseDelete;
-    private List<IappCursos> courses;
+    private ArrayList<IappCourses> selectedRows= new ArrayList<IappCourses>();
+    private IappCourses courseDelete;
+    private List<IappCourses> courses;
     private boolean showDialog=false;
 
     /**
@@ -83,27 +83,27 @@ public class CursosTable implements Serializable{
         this.showDialog = showDialog;
     }
 
-    public IappCursos getCourseDelete() {
+    public IappCourses getCourseDelete() {
         return courseDelete;
     }
 
-    public void setCourseDelete(IappCursos courseDelete) {
+    public void setCourseDelete(IappCourses courseDelete) {
         this.courseDelete = courseDelete;
     }
 
-    public List<IappCursos> getCourses() {
+    public List<IappCourses> getCourses() {
         return courses;
     }
 
-    public void setCourses(List<IappCursos> courses) {
+    public void setCourses(List<IappCourses> courses) {
         this.courses = courses;
     }
 
-    public ArrayList<IappCursos> getSelectedRows() {
+    public ArrayList<IappCourses> getSelectedRows() {
         return selectedRows;
     }
 
-    public void setSelectedRows(ArrayList<IappCursos> selectedRows) {
+    public void setSelectedRows(ArrayList<IappCourses> selectedRows) {
         this.selectedRows = selectedRows;
     }
 }

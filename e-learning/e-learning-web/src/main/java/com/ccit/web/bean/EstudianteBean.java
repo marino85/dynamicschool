@@ -6,7 +6,7 @@ package com.ccit.web.bean;
 
 import com.ccit.ejb.dto.UsuarioDTo;
 import com.ccit.ejb.fachada.UsuariosFacade;
-import com.ccit.ejb.modelo.IappUsuario;
+import com.ccit.ejb.modelo.IappUser;
 import com.ccit.web.util.WebUtil;
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
@@ -26,7 +26,7 @@ public class EstudianteBean implements Serializable {
     private UsuariosFacade usuariosFacade;
     
     
-    private IappUsuario estudiante;
+    private IappUser estudiante;
     private String messaje;
     private boolean showDialog;
 
@@ -72,11 +72,11 @@ public class EstudianteBean implements Serializable {
         
     }
 
-    public IappUsuario getEstudiante() {
+    public IappUser getEstudiante() {
         return estudiante;
     }
 
-    public void setEstudiante(IappUsuario estudiante) {
+    public void setEstudiante(IappUser estudiante) {
         this.estudiante = estudiante;
     }
 

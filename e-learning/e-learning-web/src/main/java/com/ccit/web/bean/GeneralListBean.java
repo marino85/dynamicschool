@@ -28,49 +28,29 @@ public class GeneralListBean implements Serializable {
     @EJB
     private UsuariosFacade usuariosFacade;
     
-    private List<IappUsuario> usuarios = new ArrayList<IappUsuario>();
-    private List<IappEstadosCurso> estadosCurso = new ArrayList<IappEstadosCurso>();
-    private List<IappNiveles> nivelesCurso = new ArrayList<IappNiveles>();
+    private List<IappUser> usuarios = new ArrayList<IappUser>();
+  
     private List<IappPerfiles> perfiles = new ArrayList<IappPerfiles>();
     private List<IappJornada> jornada = new ArrayList<IappJornada>();
-    private List<IappTipoDocumento> tiposDoc = new ArrayList<IappTipoDocumento>();
-    private List<IappEstadoUsuario> estadosUsuario = new ArrayList<IappEstadoUsuario>();
-    private List<IappCursos> cursos= new ArrayList<IappCursos>();
-    private List<IappAulas>  aulas= new ArrayList<IappAulas> ();
-    private List<IappSede> sedes = new ArrayList<IappSede>();
-    private List<IappClase> clases = new ArrayList<IappClase>();
-    private List<IappRespuestas> respuesta = new ArrayList<IappRespuestas>();
-    private List <IappUsuario> estudiantesList = new ArrayList<IappUsuario>();
+  
+    private List<IappCourses> cursos= new ArrayList<IappCourses>();
+  
+    private List<IappTestQuestionAnswers> respuesta = new ArrayList<IappTestQuestionAnswers>();
+    private List <IappUser> estudiantesList = new ArrayList<IappUser>();
     
     public GeneralListBean() {
     }
 
-    public List<IappUsuario> getUsuarios() {
+    public List<IappUser> getUsuarios() {
         usuarios = usuariosFacade.consultarUsuariosPorPerfil(Constants.PERFIL_PROFESOR);
         return usuarios;
     }
 
-    public void setUsuarios(List<IappUsuario> usuarios) {
+    public void setUsuarios(List<IappUser> usuarios) {
         this.usuarios = usuarios;
     }
 
-    public List<IappNiveles> getNivelesCurso() {
-        nivelesCurso = generalFacadeBean.consultarNivelesCurso();
-        return nivelesCurso;
-    }
-
-    public void setNivelesCurso(List<IappNiveles> nivelesCurso) {
-        this.nivelesCurso = nivelesCurso;
-    }
-
-    public List<IappEstadosCurso> getEstadosCurso() {
-        estadosCurso = generalFacadeBean.consultarEstadosCurso();
-        return estadosCurso;
-    }
-
-    public void setEstadosCurso(List<IappEstadosCurso> estadosCurso) {
-        this.estadosCurso = estadosCurso;
-    }    
+     
 
     public List<IappJornada> getJornada() {
         jornada  = generalFacadeBean.consultarJornada();
@@ -90,78 +70,37 @@ public class GeneralListBean implements Serializable {
         this.perfiles = perfiles;
     }
 
-    public List<IappTipoDocumento> getTiposDoc() {
-        tiposDoc = generalFacadeBean.consultarTipoDoc();
-        return tiposDoc;
-    }
-
-    public void setTiposDoc(List<IappTipoDocumento> tiposDoc) {
-        this.tiposDoc = tiposDoc;
-    }
-
-    public List<IappEstadoUsuario> getEstadosUsuario() {
-        estadosUsuario = generalFacadeBean.consultarEstadosUsuario();
-        return estadosUsuario;
-    }
-
-    public void setEstadosUsuario(List<IappEstadoUsuario> estadosUsuario) {
-        this.estadosUsuario = estadosUsuario;
-    }
-    public List<IappAulas> getAulas() {
-        this.setAulas(generalFacadeBean.findAllAulas());
-        return aulas;
-    }
-
-    public void setAulas(List<IappAulas> aulas) {
-        this.aulas = aulas;
-    }
-
-    public List<IappCursos> getCursos() {
-        this.setCursos(generalFacadeBean.findCoursesByType(Constants.CURSO_PRESENCIAL));
+   
+    public List<IappCourses> getCursos() {
+        //this.setCursos(generalFacadeBean.findCoursesByType(Constants.CURSO_PRESENCIAL));
         return cursos;
     }
 
-    public void setCursos(List<IappCursos> cursos) {
+    public void setCursos(List<IappCourses> cursos) {
         this.cursos = cursos;
     }
 
-    public List<IappClase> getClases() {
-        this.setClases(generalFacadeBean.findAllClases());
-        return clases;
-    }
+ 
 
-    public void setClases(List<IappClase> clases) {
-        this.clases = clases;
-    }
-
-    public List<IappSede> getSedes() {
-        this.setSedes(generalFacadeBean.finAllSedes());
-        return sedes;
-    }
-
-    public void setSedes(List<IappSede> sedes) {
-        this.sedes = sedes;
-    }
-
-    public List<IappRespuestas> getRespuesta() {
+    public List<IappTestQuestionAnswers> getRespuesta() {
         return respuesta;
     }
 
-    public void setRespuesta(List<IappRespuestas> respuesta) {
+    public void setRespuesta(List<IappTestQuestionAnswers> respuesta) {
         this.respuesta = respuesta;
     }
 
-    public List<IappUsuario> getEstudiantesList(IappCursos editCourse) {
+    public List<IappUser> getEstudiantesList(IappCourses editCourse) {
         estudiantesList = usuariosFacade.getEstudiantes(editCourse);
 //        estudiantesList = usuariosFacade.getEstudiantesActivos();
         return estudiantesList;
     }
 
-    public List<IappUsuario> getEstudiantesList() {
+    public List<IappUser> getEstudiantesList() {
         return estudiantesList;
     }
 
-    public void setEstudiantesList(List<IappUsuario> estudiantesList) {
+    public void setEstudiantesList(List<IappUser> estudiantesList) {
         this.estudiantesList = estudiantesList;
     }
 }

@@ -6,8 +6,8 @@ package com.ccit.web.bean;
 
 import com.ccit.ejb.dto.UsuarioDTo;
 import com.ccit.ejb.fachada.UsuariosFacade;
-import com.ccit.ejb.modelo.IappCursos;
-import com.ccit.ejb.modelo.IappUsuario;
+import com.ccit.ejb.modelo.IappCourses;
+import com.ccit.ejb.modelo.IappUser;
 import com.ccit.web.util.WebUtil;
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
@@ -26,8 +26,8 @@ public class UsuarioAutenticadoBean implements Serializable {
     @EJB
     private UsuariosFacade usuariosFacade;
 
-    IappUsuario user;
-    IappCursos viewedCourse;
+    IappUser user;
+    IappCourses viewedCourse;
     
     /**
      * Creates a new instance of UsuariosBean
@@ -46,19 +46,19 @@ public class UsuarioAutenticadoBean implements Serializable {
          return u;
     }
 
-    public IappUsuario getUser() {
+    public IappUser getUser() {
         return user;
     }
 
-    public void setUser(IappUsuario user) {
+    public void setUser(IappUser user) {
         this.user = user;
     }
 
-    public IappCursos getViewedCourse() {
+    public IappCourses getViewedCourse() {
         return viewedCourse;
     }
 
-    public void setViewedCourse(IappCursos viewedCourse) {
+    public void setViewedCourse(IappCourses viewedCourse) {
         this.viewedCourse = viewedCourse;
     }
     

@@ -6,9 +6,9 @@ package com.ccit.web.bean;
 
 import com.ccit.ejb.fachada.CursosFacade;
 import com.ccit.ejb.fachada.impl.IappMatriculasFacade;
-import com.ccit.ejb.modelo.IappCursos;
-import com.ccit.ejb.modelo.IappMatriculas;
-import com.ccit.ejb.modelo.IappUsuario;
+import com.ccit.ejb.modelo.IappCourses;
+import com.ccit.ejb.modelo.IappEnrollments;
+import com.ccit.ejb.modelo.IappUser;
 import com.ccit.exception.IappException;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -35,8 +35,8 @@ public class MatriculasBean implements Serializable {
     private CursosFacade cursosFacade;
     @EJB
     private IappMatriculasFacade mFacade;
-    private List<IappCursos> courses = new ArrayList<IappCursos>();
-    private IappUsuario usuario;
+    private List<IappCourses> courses = new ArrayList<IappCourses>();
+    private IappUser usuario;
 
     /**
      * Creates a new instance of UsuariosBean
@@ -62,10 +62,10 @@ public class MatriculasBean implements Serializable {
         return "consultarEstudiante";
     }
 
-    public void inscribir(IappCursos curso) {
+    public void inscribir(IappCourses curso) {
         try {
 
-            IappMatriculas m = new IappMatriculas();
+            IappEnrollments m = new IappEnrollments();
             m.setIdUsuario(usuario);
             m.setIdCurso(curso);
             m.setFechaCreacion(new Date());
@@ -87,10 +87,10 @@ public class MatriculasBean implements Serializable {
 
     }
 
-    public void eliminar(IappCursos curso) {
+    public void eliminar(IappCourses curso) {
         try {
 
-            for (IappMatriculas matricula : curso.getIappMatriculasCollection()) {
+            for (IappEnrollments matricula : curso.getIappMatriculasCollection()) {
                 if (matricula.getIdUsuario().getIdUsuario().intValue()
                         == this.usuario.getIdUsuario().intValue()) {
                     mFacade.remove(matricula);
@@ -107,10 +107,10 @@ public class MatriculasBean implements Serializable {
 
     }
 
-    public boolean estaInscrito(IappCursos curso) {
+    public boolean estaInscrito(IappCourses curso) {
 
 
-        for (IappMatriculas matricula : curso.getIappMatriculasCollection()) {
+        for (IappEnrollments matricula : curso.getIappMatriculasCollection()) {
             if (matricula.getIdUsuario().getIdUsuario().intValue()
                     == this.usuario.getIdUsuario().intValue()) {
                 return true;
@@ -119,19 +119,19 @@ public class MatriculasBean implements Serializable {
         return false;
     }
 
-    public List<IappCursos> getCourses() {
+    public List<IappCourses> getCourses() {
         return courses;
     }
 
-    public void setCourses(List<IappCursos> courses) {
+    public void setCourses(List<IappCourses> courses) {
         this.courses = courses;
     }
 
-    public IappUsuario getUsuario() {
+    public IappUser getUsuario() {
         return usuario;
     }
 
-    public void setUsuario(IappUsuario usuario) {
+    public void setUsuario(IappUser usuario) {
         this.usuario = usuario;
     }
 }

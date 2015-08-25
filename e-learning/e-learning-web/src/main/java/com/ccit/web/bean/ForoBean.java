@@ -7,7 +7,7 @@ package com.ccit.web.bean;
 import com.ccit.ejb.dto.UsuarioDTo;
 import com.ccit.ejb.fachada.ForoFacade;
 import com.ccit.ejb.modelo.IappForo;
-import com.ccit.ejb.modelo.IappModulos;
+import com.ccit.ejb.modelo.IappSprints;
 import com.ccit.exception.IappException;
 import com.ccit.web.util.WebUtil;
 import java.util.Date;
@@ -28,7 +28,7 @@ public class ForoBean {
 
     @EJB
     private ForoFacade foroFacade;
-    private IappModulos editModule;
+    private IappSprints editModule;
     private IappForo newForo;
     private IappForo editForo;
     private IappForo foroSeleccionado;
@@ -156,11 +156,11 @@ public class ForoBean {
         this.newForo = newForo;
     }
 
-    public IappModulos getEditModule() {
+    public IappSprints getEditModule() {
         return editModule;
     }
 
-    public void setEditModule(IappModulos editModule) {
+    public void setEditModule(IappSprints editModule) {
         this.editModule = editModule;
     }
 

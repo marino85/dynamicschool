@@ -28,19 +28,17 @@ public class UsuariosBean implements Serializable {
 
     @EJB
     private UsuariosFacade usuariosFacade;
-    private IappUsuario newUser;
-    private IappUsuario editUser;
+    private IappUser newUser;
+    private IappUser editUser;
     private boolean showDialog = false;
     private String messaje;
 
     @PostConstruct
     public void init() {
-        newUser = new IappUsuario();
+        newUser = new IappUser();
         newUser.setIdJornada(new IappJornada());
         newUser.setIdPerfil(new IappPerfiles());
-        newUser.setEstadoUsuario(new IappEstadoUsuario());
-        newUser.setIdNivel(new IappNiveles());
-        this.newUser.setTipoDoc(new IappTipoDocumento());
+    
     }
 
     public void modificar(ActionEvent evt) {
@@ -74,10 +72,10 @@ public class UsuariosBean implements Serializable {
                 return;
             }
             try {
-                if (usuariosFacade.findUser(newUser.getNumeroDoc(), newUser.getTipoDoc().getIdTipoDoc()) != null) {
-                    this.setMessaje("El usuario ya existe");
-                    return;
-                }
+//                if (usuariosFacade.findUser(newUser.getNumeroDoc(), newUser.getTipoDoc().getIdTipoDoc()) != null) {
+//                    this.setMessaje("El usuario ya existe");
+//                    return;
+//                }
             } catch (Exception e) {
                 System.out.println("");
             }
@@ -86,7 +84,7 @@ public class UsuariosBean implements Serializable {
             newUser.setPasswd(EncrytUtil.encrypPwd(newUser.getNumeroDoc()));
             newUser.setIdUsuario(null);
             if (!newUser.getIdPerfil().getIdPerfil().equals(Constants.PERFIL_ESTUDIANTE)) {
-                newUser.setIdNivel(new IappNiveles(1));
+              //  newUser.setIdNivel(new IappNiveles(1));
             }
             usuariosFacade.crearUsuario(newUser);
             this.setMessaje("El usuario se ha creado con Exito");
@@ -107,19 +105,19 @@ public class UsuariosBean implements Serializable {
     public void aceptar(ActionEvent evt) {
         this.setMessaje("");
         this.showDialog = false;
-        this.newUser = new IappUsuario();
+        this.newUser = new IappUser();
         this.newUser.setIdJornada(new IappJornada());
         this.newUser.setIdPerfil(new IappPerfiles(-1));
-        this.newUser.setEstadoUsuario(new IappEstadoUsuario());
-        this.newUser.setTipoDoc(new IappTipoDocumento());
-        this.newUser.setIdNivel(new IappNiveles());
+//        this.newUser.setEstadoUsuario(new IappEstadoUsuario());
+//        this.newUser.setTipoDoc(new IappDocumentType());
+//        this.newUser.setIdNivel(new IappNiveles());
     }
 
-    public IappUsuario getNewUser() {
+    public IappUser getNewUser() {
         return newUser;
     }
 
-    public void setNewUser(IappUsuario newUser) {
+    public void setNewUser(IappUser newUser) {
         this.newUser = newUser;
     }
 
@@ -139,11 +137,11 @@ public class UsuariosBean implements Serializable {
         this.messaje = messaje;
     }
 
-    public IappUsuario getEditUser() {
+    public IappUser getEditUser() {
         return editUser;
     }
 
-    public void setEditUser(IappUsuario editUser) {
+    public void setEditUser(IappUser editUser) {
         this.editUser = editUser;
     }
 

@@ -24,10 +24,10 @@ public class CalDocenteBean {
 
     @EJB
     private CursosFacade cF;
-    private IappCursos curso;
-    private IappMatriculas matricula;
+    private IappCourses curso;
+    private IappEnrollments matricula;
     private Double notaFinal;
-    private IappCalCurso calCurso;
+    private IappQualificationCourse calCurso;
 
     @PostConstruct
     public void init() {
@@ -36,7 +36,7 @@ public class CalDocenteBean {
     public void calificarCurso() {
         calCurso = matricula.getIappCalCurso();
         if (calCurso == null) {
-            calCurso = new IappCalCurso();
+            calCurso = new IappQualificationCourse();
             
         }
         calCurso.setIdMatricula(matricula.getIdMatricula());
@@ -69,9 +69,9 @@ public class CalDocenteBean {
 
     public double getPromedioTrabajos() {
 
-        List<IappCalAsignaciones> trabajos = (List<IappCalAsignaciones>) matricula.getIappCalAsignacionesCollection();
+        List<IappQualificationHomeWorks> trabajos = (List<IappQualificationHomeWorks>) matricula.getIappCalAsignacionesCollection();
         BigDecimal sum = BigDecimal.ZERO;
-        for (IappCalAsignaciones iappCalAsignaciones : trabajos) {
+        for (IappQualificationHomeWorks iappCalAsignaciones : trabajos) {
             if (iappCalAsignaciones.getCalificacion() != null) {
                 sum = sum.add(iappCalAsignaciones.getCalificacion());
             }
@@ -83,9 +83,9 @@ public class CalDocenteBean {
 
     public double getPromedioEvaluaciones() {
 
-        List<IappCalEvaluacion> evaluaciones = (List<IappCalEvaluacion>) matricula.getIappCalEvaluacionCollection();
+        List<IappTestResult> evaluaciones = (List<IappTestResult>) matricula.getIappCalEvaluacionCollection();
         BigDecimal sum = BigDecimal.ZERO;
-        for (IappCalEvaluacion iappCalEvaluacion : evaluaciones) {
+        for (IappTestResult iappCalEvaluacion : evaluaciones) {
             if (iappCalEvaluacion.getCalificacion() != null) {
                 sum = sum.add(iappCalEvaluacion.getCalificacion());
             }
@@ -95,23 +95,23 @@ public class CalDocenteBean {
         return sum.doubleValue() / evaluaciones.size();
     }
 
-    public IappCursos getCurso() {
+    public IappCourses getCurso() {
         return curso;
     }
 
-    public void setCurso(IappCursos curso) {
+    public void setCurso(IappCourses curso) {
         this.curso = curso;
     }
 
-    public IappMatriculas getMatricula() {
+    public IappEnrollments getMatricula() {
         return matricula;
     }
 
-    public void setMatricula(IappMatriculas matricula) {
+    public void setMatricula(IappEnrollments matricula) {
         this.matricula = matricula;
         
         if(this.matricula.getIappCalCurso()==null)
-            this.matricula.setIappCalCurso(new IappCalCurso());
+            this.matricula.setIappCalCurso(new IappQualificationCourse());
     }
 
     public Double getNotaFinal() {
@@ -122,11 +122,11 @@ public class CalDocenteBean {
         this.notaFinal = notaFinal;
     }
 
-    public IappCalCurso getCalCurso() {
+    public IappQualificationCourse getCalCurso() {
         return calCurso;
     }
 
-    public void setCalCurso(IappCalCurso calCurso) {
+    public void setCalCurso(IappQualificationCourse calCurso) {
         this.calCurso = calCurso;
     }
 

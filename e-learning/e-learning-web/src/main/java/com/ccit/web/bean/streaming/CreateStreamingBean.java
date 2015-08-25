@@ -7,10 +7,10 @@ package com.ccit.web.bean.streaming;
 import com.ccit.ejb.constants.Constants;
 import com.ccit.ejb.fachada.impl.IappStreamingEstudianteFacade;
 import com.ccit.ejb.fachada.impl.IappStreamingFacade;
-import com.ccit.ejb.modelo.IappCursos;
+import com.ccit.ejb.modelo.IappCourses;
 import com.ccit.ejb.modelo.IappStreaming;
 import com.ccit.ejb.modelo.IappStreamingEstudiante;
-import com.ccit.ejb.modelo.IappUsuario;
+import com.ccit.ejb.modelo.IappUser;
 import com.ccit.exception.IappException;
 import com.ccit.web.util.BigBlueButtonAPI;
 import com.ccit.web.util.WebUtil;
@@ -49,8 +49,8 @@ public class CreateStreamingBean {
     private List<IappStreamingEstudiante> listadoEstudiantes;
     private List<IappStreamingEstudiante> listadoClasesEstudiantes;
     private IappStreaming claseSelected;
-    private IappCursos curso;
-    private IappUsuario estudiante;
+    private IappCourses curso;
+    private IappUser estudiante;
 
     @PostConstruct
     public void init() {
@@ -80,7 +80,7 @@ public class CreateStreamingBean {
         this.setMostrarInscribirEstudiantes(true);
     }
 
-    public void inscribirEstudiante(IappUsuario usuario) {
+    public void inscribirEstudiante(IappUser usuario) {
 
         IappStreamingEstudiante nuevoEstudiante = new IappStreamingEstudiante();
         nuevoEstudiante.setIdUsuario(usuario);
@@ -114,7 +114,7 @@ public class CreateStreamingBean {
             streaming.setIdMeeting(nombreClase);
             streaming.setNombreMeeting(nombreClase);
             // streaming.setUrlJoinModerator(joinUrl);
-            streaming.setIdUsuario(new IappUsuario(WebUtil.getUsuarioInsession().getIdUsuario()));
+            streaming.setIdUsuario(new IappUser(WebUtil.getUsuarioInsession().getIdUsuario()));
             streaming.setEstado(Constants.ESTADO_ONLINE_CREADO);
             streaming.setIdCurso(curso);
             streaming.setFechaCreacion(new Date());
@@ -233,7 +233,7 @@ public class CreateStreamingBean {
         this.listadoClases = listadoClases;
     }
 
-    public IappCursos getCurso() {
+    public IappCourses getCurso() {
         return curso;
     }
 
@@ -245,7 +245,7 @@ public class CreateStreamingBean {
         this.claseSelected = claseSelected;
     }
 
-    public void setCurso(IappCursos curso) {
+    public void setCurso(IappCourses curso) {
         this.curso = curso;
     }
 

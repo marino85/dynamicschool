@@ -5,7 +5,7 @@
 package com.ccit.web.bean;
 
 import com.ccit.ejb.fachada.NoticiasFacade;
-import com.ccit.ejb.modelo.IappNoticias;
+import com.ccit.ejb.modelo.IappNews;
 import com.ccit.exception.IappException;
 import java.io.Serializable;
 import java.util.Date;
@@ -30,18 +30,18 @@ public class NoticiasBean implements Serializable{
     
     
 
-    private IappNoticias newNoticia;
-    private IappNoticias viewNoticia;
-    private IappNoticias editNoticia;
-    private List<IappNoticias> noticias;
-    private List<IappNoticias> lastNews;
+    private IappNews newNoticia;
+    private IappNews viewNoticia;
+    private IappNews editNoticia;
+    private List<IappNews> noticias;
+    private List<IappNews> lastNews;
     private boolean showDialog=false;
     private boolean showNoticia=false;
      private String messaje;
     @PostConstruct
     public void init(){
-        newNoticia=new IappNoticias();
-        editNoticia=new IappNoticias();
+        newNoticia=new IappNews();
+        editNoticia=new IappNews();
         buscarNoticias();
         findLastNews();
     }
@@ -110,23 +110,23 @@ public class NoticiasBean implements Serializable{
      public void aceptar(ActionEvent evt){
         this.setMessaje("");
         this.setShowDialog(false);
-        this.setNewNoticia(new IappNoticias());
-        //this.setEditNoticia(new IappNoticias());
+        this.setNewNoticia(new IappNews());
+        //this.setEditNoticia(new IappNews());
         buscarNoticias();
     }
-    public IappNoticias getEditNoticia() {
+    public IappNews getEditNoticia() {
         return editNoticia;
     }
 
-    public void setEditNoticia(IappNoticias editNoticia) {
+    public void setEditNoticia(IappNews editNoticia) {
         this.editNoticia = editNoticia;
     }
 
-    public IappNoticias getNewNoticia() {
+    public IappNews getNewNoticia() {
         return newNoticia;
     }
 
-    public void setNewNoticia(IappNoticias newNoticia) {
+    public void setNewNoticia(IappNews newNoticia) {
         this.newNoticia = newNoticia;
     }
     
@@ -146,19 +146,19 @@ public class NoticiasBean implements Serializable{
         this.messaje = messaje;
     }
 
-    public List<IappNoticias> getNoticias() {
+    public List<IappNews> getNoticias() {
         return noticias;
     }
 
-    public void setNoticias(List<IappNoticias> noticias) {
+    public void setNoticias(List<IappNews> noticias) {
         this.noticias = noticias;
     }
 
-    public IappNoticias getViewNoticia() {
+    public IappNews getViewNoticia() {
         return viewNoticia;
     }
 
-    public void setViewNoticia(IappNoticias viewNoticia) {
+    public void setViewNoticia(IappNews viewNoticia) {
         this.viewNoticia = viewNoticia;
     }
 
@@ -170,11 +170,11 @@ public class NoticiasBean implements Serializable{
         this.showNoticia = showNoticia;
     }
 
-    public List<IappNoticias> getLastNews() {
+    public List<IappNews> getLastNews() {
         return lastNews;
     }
 
-    public void setLastNews(List<IappNoticias> lastNews) {
+    public void setLastNews(List<IappNews> lastNews) {
         this.lastNews = lastNews;
     }
     

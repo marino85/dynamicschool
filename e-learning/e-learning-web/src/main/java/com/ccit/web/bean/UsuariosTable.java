@@ -6,7 +6,7 @@ package com.ccit.web.bean;
 
 import com.ccit.ejb.dto.FiltroUsuariosDto;
 import com.ccit.ejb.fachada.UsuariosFacade;
-import com.ccit.ejb.modelo.IappUsuario;
+import com.ccit.ejb.modelo.IappUser;
 import com.ccit.exception.IappException;
 import com.ccit.web.util.Paginador;
 import java.awt.event.ActionEvent;
@@ -35,11 +35,11 @@ public class UsuariosTable implements Serializable{
     
    
     
-    private ArrayList<IappUsuario> selectedRows= new ArrayList<IappUsuario>();
+    private ArrayList<IappUser> selectedRows= new ArrayList<IappUser>();
     
-    private IappUsuario userDelete;
+    private IappUser userDelete;
     
-    private List<IappUsuario> users;
+    private List<IappUser> users;
     
     private boolean showDialog=false;
     
@@ -88,11 +88,11 @@ public class UsuariosTable implements Serializable{
         users=usuariosFacade.getEstudiantes(this.filtroUsuarios);
     }
 
-    public List<IappUsuario> getUsers() {
+    public List<IappUser> getUsers() {
         return users;
     }
 
-    public void setUsers(List<IappUsuario> users) {
+    public void setUsers(List<IappUser> users) {
         this.users = users;
     }
     
@@ -134,19 +134,19 @@ public class UsuariosTable implements Serializable{
 
    
 
-    public ArrayList<IappUsuario> getSelectedRows() {
+    public ArrayList<IappUser> getSelectedRows() {
         return selectedRows;
     }
 
-    public void setSelectedRows(ArrayList<IappUsuario> selectedRows) {
+    public void setSelectedRows(ArrayList<IappUser> selectedRows) {
         this.selectedRows = selectedRows;
     }
 
-    public IappUsuario getUserDelete() {
+    public IappUser getUserDelete() {
         return userDelete;
     }
 
-    public void setUserDelete(IappUsuario userDelete) {
+    public void setUserDelete(IappUser userDelete) {
         this.userDelete = userDelete;
     }
 

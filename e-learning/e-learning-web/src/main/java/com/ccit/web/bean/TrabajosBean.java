@@ -37,18 +37,18 @@ public class TrabajosBean implements Serializable {
     TrabajosFacade trabajosFacade;
     @EJB
     CursosFacade cursoFacade;
-    private IappModulos editModule;
-    private IappAsignaciones trabajo;
-    private IappCalAsignaciones calificacion;
-    private IappEntregas entrega;
+    private IappSprints editModule;
+    private IappHomeWorks trabajo;
+    private IappQualificationHomeWorks calificacion;
+    private IappSentFiles entrega;
     private String messaje;
     private boolean verTrabajoDialog;
     private boolean verConfirmacion, verMensaje, verCalificacion;
     private boolean nuevoTrabajoDialog;
-    private IappMatriculas matricula;
+    private IappEnrollments matricula;
     private UploadedFile uploadFile;
     private StreamedContent downloadFile;
-    private List<IappMatriculas> matriculas = new ArrayList<IappMatriculas>();
+    private List<IappEnrollments> matriculas = new ArrayList<IappEnrollments>();
     private String codigo;
     private String nombres;
 
@@ -61,7 +61,7 @@ public class TrabajosBean implements Serializable {
 
     @PostConstruct
     public void init() {
-        trabajo = new IappAsignaciones();
+        trabajo = new IappHomeWorks();
         
         Logger.getLogger(this.getClass().getName()).log(Level.INFO, "Init Trabajos Bean");
     }
@@ -122,7 +122,7 @@ public class TrabajosBean implements Serializable {
         if (!trabajo.getIappEntregasCollection().isEmpty()) {
             try {
                 trabajosFacade.guardarEntregas(trabajo.iappEntregasFromUserCollection(matricula));
-                for (IappEntregas ent : trabajo.iappEntregasFromUserCollection(matricula)) {
+                for (IappSentFiles ent : trabajo.iappEntregasFromUserCollection(matricula)) {
                     WebUtil.writeFile(ent.getFileArray(), ent.getFile());
                 }
                 setMessaje("El trabajo ha sido enviado exitosamente.");
@@ -163,7 +163,7 @@ public class TrabajosBean implements Serializable {
     }
 
     public void createTrabajo() {
-        trabajo = new IappAsignaciones();
+        trabajo = new IappHomeWorks();
         trabajo.setIdModulo(editModule);
         setNuevoTrabajoDialog(true);
     }
@@ -212,7 +212,7 @@ public class TrabajosBean implements Serializable {
                 
                 SimpleDateFormat sf = new SimpleDateFormat("yyyyMMddHHmmssSSS");             
                 
-                IappEntregas ent = new IappEntregas();
+                IappSentFiles ent = new IappSentFiles();
                 ent.setDescripcion((event.getFile().getSize()) + "kb");
                 ent.setEstadoRegistro(Constants.REGISTRO_ACTIVO);
                 ent.setFechaCreacion(Calendar.getInstance().getTime());
@@ -239,7 +239,7 @@ public class TrabajosBean implements Serializable {
 
     }
     
-    public StreamedContent getCurrentUploadedFile(IappEntregas entrega) {
+    public StreamedContent getCurrentUploadedFile(IappSentFiles entrega) {
         
         try {
             String contentType = WebUtil.getContentType(entrega.getFile());
@@ -299,7 +299,7 @@ public class TrabajosBean implements Serializable {
 //        try {
 //            for (FileEntryResults.FileInfo i : results.getFiles()) {
 //                File file = i.getFile();
-//                IappEntregas ent = new IappEntregas();
+//                IappSentFiles ent = new IappSentFiles();
 //                ent.setDescripcion((i.getSize() / 1000) + "kb");
 //                ent.setEstadoRegistro(Constants.REGISTRO_ACTIVO);
 //                ent.setFechaCreacion(Calendar.getInstance().getTime());
@@ -319,12 +319,12 @@ public class TrabajosBean implements Serializable {
 //        } catch (IOException ex) {
 //        }
 //    }
-    public void calificarTrabajo(IappMatriculas matricula) {
+    public void calificarTrabajo(IappEnrollments matricula) {
         UsuarioDTo u = (UsuarioDTo) WebUtil.getObjectFromSession("userLogged");
         if (getTrabajo().calificacion(matricula) != null) {
             calificacion = getTrabajo().calificacion(matricula);
         } else {
-            calificacion = new IappCalAsignaciones();
+            calificacion = new IappQualificationHomeWorks();
             calificacion.setIdMatricula(matricula);
             calificacion.setIdAsignacion(trabajo);
             calificacion.setEstadoRegistro(Constants.REGISTRO_ACTIVO);
@@ -370,7 +370,7 @@ public class TrabajosBean implements Serializable {
 
     public void hideVerTrabajo() {
         setVerTrabajoDialog(false);
-        trabajo.setIappEntregasCollection(new ArrayList<IappEntregas>());
+        trabajo.setIappEntregasCollection(new ArrayList<IappSentFiles>());
     }
 
     public void confirmar() {
@@ -394,22 +394,22 @@ public class TrabajosBean implements Serializable {
         setVerTrabajoDialog(true);
     }
 
-    public IappModulos getEditModule() {
+    public IappSprints getEditModule() {
         return editModule;
     }
 
-    public void setEditModule(IappModulos editModule) {
+    public void setEditModule(IappSprints editModule) {
         this.editModule = editModule;
     }
 
-    public IappAsignaciones getTrabajo() {
+    public IappHomeWorks getTrabajo() {
         return trabajo;
     }
 
-    public void setTrabajo(IappAsignaciones trabajo) {
+    public void setTrabajo(IappHomeWorks trabajo) {
         this.trabajo = trabajo;
         if(trabajo.getIdModulo()!=null){
-        matriculas= new ArrayList<IappMatriculas>(this.trabajo.getIdModulo().getIdCurso().getIappMatriculasCollection());
+        matriculas= new ArrayList<IappEnrollments>(this.trabajo.getIdModulo().getIdCurso().getIappMatriculasCollection());
         }
     }
 
@@ -429,11 +429,11 @@ public class TrabajosBean implements Serializable {
         this.verTrabajoDialog = verTrabajoDialog;
     }
 
-    public IappMatriculas getMatricula() {
+    public IappEnrollments getMatricula() {
         return matricula;
     }
 
-    public void setMatricula(IappMatriculas matricula) {
+    public void setMatricula(IappEnrollments matricula) {
         this.matricula = matricula;
     }
 
@@ -461,19 +461,19 @@ public class TrabajosBean implements Serializable {
         this.verMensaje = verMensaje;
     }
 
-    public IappEntregas getEntrega() {
+    public IappSentFiles getEntrega() {
         return entrega;
     }
 
-    public void setEntrega(IappEntregas entrega) {
+    public void setEntrega(IappSentFiles entrega) {
         this.entrega = entrega;
     }
 
-    public IappCalAsignaciones getCalificacion() {
+    public IappQualificationHomeWorks getCalificacion() {
         return calificacion;
     }
 
-    public void setCalificacion(IappCalAsignaciones calificacion) {
+    public void setCalificacion(IappQualificationHomeWorks calificacion) {
         this.calificacion = calificacion;
     }
 
@@ -485,11 +485,11 @@ public class TrabajosBean implements Serializable {
         this.verCalificacion = verCalificacion;
     }
 
-    public List<IappMatriculas> getMatriculas() {
+    public List<IappEnrollments> getMatriculas() {
         return matriculas;
     }
 
-    public void setMatriculas(List<IappMatriculas> matriculas) {
+    public void setMatriculas(List<IappEnrollments> matriculas) {
         this.matriculas = matriculas;
     }
 
