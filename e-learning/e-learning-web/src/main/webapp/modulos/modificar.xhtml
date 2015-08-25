@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"  
+                template="/WEB-INF/template.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core">
+    <ui:define name="content">
+
+        <h:form id="cursos">
+            <p:panel header="EDITAR DATOS MODULO">
+                <p:messages/>
+                <h:panelGrid columns="1" width="100%">
+                    <h:panelGrid columns="2"> 
+                        <!--                    <f:facet name="header">
+                                                EDITAR DATOS MODULO
+                                            </f:facet>-->
+                        <p:outputLabel value="Nombre del modulo:"/>
+                        
+                        <p:inputText value="#{modulosBean.module.nombre}" 
+                                     required="true" 
+                                     requiredMessage="Nombre del Modulo Obligatorio"
+                                     maxlength="50"/>
+                        <p:outputLabel value="Descripción:"/>
+                       
+                        <p:inputTextarea value="#{modulosBean.module.descripcion}" 
+                                         required="true" 
+                                         cols="50"
+                                         rows="4"
+                                         autoResize="false"
+                                         maxlength="300"                                         
+                                         requiredMessage="Descripción del Modulo Obligatoria"
+                                        />
+                        <p:outputLabel value="Porcentaje del Modulo:"/>
+                        
+                        <p:inputText value="#{modulosBean.module.porcentaje}" 
+                                     required="true"
+                                     converterMessage="El porcentaje es un campo numerico Ej: 4.5%"
+                                     requiredMessage="Porcentaje del Modulo Obligatorio"
+                                     maxlength="6">
+                            <f:convertNumber type="percent"/>
+                        </p:inputText>
+                    </h:panelGrid>
+                   
+                </h:panelGrid>
+                <h:panelGroup >
+                    <p:commandButton value="Aceptar"  update=":mjspopup:dialog" icon="ui-icon-disk"
+                                       actionListener="#{modulosBean.guardar(evt)}"/>
+                    <p:commandButton immediate="true" icon="ui-icon-arrowthickstop-1-w"
+                                     value="Regresar" ajax="false" 
+                                     action="editarCurso"/>
+                </h:panelGroup>   
+            </p:panel>
+
+           
+        </h:form>
+
+
+    </ui:define>
+    
+    <ui:define name="popup">
+        <h:form id="mjspopup">
+        
+         <p:dialog id="dialog"
+                      closable="fasle"
+                      modal="true"
+                      draggable="false"
+                      widgetVar="comfirm"
+                      header="Mensaje Confirmación"
+                      width="400"
+                      visible="#{modulosBean.showDialog}">
+
+                <h:panelGrid>
+                    <p:outputLabel value="#{modulosBean.messaje}"/>
+                </h:panelGrid>
+                <p:commandButton value="Aceptar" icon="ui-icon-info"
+                                 actionListener="#{modulosBean.aceptar(evt)}"
+                                 update=":mjspopup"/>
+
+            </p:dialog>
+        </h:form>
+        
+    </ui:define>
+    
+</ui:composition>

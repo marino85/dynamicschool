@@ -1,0 +1,89 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <ui:define name="content">
+        <ui:include src="/cursos/headerCurso.xhtml" />
+        <h:form id="VerEvaluaciones">
+            <p:panel header="Estudiantes" > 
+            <h:panelGrid columns="2">
+                <p:outputLabel value="Código Matricula"></p:outputLabel>
+                <p:inputText value="#{evaluacionesBean.codigo}"></p:inputText>
+                <p:outputLabel value="Nombre"></p:outputLabel>
+                <p:inputText value="#{evaluacionesBean.nombres}"></p:inputText>
+                <p:commandButton update=":VerEvaluaciones" icon="ui-icon-search" value="Consultar" action="#{evaluacionesBean.buscarEstudiantes()}"></p:commandButton>
+            </h:panelGrid>
+            
+            </p:panel>
+            <h:panelGrid columns="1">
+                <h:panelGrid columns="2">
+
+                    <p:dataTable value="#{evaluacionesBean.matriculas}" var="estudent"
+                                 paginator="true" rows="10"
+                                 paginatorPosition="bottom" 
+                                 >
+                        <f:facet name="header">
+                            <h:outputText value="Calificaciones evaluacion #{evaluacionesBean.evaluacion.nombre}"/>
+                        </f:facet>
+                        <p:column headerText="Estudiante">
+                            <p:outputLabel value="#{estudent.idUsuario.nombres} #{estudent.idUsuario.apellidos}"/>
+                        </p:column>
+                         <p:column headerText="Fecha de entrega">
+                            <p:outputLabel 
+                                          value="#{evaluacionesBean.verCalificacion(estudent).fechaInicio}">
+                                <f:convertDateTime pattern="EEEE, dd MMM YYYY hh:mm a" timeZone="GMT-5"/>
+                            </p:outputLabel>
+                        </p:column>
+                         <p:column headerText="Calificación">
+                             <p:outputLabel value="#{evaluacionesBean.verCalificacion(estudent).calificacion}"/>
+                        </p:column>
+                        
+                      
+                     
+<!--                        <p:column headerText="Fecha de entrega">
+                            <p:outputLabel rendered="#{evaluacionesBean.evaluacion.getCalificacion(matricula)!=null}"
+                                          value="#{evaluacionesBean.evaluacion.getCalificacion(matricula).fechaInicio}">
+                                <f:convertDateTime pattern="EEEE, dd MMM YYYY hh:mm a" timeZone="GMT-5"/>
+                            </p:outputLabel>
+                        </p:column>
+                        <p:column id="acciones"  headerText="Calificación">
+
+                           
+                            
+                            <c:if test="#{evaluacionesBean.evaluacion.getCalificacion(matricula).noCorrectas !=null and evaluacionesBean.evaluacion.getCalificacion(matricula).noCorrectas==0}">
+                                <p:outputLabel 
+                                              value="0.0"/>
+
+
+                            </c:if>
+                            <c:if test="#{evaluacionesBean.evaluacion.getCalificacion(matricula).noCorrectas !=null and evaluacionesBean.evaluacion.getCalificacion(matricula).noCorrectas!=0}">
+
+                                <p:outputLabel 
+                                              value="#{evaluacionesBean.evaluacion.getCalificacion(matricula).noCorrectas/evaluacionesBean.evaluacion.iappPreguntasCollection.size()*5}"/>
+
+                            </c:if>
+
+                            <p:outputLabel 
+                                              value="#{evaluacionesBean.evaluacion.getCalificacion(matricula).noCorrectas/evaluacionesBean.evaluacion.iappPreguntasCollection.size()*5}"/>
+
+
+
+                        </p:column>-->
+                    </p:dataTable>
+                </h:panelGrid>            
+            </h:panelGrid>            
+            <h:panelGrid columns="3">
+                <p:commandButton value="Regresar"  icon="ui-icon-arrowthickstop-1-w"
+
+                                 immediate="true" ajax="false"
+                                 action="consultarEvaluaciones"/>
+            </h:panelGrid>    
+        </h:form>
+
+    </ui:define>
+</ui:composition>

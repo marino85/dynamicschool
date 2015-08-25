@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" 
+                template="/WEB-INF/template.xhtml"                
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+
+    <ui:define name="content">
+
+
+
+        <h:form>
+            <p:panel header="Consulta de Noticias">
+                
+                    <p:dataTable id="noticias" value="#{noticiasBean.noticias}" var="noti"
+                                 paginator="true" 
+                                 paginatorPosition="bottom"  rows="10"
+                                 rowsPerPageTemplate="5,10,15"
+                                 >
+
+                        <p:column  headerText="Titulo">
+                            <p:outputLabel  value="#{noti.titulo}"></p:outputLabel>                        
+                        </p:column>
+                        <p:column  headerText="Contenido">
+                            <p:outputLabel  value="#{noti.contenido}"></p:outputLabel>                        
+                        </p:column>
+                        <p:column  headerText="FechaCreacion">
+                            <p:outputLabel  value="#{noti.fechaCreacion}">
+                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                            </p:outputLabel>                        
+                        </p:column>
+
+                        <p:column id="acciones" headerText="Acciones">
+                            <p:commandLink  value="Editar" ajax="false" action="#{noticiasBean.irEditarNoticia}">
+                                <f:setPropertyActionListener target="#{noticiasBean.editNoticia}" value="#{noti}"/>
+                            </p:commandLink>
+                            &nbsp;
+
+                        </p:column>
+
+                    </p:dataTable>
+
+                
+            </p:panel>
+
+        </h:form>
+
+        <p:dialog id="dialog"
+                  closable="fasle"
+                  modal="true"
+                  draggable="false"
+                  widgetVar="comfirm"
+                  header="Mensaje Confirmación"
+                  width="400"
+                  visible="#{usuariosTable.showDialog}">
+
+            <h:form>
+
+
+                <h:panelGrid>
+                    <h:outputText value="Seguro de eliminar el usuario #{usuariosTable.userDelete.nombres}
+                                  #{usuariosTable.userDelete.apellidos}"></h:outputText>
+
+                </h:panelGrid>
+                <h:commandButton value="Aceptar" actionListener="#{usuariosTable.eliminar(evt)}"
+                                 ></h:commandButton>
+                <h:commandButton value="Cancelar" 
+                                 onclick="comfirm.hide();" actionListener="#{usuariosTable.cancelarEliminar(evt)}"></h:commandButton>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:define>
+
+
+
+</ui:composition>

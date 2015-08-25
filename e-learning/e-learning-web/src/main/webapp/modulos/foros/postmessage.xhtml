@@ -1,0 +1,145 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" 
+                template="/WEB-INF/template.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core">
+    <ui:define name="content">
+        <ui:include src="/cursos/headerCurso.xhtml" />
+        <h:form id="postforo">
+            <p:panel header="FORO">
+                <h:panelGrid columns="2">
+                    <p:outputLabel value="Tema"/>
+                    <p:outputLabel value="#{mensajesBean.foroSeleccionado.tema}"/>
+                    <p:outputLabel value="Descripción"/>
+                    <p:outputLabel value="#{mensajesBean.foroSeleccionado.descripcion}"/>
+                    <p:outputLabel value="Publicado Por:"/>
+                    <p:outputLabel value="#{mensajesBean.foroSeleccionado.usuario}"/>
+
+                </h:panelGrid>
+            </p:panel>
+            <h:panelGrid columns="2" style="width: 100%;">
+
+
+                <p:dataTable value="#{mensajesBean.foroSeleccionado.iappMensajesCollection}" var="mensaje"
+                             paginator="true" 
+                             paginatorPosition="bottom" rows="5"
+                             rowsPerPageTemplate="5,10,15,20,30"
+                             >
+                    <f:facet name="header">
+                        <p:outputLabel value="Mensajes"/>
+                    </f:facet>
+                    <p:column headerText="Titulo">
+                        <p:outputLabel value="#{mensaje.titulo}"/>
+                    </p:column>  
+
+                    <p:column headerText="Publicado por">
+                        <p:outputLabel value="#{mensaje.usuario}"/>
+                    </p:column>
+                    <p:column headerText="Fecha Publicación">
+                        <p:outputLabel value="#{mensaje.fechaCreacion}">
+                            <f:convertDateTime pattern="EEEE, dd MMM YYYY hh:mm a" timeZone="GMT-5"/>
+
+                        </p:outputLabel>
+                    </p:column>
+                    <p:column headerText="">
+                        <p:commandLink value="Ver Mensaje" update=":verforo"  action="#{mensajesBean.openVerForo()}">
+
+                            <f:setPropertyActionListener target="#{mensajesBean.mensajeSeleccionado}" value="#{mensaje}"/>
+
+                        </p:commandLink>
+
+                    </p:column>
+
+                </p:dataTable>
+
+            </h:panelGrid>
+
+
+
+            <h:panelGrid columns="3">
+                <p:commandButton value="Regresar" ajax="false"  icon="ui-icon-arrowthickstop-1-w"                             
+                                 action="#{cursosBean.foros}"/>
+
+                <p:commandButton value="Post" icon="ui-icon-plus" update=":postmessage"
+
+                                 action="#{mensajesBean.openPostMessage()}"/>
+            </h:panelGrid>  
+
+
+
+
+
+        </h:form>
+
+
+
+
+
+
+    </ui:define>
+
+    <ui:define name="popup">
+        <h:form id="mjspopup">
+            <p:dialog id="verMensaje"
+                      closable="fasle"
+                      modal="true"
+                      draggable="false"
+                      widgetVar="verEvaluacion"
+                      header="Foro"
+                      width="300"
+                      visible="#{foroBean.verMensaje}">
+
+                <h:panelGrid columns="1">
+                    <p:outputLabel value="#{foroBean.mensaje}"/>
+                    <p:commandButton value="Aceptar" icon="ui-icon-info" update=":postforo,:postmessage" action="#{foroBean.hideVerMensaje()}"/>
+                </h:panelGrid>
+
+            </p:dialog>
+
+            <p:dialog id="verConfirmacion"
+                      closable="fasle"
+                      modal="true"
+                      draggable="false"
+                      widgetVar="verConfirmacion"
+                      header="Confirmación"
+                      width="300"
+                      visible="#{mensajesBean.confirm}">
+
+                <h:panelGrid>
+                    <p:outputLabel value="#{mensajesBean.mjs}"/>
+                </h:panelGrid>
+                <p:commandButton value="Aceptar" icon="ui-icon-info" update=":mjspopup" action="#{mensajesBean.hideConfirmar()}" />
+
+
+            </p:dialog>
+        </h:form>
+        
+        <h:form id="postmessage">
+            <p:dialog id="postMessage"
+                      closable="fasle"
+                      modal="true"
+                      draggable="false"
+                      widgetVar="verConfirmacion"
+                      header="Post Message"
+                      width="700"
+                      visible="#{mensajesBean.openPostMesssage}">
+
+                <h:panelGrid columns="2">
+                    <p:outputLabel value="Titulo"/>
+                    <p:inputText value="#{mensajesBean.mensaje.titulo}"/>
+                    <p:outputLabel value="Descripción"/>
+                    <p:inputTextarea cols="60" rows="4"  value="#{mensajesBean.mensaje.mensaje}"/>
+                </h:panelGrid>
+                <p:commandButton value="Guardar" update=":postmessage,:postforo,:mjspopup:verConfirmacion" icon="ui-icon-disk" action="#{mensajesBean.postMessage()}" />
+                <p:commandButton value="Cancelar" update=":postmessage" icon="ui-icon-close" action="#{mensajesBean.hidePostMessage()}"/>
+
+            </p:dialog>
+            
+            
+        </h:form>
+        <ui:include src="verForoModal.xhtml" />
+    </ui:define>
+</ui:composition>

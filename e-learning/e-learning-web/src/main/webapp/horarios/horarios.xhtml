@@ -1,0 +1,234 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" 
+                template="/WEB-INF/template.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+
+    <ui:define name="content">       
+
+
+        <h:form id="horariosfrm">
+
+            <p:panel header="ADMINISTRACION HORARIOS">
+                <p:messages></p:messages>
+
+                <h:panelGrid columns="3">
+
+                    <p:outputLabel value="Seleccione :" />
+
+                    <p:calendar id="button" value="#{horariosBean.semana}" showOn="button" navigator="true" pattern="dd/MM/yyyy" />
+    <!--                <p:selectInputDate renderAsPopup="true"   value="#{horariosBean.semana}"  renderMonthAsDropdown="true"  renderYearAsDropdown="true" >
+                    <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-5"/>
+                    
+                    </p:selectInputDate>-->
+
+                    <!--                <p:dateTimeEntry id="cal" showOn="button"
+                                                       value="#{horariosBean.semana}"                                  
+                                                       pattern="dd/MM/yyyy"
+                                                       renderAsPopup="true"
+                                                       showOtherMonths="true"
+                                                       popupIconOnly="true"
+                                                       navigator="true"
+                                                       rendered="true"
+                                                       />-->
+                    <p:commandButton title="Fecth week" 
+                                     update=":horariosfrm,:formmodal" icon="ui-icon-check"  
+                                     actionListener="#{horariosBean.fetchWeek(evt)}"/>
+
+                </h:panelGrid>
+
+                <p:outputLabel id="mensaje"  value="#{horariosBean.messageInicioSemana}"/>
+
+            </p:panel>
+
+
+
+            <p:dataTable rendered="true" id="horarios" var="day" value="#{horariosBean.horario}"
+                         paginator="false" >
+
+                <p:column id="hora" headerText="Hora">
+                    <p:commandLink value="#{day.hora}"   />
+                </p:column>
+                <p:column id="lunes" headerText="Lunes">
+
+                    <p:commandLink title="#{day.lunes} - #{day.hora}" value="ver" update=":formmodal"  action="#{horariosBean.openDialog}"  > 
+                        <f:setPropertyActionListener target="#{horariosBean.fecha}" value="#{day.lunes}"/>
+                        <f:setPropertyActionListener target="#{horariosBean.hora}" value="#{day.hora}"/>
+
+                    </p:commandLink>                
+                </p:column>
+                <p:column id="martes" headerText="Martes">
+                    <p:commandLink title="#{day.martes} - #{day.hora}" value="ver" update=":formmodal"  action="#{horariosBean.openDialog}"  >      
+
+                        <f:setPropertyActionListener target="#{horariosBean.fecha}" value="#{day.martes}"/>
+                        <f:setPropertyActionListener target="#{horariosBean.hora}" value="#{day.hora}"/>
+
+
+                    </p:commandLink>
+                </p:column>
+                <p:column id="miercoles" headerText="Miercoles">
+                    <p:commandLink title="#{day.miercoles} - #{day.hora}" value="ver" update=":formmodal" action="#{horariosBean.openDialog}" >
+
+                        <f:setPropertyActionListener target="#{horariosBean.fecha}" value="#{day.miercoles}"/>
+                        <f:setPropertyActionListener target="#{horariosBean.hora}" value="#{day.hora}"/>
+
+                    </p:commandLink>
+
+                </p:column>
+                <p:column id="jueves" headerText="Jueves">
+                    <p:commandLink title="#{day.jueves} - #{day.hora}" value="ver" update=":formmodal" action="#{horariosBean.openDialog}" >          
+
+
+                        <f:setPropertyActionListener target="#{horariosBean.fecha}" value="#{day.jueves}"/>
+                        <f:setPropertyActionListener target="#{horariosBean.hora}" value="#{day.hora}"/>
+
+
+                    </p:commandLink>
+                </p:column>
+                <p:column id="viernes" headerText="Viernes">
+                    <p:commandLink title="#{day.viernes} - #{day.hora}" value="ver" update=":formmodal" action="#{horariosBean.openDialog}"  >            
+
+                        <f:setPropertyActionListener target="#{horariosBean.fecha}" value="#{day.viernes}"/>
+                        <f:setPropertyActionListener target="#{horariosBean.hora}" value="#{day.hora}"/>
+
+
+                    </p:commandLink>
+                </p:column>
+                <p:column id="sabado" headerText="Sábado">
+                    <p:commandLink title="#{day.sabado}- #{day.hora}" value="ver" update=":formmodal" action="#{horariosBean.openDialog}"  >
+                        <f:setPropertyActionListener target="#{horariosBean.fecha}" value="#{day.sabado}"/>
+                        <f:setPropertyActionListener target="#{horariosBean.hora}" value="#{day.hora}"/>
+
+
+                    </p:commandLink>
+                </p:column>
+
+            </p:dataTable>
+
+
+
+
+        </h:form>
+
+
+    </ui:define>
+    <ui:define name="popup">
+
+        <h:form id="formmodal" >
+            <p:dialog id="modal"  modal="true" visible="#{horariosBean.showDialog}"
+                      draggable="false" closable="false"  width="800" height="500"
+                      header="Horarios"
+                      >
+
+
+                <h:messages></h:messages>
+
+                <h:panelGrid id="panel1" columns="4">
+                    <p:outputLabel value=" Fecha:"/>
+
+                    <p:outputLabel value="#{horariosBean.fecha}"></p:outputLabel>
+                    <p:outputLabel value=" Hora:"/>
+
+                    <p:outputLabel value="#{horariosBean.hora}"></p:outputLabel> 
+                    <p:outputLabel value="Sede:"/>
+
+                    <p:selectOneMenu   id="sedes"  value="#{horariosBean.sedeSeleccionada.idSede}"                         
+                                       >
+                        <p:ajax event="change" listener="#{horariosBean.seleccionarSede()}" update="aulas"/>
+                        <f:selectItem itemValue="0"   itemLabel="Selecione"        />
+                        <f:selectItems  value="#{horariosBean.itemsSedes}"  >                       
+                        </f:selectItems>
+
+                    </p:selectOneMenu>
+
+                    <p:outputLabel value="Aula:"/>
+
+                    <p:selectOneMenu id="aulas" value="#{horariosBean.selectedHorario.idAula}" converter="#{convertersBean.aulasConverter}" >
+                        <f:selectItem itemValue="0" itemLabel="Seleccione.."/>
+                        <f:selectItems id="items" value="#{horariosBean.aulas}" var="aula" itemLabel="#{aula.descripcion}" />
+                    </p:selectOneMenu>
+                    <p:outputLabel value=" Nivel:"/>
+
+                    <p:selectOneMenu value="#{horariosBean.selectedHorario.idNivel}" converter="#{convertersBean.nivelesConverter}">
+                        <f:selectItem itemValue="0" itemLabel="Seleccione.."/>
+                        <f:selectItems value="#{generalListBean.nivelesCurso}" var="nivel" itemLabel="#{nivel.descripcion}"/>
+                    </p:selectOneMenu>                   
+                    <p:outputLabel value=" Clase:"/>
+
+                    <p:selectOneMenu value="#{horariosBean.selectedHorario.idClase}" converter="#{convertersBean.clasesConverter}">
+                        <f:selectItem itemValue="0" itemLabel="Seleccione.."/>
+                        <f:selectItems value="#{generalListBean.clases}" var="clase" itemLabel="#{clase.descripcion}" />
+                    </p:selectOneMenu>                    
+                    <p:outputLabel value=" Profesor:"/>
+
+                    <p:selectOneMenu value="#{horariosBean.selectedHorario.idUsuario}" converter="#{convertersBean.usuariosConverter}" >
+                        <f:selectItem itemValue="0" itemLabel="Seleccione.."/>
+                        <f:selectItems value="#{generalListBean.usuarios}" var="prof" itemLabel="#{prof.nombres}" />
+                    </p:selectOneMenu> 
+                    <p:outputLabel value=" Repetir cada (Semanas) "/>
+                    <p:selectOneMenu value="#{horariosBean.numSemanas}"  >
+                        <f:selectItem itemValue="1" itemLabel="1"/>
+                        <f:selectItem itemValue="2" itemLabel="2"/>
+                        <f:selectItem itemValue="3" itemLabel="3"/>
+                        <f:selectItem itemValue="4" itemLabel="4"/>
+                        <f:selectItem itemValue="8" itemLabel="8"/>
+                        <f:selectItem itemValue="12" itemLabel="12"/>
+                        <f:selectItem itemValue="16" itemLabel="16"/>                       
+                    </p:selectOneMenu> 
+                </h:panelGrid>
+                <h:panelGroup>                        
+                    <p:commandButton value="Guardar" update=":formmodal,horariosselected" icon="ui-icon-disk"  action="#{horariosBean.saveSchedule}"></p:commandButton>
+                    <p:commandButton value="Cerrar" icon="ui-icon-close" immediate="true" update="modal" actionListener="#{horariosBean.closeDialog(evt)}"></p:commandButton>
+
+                </h:panelGroup>
+
+                <h:panelGrid>                    
+                    <p:outputLabel value="#{horariosBean.message}" />
+                </h:panelGrid>
+                <p:dataTable id="horariosselected" value="#{horariosBean.horarioSeleccionado}" var="horario">              
+
+                    <p:column headerText="Aula">
+                        <p:outputLabel value="#{horario.idAula.descripcion}"></p:outputLabel>                        
+                    </p:column>
+                    <p:column headerText="Clase">
+                        <p:outputLabel value="#{horario.idClase.descripcion}"></p:outputLabel>                        
+                    </p:column>
+                    <p:column headerText="Profesor">
+                        <p:outputLabel value="#{horario.idUsuario.nombres}"></p:outputLabel>                        
+                    </p:column>
+                    <p:column headerText="Nivel">
+                        <p:outputLabel value="#{horario.idNivel.descripcion}"></p:outputLabel>                        
+                    </p:column>
+                    <p:column headerText="Cupo Total">
+                        <p:outputLabel value="#{horario.cupoTotal}"></p:outputLabel>
+                    </p:column>
+
+                    <p:column headerText="Inscritos">
+                        <p:outputLabel value="#{horario.iappHorarioEstudianteCollection.size()}"></p:outputLabel>
+                    </p:column>
+                    <p:column headerText="Acciones">
+                        <p:commandButton title="Editar" icon="ui-icon-disk" update=":formmodal:panel1" action="#{horariosBean.editarHorario()}">
+                            <f:setPropertyActionListener value="#{horario}" target="#{horariosBean.selectedHorario}"/>
+                            <f:ajax render="@this" />
+                        </p:commandButton>
+                        <p:commandButton title="Eliminar" update="horariosselected" icon="ui-icon-closethick" immediate="true"  action="#{horariosBean.eliminarHorario()}">
+                            <f:setPropertyActionListener value="#{horario}" target="#{horariosBean.selectedHorario}"/>
+                        </p:commandButton>
+                    </p:column>
+
+
+
+                </p:dataTable>
+
+
+
+
+
+
+
+            </p:dialog>   
+        </h:form>
+    </ui:define>
+</ui:composition>

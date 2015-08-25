@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core">
+    <ui:define name="content">
+
+
+        <h:form>
+            <ui:include src="/cursos/headerCurso.xhtml" />
+            <h:panelGrid columns="1" style="alig:top;">
+                <h:panelGrid columns="2">
+
+                    <p:dataTable value="#{calDocenteBean.curso.iappMatriculasCollection}" var="matricula"
+                                 paginator="true" 
+                                 paginatorPosition="bottom" 
+                                 rows="10"
+                                 
+                                 rowsPerPageTemplate="5,10,15,20"
+                                 >
+                        <f:facet name="header">
+                            Estudiantes
+                        </f:facet>
+                        <p:column headerText="Estudiante">
+                            <p:outputLabel value="#{matricula.idUsuario.nombres} #{matricula.idUsuario.apellidos}"/>
+                        </p:column>                     
+
+                        <p:column id="acciones" headerText="Acciones">
+                            <p:commandLink value="Ver Progreso" action="verProgreso" ajax="false">
+                                <f:setPropertyActionListener target="#{calDocenteBean.matricula}" value="#{matricula}"/>
+                            </p:commandLink>
+
+                        </p:column>
+                    </p:dataTable>
+                </h:panelGrid>            
+            </h:panelGrid>            
+            <h:panelGrid columns="3">
+                <p:commandButton value="Regresar" icon="ui-icon-arrowthickstop-1-w"  
+                                 immediate="true" ajax="false"
+                                 action="misCursos"/>
+
+            </h:panelGrid>    
+        </h:form>
+
+
+
+    </ui:define>
+</ui:composition>

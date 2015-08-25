@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" 
+                template="/WEB-INF/template.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+
+    <ui:define name="content">
+
+
+       
+
+                <h:form id="changepass">
+                    <p:panel header="Cambio de Clave">
+
+
+                        <h:panelGrid columns="3">
+                            <p:outputLabel value=" Clave Actual:"/>
+                           
+                            <h:inputSecret id="user" value="#{loginBean.currentPasswd}" required="true" requiredMessage="campo obligatorio"></h:inputSecret>
+                            <p:message for="user" />
+                            <p:outputLabel value="Nueva Clave:"/>
+                            
+                            <h:inputSecret id="pass" value="#{loginBean.newPasswd}" required="true" requiredMessage="campo obligatorio"></h:inputSecret>
+                            <p:message for="pass" />
+                            <p:outputLabel value="Confirmar Nueva Clave:"/>
+                            
+                            <h:inputSecret id="passnew" value="#{loginBean.reTypePasswd}" required="true" requiredMessage="campo obligatorio"></h:inputSecret>
+                            <p:message for="passnew" />
+                            <h:panelGroup>
+                                <p:commandButton id="passwd" update=":changepass" value="Cambiar Clave" icon="ui-icon-disk" action="#{loginBean.changePasswd}">
+
+
+                                </p:commandButton>
+<!--                                <p:commandButton value="Cancelar" action="main" icon="ui-icon-close" immediate="true">-->
+
+
+                                
+                                <p:defaultCommand target="passwd"/>
+                            </h:panelGroup>
+
+                        </h:panelGrid>
+                       
+                        <p:outputLabel id="message" value="#{loginBean.message}"/>
+                       
+                    </p:panel>
+                </h:form>
+
+           
+
+
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+
+    <ui:define name="content">
+         <ui:include src="/cursos/headerCurso.xhtml" />
+        <h:form id="form1">
+
+            <p:panel header="Clases en vivo">
+                <p:messages/>
+                <h:panelGrid columns="2">
+                    <p:outputLabel value="Nombre Clase"></p:outputLabel>
+                    <p:inputText value="#{createStreamingBean.nombreClase}" required="true" requiredMessage="Por favor ingrese un nombre de clase"/>
+                    <p:outputLabel value="Fecha Sesion"></p:outputLabel>
+                    <p:calendar value="#{createStreamingBean.fechaSesion}" pattern="dd/MM/yyyy hh:mm:ss" showOtherMonths="true"/>
+                    <p:commandButton update=":form1" icon="ui-icon-plus" value="Crear Clase Online" action="#{createStreamingBean.crearSesionOnline()}"></p:commandButton>
+                    <h:panelGroup>
+                        <p:commandButton update=":form2,:form1" immediate="true" icon="ui-icon-search "  value="Consultar" action="#{createStreamingBean.consultarClasesOnline()}"></p:commandButton>
+                        <p:commandButton value="Regresar" immediate="true"  icon="ui-icon-arrowthickstop-1-w" ajax="false" action="misCursos"></p:commandButton>
+                    </h:panelGroup>
+                </h:panelGrid>
+
+            </p:panel>
+
+
+
+
+
+        </h:form>
+        <h:form id="form2">
+            <p:dataTable rendered="#{createStreamingBean.listadoClases.size() >= 1}"
+                         value="#{createStreamingBean.listadoClases}" var="clases"
+                         paginator="true" 
+                         paginatorPosition="bottom" 
+                         rowsPerPageTemplate="5,10,15,20"
+                         rows="10"
+                         >
+                <f:facet name="header">
+                    Clases Online
+                </f:facet>
+
+                <p:column headerText="Nombre Clase"  >
+                    <p:outputLabel value="#{clases.nombreMeeting}"/>
+                </p:column>
+                <p:column headerText="Estado"  >
+                    <p:outputLabel value="#{clases.estado}"/>
+                </p:column>
+                <p:column headerText="Fecha Sesión"  >
+                     <p:outputLabel value="#{clases.fechaSesion}">
+                            <f:convertDateTime pattern="dd/MM/yyyy hh:mm:ss"/>
+                     </p:outputLabel>
+                </p:column>
+                <p:column headerText="Acciones"  >
+                    <p:commandLink rendered="${clases.estado ne'FINALIZADA'}"  update=":createpopup:crearDialog" value="Iniciar" action="#{createStreamingBean.iniciarSesion()}" >
+                        <f:setPropertyActionListener target="#{createStreamingBean.claseSelected}" value="#{clases}"/>
+                    </p:commandLink>
+                    <p:outputLabel rendered="${clases.estado ne'FINALIZADA'}" value="  |  "></p:outputLabel>
+                    <p:commandLink rendered="${clases.estado ne'FINALIZADA'}"  update=":form2,:form1" value="Finalizar" action="#{createStreamingBean.terminarSesion()}" >
+                        <f:setPropertyActionListener target="#{createStreamingBean.claseSelected}" value="#{clases}"/>
+                    </p:commandLink>
+                    <p:outputLabel rendered="${clases.estado ne'FINALIZADA'}" value="  |  "></p:outputLabel>
+                    <p:commandLink rendered="${clases.estado ne'FINALIZADA'}"  update=":estudiantesInscritos:inscribirEstudiantes" action="#{createStreamingBean.mostrarInscribirEstudiantes()}" value="Matricular" >
+                        <f:setPropertyActionListener target="#{createStreamingBean.claseSelected}" value="#{clases}"/>
+                    </p:commandLink>
+                </p:column>
+
+            </p:dataTable>
+        </h:form>
+    </ui:define>
+    <ui:define name="popup">
+        <h:form id="createpopup">
+            <p:dialog id="crearDialog"
+                      closable="true"
+                      maximizable="true"
+                      modal="true"
+                      draggable="false"
+                      widgetVar="tomarevaluacion"
+                      header="Tomar Evaluacion"
+                      width="800"
+                      height="80%"                      
+                      onHide="#{createStreamingBean.cerrarSesion()}"
+                      visible="#{createStreamingBean.mostrarCrearPopup}">
+
+                <iframe src="#{createStreamingBean.moderatorUrl}" height="98%" width="98%" />
+
+            </p:dialog>
+        </h:form>
+         <ui:include src="inscribirEstudiantesStreaming.xhtml"/>
+
+    </ui:define>
+</ui:composition>

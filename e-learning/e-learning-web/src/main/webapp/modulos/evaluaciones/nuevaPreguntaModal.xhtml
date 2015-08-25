@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:component  xmlns="http://www.w3.org/1999/xhtml"
+               xmlns:ui="http://java.sun.com/jsf/facelets"
+               xmlns:p="http://primefaces.org/ui" 
+               xmlns:h="http://java.sun.com/jsf/html"
+               xmlns:f="http://java.sun.com/jsf/core">
+    <h:form id="nuevapreguntamodal">
+        <p:dialog id="nuevaPregunta"
+                  closable="fasle"
+                  modal="true"
+                  draggable="false"
+                  widgetVar="nuevaPregunta"
+                  header="Pregunta"
+                  width="500"
+                  visible="#{evaluacionesBean.nuevaPreguntaDialog}">
+
+            <h:panelGrid columns="2" style="text-align: left; width: 100%">
+                <p:outputLabel value="Pregunta:" style="font-weight: bold"/>
+                <p:inputTextarea style="width: 100%" value="#{evaluacionesBean.pregunta.descripcion}"/>
+                <h:outputText value=""/>
+            </h:panelGrid>
+            <p:dataTable value="#{evaluacionesBean.pregunta.iappRespuestasCollection}" var="respuesta"
+                         paginator="true"  rows="5"
+                         paginatorPosition="bottom"  
+                         >
+                <p:column headerText="Correcta">
+                    <h:selectBooleanCheckbox value="#{respuesta.correcta}"/>
+                </p:column>
+                <p:column headerText="Respuesta">
+                    <p:outputLabel value="#{respuesta.descripcion}"/>
+                </p:column>
+                <p:column id="acciones" headerText="Vinculos">
+                    <p:commandLink rendered="#{userLogged.administrador || userLogged.profesor}"
+                                   value="Editar" update=":nuevarespuestamodal"
+                                   action="#{evaluacionesBean.editRespuesta()}">
+                        <f:setPropertyActionListener target="#{evaluacionesBean.respuesta}" value="#{respuesta}"/>
+                    </p:commandLink>
+                    <h:outputText  rendered="#{userLogged.administrador || userLogged.profesor}" 
+                                   value="&nbsp;&nbsp;"/>
+                    <p:commandLink rendered="#{userLogged.administrador || userLogged.profesor}"
+                                   value="Eliminar" update=":nuevapreguntamodal"
+                                   action="#{evaluacionesBean.confirmarRespuesta()}">
+                        <f:setPropertyActionListener target="#{evaluacionesBean.respuesta}" value="#{respuesta}"/>
+                    </p:commandLink>
+                </p:column>
+            </p:dataTable>
+            <br/>
+            <p:commandButton value="Guardar" icon="ui-icon-disk" update=":nuevapreguntamodal,:nuevaevaluacionmodal" action="#{evaluacionesBean.guardarPregunta()}"/>
+            <p:commandButton immediate="true" icon="ui-icon-close" value="Cancelar" update=":nuevapreguntamodal"  action="#{evaluacionesBean.hideCrearPregunta()}"/>
+            <p:commandButton value="Agregar Respuesta" icon="ui-icon-plus" update=":nuevarespuestamodal"  
+                             action="#{evaluacionesBean.crearRespuesta()}"/>
+
+        </p:dialog>
+        <p:dialog id="verConfirmacionRespuesta"
+                  closable="fasle"
+                  modal="true"
+                  draggable="false"
+                  widgetVar="eliminarRespuesta"
+                  header="Eliminar Respuesta"
+                  width="300"
+                  visible="#{evaluacionesBean.verRespuestaConfirmacion}">
+
+            <h:panelGrid>
+                <p:outputLabel value="Seguro de eliminar esta respuesta"/>
+            </h:panelGrid>
+            <p:commandButton value="Aceptar" update=":nuevarespuestamodal,:nuevapreguntamodal" icon="ui-icon-info" action="#{evaluacionesBean.eliminarRespuesta()}"/>
+            <p:commandButton value="Cancelar" update=":nuevapreguntamodal" icon="ui-icon-close" action="#{evaluacionesBean.hideRespuestaConfirmar()}"/>
+
+        </p:dialog>
+
+    </h:form>
+    <ui:include src="nuevaRespuestaModal.xhtml" />
+
+</ui:component>
+

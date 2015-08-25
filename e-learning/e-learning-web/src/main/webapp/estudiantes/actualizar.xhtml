@@ -1,0 +1,150 @@
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+
+    <ui:define name="content">
+        <h:form id="Personas">
+            <p:panel header="Actualizar Datos Personales" >
+
+                <h:panelGrid columns="2">
+                    <h:panelGroup>
+                        <h:panelGrid columns="4">
+
+                            <p:outputLabel value="Tipo Documento:"></p:outputLabel>
+
+                            <p:selectOneMenu disabled="true" value="#{estudianteBean.estudiante.tipoDoc}" converter="#{convertersBean.tipoDocConverter}"> 
+                                <f:selectItems value="#{generalListBean.tiposDoc}" var="n" itemLabel="#{n.descripcion}"/>
+                            </p:selectOneMenu>
+                            <p:outputLabel value=" Número Documento:"></p:outputLabel>
+
+                            <p:inputText disabled="true" value="#{estudianteBean.estudiante.numeroDoc}" required="true" requiredMessage="Número Documento Obligatorio"></p:inputText>
+                            <p:outputLabel value="Código:"></p:outputLabel>
+
+                            <p:inputText disabled="true"  id="codigo" value="#{estudianteBean.estudiante.codigo}" required="true" requiredMessage="Codigo: campo obligatorio" title="Código empleado para identificar cuando el usuario es un estudiante">
+
+
+                            </p:inputText>
+                            <p:outputLabel value="Jornada:"></p:outputLabel>
+
+                            <p:selectOneMenu disabled="true"  value="#{estudianteBean.estudiante.idJornada}" converter="#{convertersBean.jornadaConverter}"> 
+                                <f:selectItems value="#{generalListBean.jornada}" var="n" itemLabel="#{n.descripcion}"/>
+                            </p:selectOneMenu>
+                            <p:outputLabel value="Nombres:"></p:outputLabel>
+
+                            <p:inputText value="#{estudianteBean.estudiante.nombres}" required="true" requiredMessage="Nombres: campo obligatorio"/>
+                            <p:outputLabel value="Apellidos:"></p:outputLabel>
+
+                            <p:inputText value="#{estudianteBean.estudiante.apellidos}" required="true" requiredMessage="Apellidos: campo obligatorio"/>
+                            <p:outputLabel value="Direccion:"></p:outputLabel>
+
+                            <p:inputText value="#{estudianteBean.estudiante.direccion}" required="true" requiredMessage="Dirección: campo obligatorio"/>
+                            <p:outputLabel value="Teléfono:"></p:outputLabel>
+
+                            <p:inputText value="#{estudianteBean.estudiante.telefono}" required="true" requiredMessage="Telefono: campo obligatorio"/>
+                            <p:outputLabel value="Correo Personal:"></p:outputLabel>
+
+                            <p:inputText id="email" value="#{estudianteBean.estudiante.email}" required="true"  requiredMessage="E-mail : campo obligatorio">
+
+
+                            </p:inputText>
+                            <p:outputLabel value="Fecha de Nacimiento:"></p:outputLabel>
+
+                            <p:calendar navigator="true" pattern="dd/MM/yyyy" value="#{estudianteBean.estudiante.fechaNacimiento}"/>
+    <!--                        <p:selectInputDate renderAsPopup="true"   value="#{estudianteBean.estudiante.fechaNacimiento}"
+                                                 renderMonthAsDropdown="true"  renderYearAsDropdown="true" 
+                                                 >
+                                <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-5"/>
+                            </p:selectInputDate>-->
+                            <!--                        <ace:dateTimeEntry id="fechaNacimiento"
+                                                                       value="#{estudianteBean.estudiante.fechaNacimiento}"
+                                                                       required="true"
+                                                                       requiredMessage="Fecha Nacimiento: campo obligatorio"
+                                                                       renderAsPopup="true"
+                                                                       timeZone="GMT-5"
+                                                                       pattern="dd/MM/yyyy"
+                                                                       showOtherMonths="true"
+                                                                       navigator="true"/>-->
+
+                            <p:outputLabel value="Sexo:"></p:outputLabel>
+                            <p:selectOneMenu  value="#{estudianteBean.estudiante.sexo}"> 
+                                <f:selectItem itemLabel="M" itemValue="M"></f:selectItem>
+                                <f:selectItem itemLabel="F" itemValue="F"></f:selectItem>
+                            </p:selectOneMenu>
+                            <p:outputLabel value="Estado:"></p:outputLabel>
+
+                            <p:selectOneMenu disabled="true"  value="#{estudianteBean.estudiante.estadoUsuario}" converter="#{convertersBean.estadosUsuarioConverter}"> 
+                                <f:selectItems value="#{generalListBean.estadosUsuario}" var="estado" itemLabel="#{estado.descripcion}"/>
+                            </p:selectOneMenu>
+                        </h:panelGrid>
+                    </h:panelGroup>
+                    <h:messages styleClass="messageLogin"></h:messages>
+
+                </h:panelGrid>
+
+                <h:panelGrid columns="1">
+                    <h:panelGroup>
+                        <h:panelGrid columns="2">
+                            <p:outputLabel value="Nivel de Educación:"></p:outputLabel>
+
+                            <p:selectOneMenu value="#{estudianteBean.estudiante.nivelEducacion}">
+                                <f:selectItem itemValue="P" itemLabel="Primaria"/>
+                                <f:selectItem itemValue="B" itemLabel="Bachillerato"/>
+                                <f:selectItem itemValue="T" itemLabel="Técnico"/>
+                                <f:selectItem itemValue="R" itemLabel="Tecnologo"/>
+                                <f:selectItem itemValue="W" itemLabel="Profesional"/>
+                                <f:selectItem itemValue="O" itemLabel="Otro"/>
+                            </p:selectOneMenu>
+
+                        </h:panelGrid>
+                    </h:panelGroup>
+                    <p:commandButton value="Guardar" update=":personaspopup"  actionListener="#{estudianteBean.guardar(evt)}" icon="ui-icon-disk"> 
+                    </p:commandButton>
+
+
+                </h:panelGrid> 
+
+
+            </p:panel>
+
+
+        </h:form>
+
+
+
+
+    </ui:define>
+    <ui:define name="popup">
+        <h:form id="personaspopup">
+            <p:dialog id="dialog"
+                      closable="false"
+                      modal="true"
+                      draggable="false"
+                      widgetVar="comfirm"
+                      header="Mensaje Confirmación"
+                      width="400"
+                      visible="#{estudianteBean.showDialog}">
+
+
+
+
+                <h:panelGrid>
+                    <p:outputLabel value="#{estudianteBean.messaje}"></p:outputLabel>
+
+                </h:panelGrid>
+                <p:commandButton value="Aceptar"  update=":personaspopup,:Personas"  icon="ui-icon-info" actionListener="#{estudianteBean.aceptar(evt)}"
+                                 ></p:commandButton>
+
+
+
+            </p:dialog>
+
+        </h:form>
+    </ui:define>
+
+
+</ui:composition>

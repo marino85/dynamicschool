@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" 
+                template="/WEB-INF/template.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+
+    <ui:define name="content">
+
+        <h:form id="form1" >
+            <p:panel header="Consulta de Horarios">
+                <h:panelGrid columns="2">
+                    <p:outputLabel value="Sede:"></p:outputLabel>
+                    
+
+                    <p:selectOneMenu   id="sedes"  value="#{horariosEstudiante.filtro.idSede}"                    
+                                       >
+                        <f:selectItem itemValue="0"   itemLabel="Selecione" />
+                        <f:selectItems  value="#{horariosBean.itemsSedes}"  >                       
+                        </f:selectItems>
+
+                    </p:selectOneMenu>
+                    <p:outputLabel value="Clase:"></p:outputLabel>
+                   
+
+                    <p:selectOneMenu value="#{horariosEstudiante.filtro.idClase}" >
+                        <f:selectItem itemValue="0" itemLabel="Seleccione.."/>
+                        <f:selectItems value="#{generalListBean.clases}" var="clase" itemValue="#{clase.idClase}" itemLabel="#{clase.descripcion}" />
+                    </p:selectOneMenu>  
+                    <h:panelGroup>
+                        <p:commandButton icon="ui-icon-search" update=":form2" value="Consultar"  actionListener="#{horariosEstudiante.consultarHorario()}"/>
+
+                    </h:panelGroup>
+
+                </h:panelGrid>
+            </p:panel>
+        </h:form>
+
+        <h:form id="form2">
+            <h:outputText value="#{horariosEstudiante.message}"/>
+            <p:dataTable value="#{horariosEstudiante.horariosDisponibles}" var="horario"
+                         id="horariosdisponibles"
+                         paginator="true"
+                         paginatorPosition="bottom"
+                         rowsPerPageTemplate="5,10,15"
+                         rows="10"
+                         >
+
+                <p:column headerText="Hora">
+                    <p:outputLabel value="#{horario.hora}"></p:outputLabel>
+                </p:column>
+                <p:column headerText="Fecha">
+                    <p:outputLabel value="#{horario.fecha}">
+                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                    </p:outputLabel>
+                </p:column>
+
+                <p:column headerText="Aula">
+                    <p:outputLabel value="#{horario.idAula.descripcion}"></p:outputLabel>
+                </p:column>
+                <p:column headerText="Clase">
+                    <p:outputLabel value="#{horario.idClase.descripcion}"></p:outputLabel>
+                </p:column>
+
+                <p:column headerText="Cupo Disponible">
+                    <p:outputLabel value="#{horario.cupoTotal}"></p:outputLabel>
+                </p:column>
+                <p:column id="estudiantes" headerText="Inscritos">
+                    <p:outputLabel value="#{horario.iappHorarioEstudianteCollection.size()}"></p:outputLabel>
+                </p:column>                    
+                <p:column headerText="Acciones">
+
+                    <p:commandButton title="Inscribirme en esta clase" update=":form2" icon="ui-icon-check" action="#{horariosEstudiante.inscribirHorario()}">
+                        <f:ajax render="horariosdisponibles estudiantes" event="click"/>
+                        <f:setPropertyActionListener value="#{horario}" target="#{horariosEstudiante.horarioSeleccionado}"/>
+
+                    </p:commandButton>
+
+                    <p:commandButton title="Cancelar" icon="ui-icon-close" update=":form2" action="#{horariosEstudiante.cancelarHorario()}">
+                        <f:ajax render="horariosdisponibles estudiantes" event="click"/>
+                        <f:setPropertyActionListener value="#{horario}" target="#{horariosEstudiante.horarioSeleccionado}"/>
+
+                    </p:commandButton>
+                </p:column>
+
+
+            </p:dataTable>
+
+        </h:form>
+
+
+
+    </ui:define>
+
+
+
+</ui:composition>

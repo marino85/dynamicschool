@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:component  xmlns="http://www.w3.org/1999/xhtml"
+               xmlns:ui="http://java.sun.com/jsf/facelets"
+               xmlns:p="http://primefaces.org/ui" 
+               xmlns:h="http://java.sun.com/jsf/html"
+               xmlns:f="http://java.sun.com/jsf/core">
+    <h:form id="nuevarespuestamodal">
+        <p:dialog id="nuevaRespuesta"
+                  closable="fasle"
+                  modal="true"
+                  draggable="false"
+                  widgetVar="nuevaRespuesta"
+                  header="Pregunta"
+                  width="300"
+                  visible="#{evaluacionesBean.nuevaRespuestaDialog}">
+
+            <h:panelGrid columns="2" style="text-align: left; width: 100%">
+                <p:outputLabel value="Respuesta:" style="font-weight: bold"/>
+                <p:inputTextarea style="width: 100%" value="#{evaluacionesBean.respuesta.descripcion}"/>
+                <h:outputText value=""/>
+            </h:panelGrid>
+            <p:commandButton value="Guardar" icon="ui-icon-disk" update=":nuevarespuestamodal,:nuevapreguntamodal"  action="#{evaluacionesBean.guardarRespuesta()}"/>
+            <p:commandButton immediate="true" icon="ui-icon-close" update=":nuevarespuestamodal" value="Cancelar"  action="#{evaluacionesBean.hideCrearRespuesta()}"/>
+
+        </p:dialog>
+    </h:form>
+</ui:component>
+

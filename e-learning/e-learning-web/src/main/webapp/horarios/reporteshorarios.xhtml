@@ -1,0 +1,152 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:ace="http://www.icefaces.org/icefaces/components"
+                xmlns:ice="http://www.icesoft.com/icefaces/component"
+                xmlns:icecore="http://www.icefaces.org/icefaces/core"
+                xmlns:p="http://primefaces.org/ui" 
+                template="/WEB-INF/template.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+
+    <ui:define name="content">
+        <p:accordionPanel>
+            <p:tab title="Reporte de horarios por  Sede" rendered="#{userLogged.administrador || userLogged.secretario}">
+                <h:form>
+                    <h:panelGrid columns="2" rendered="#{userLogged.administrador || userLogged.secretario}">
+                        <p:outputLabel value="Sede"></p:outputLabel>
+
+                        <p:selectOneMenu   id="sedes"  value="#{reportesHorariosBean.filtro.idSede}"
+                                             >
+                            <f:selectItem itemValue="0"   itemLabel="Selecione."        />
+                            <f:selectItems  value="#{generalListBean.sedes}" var="sedes" itemLabel="#{sedes.descripcion}" itemValue="#{sedes.idSede}"  >                       
+                            </f:selectItems>
+
+                        </p:selectOneMenu>
+                        <p:commandButton value="Consultar" icon="ui-icon-search"  action="#{reportesHorariosBean.generarReporteSedes()}"/>
+                        
+
+                    </h:panelGrid>   
+                </h:form>
+                
+            </p:tab>
+            <p:tab title="Reporte de clases por docente" rendered="#{userLogged.administrador || userLogged.secretario || userLogged.profesor}">
+                 <h:form>
+                    <h:panelGrid columns="2" rendered="#{userLogged.administrador || userLogged.secretario || userLogged.profesor}" style="height: 260px">
+
+                        <p:outputLabel value="Fecha(dd/MM/yyyy):"></p:outputLabel>
+                        
+                        <p:calendar pattern="dd/MM/yyyy"  value="#{reportesHorariosBean.filtro.fechaInicio}" navigator="true"/>
+<!--                          <ice:selectInputDate renderAsPopup="true"   value="#{reportesHorariosBean.filtro.fechaInicio}"
+                                             renderMonthAsDropdown="true"  renderYearAsDropdown="true" 
+                                             >
+                            <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-5"/>
+                        </ice:selectInputDate>-->
+                        
+<!--                        <ace:dateTimeEntry id="fecha" value="#{reportesHorariosBean.filtro.fechaInicio}" renderAsPopup="true"
+                                           pattern="dd/MM/yyyy"></ace:dateTimeEntry>-->
+
+                        <p:outputLabel value="Docente" rendered="#{userLogged.administrador || userLogged.secretario}"></p:outputLabel>
+                        <p:selectOneMenu value="#{reportesHorariosBean.filtro.idProfesor}" rendered="#{userLogged.administrador || userLogged.secretario}" >
+                            <f:selectItem itemValue="0" itemLabel="Seleccione.."/>
+                            <f:selectItems value="#{generalListBean.usuarios}" var="prof" itemValue="#{prof.idUsuario}" itemLabel="#{prof.nombres}" />
+                        </p:selectOneMenu> 
+
+                        <h:panelGroup>
+                            <p:commandButton value="Consultar" icon="ui-icon-search"  action="#{reportesHorariosBean.generarReporteDocentes()}">
+
+                            </p:commandButton>
+                            
+                        </h:panelGroup>
+
+                    </h:panelGrid>         
+
+                </h:form>
+            </p:tab>
+            <p:tab title="Reporte estudiantes por clase" rendered="#{userLogged.administrador || userLogged.secretario || userLogged.profesor}">
+                 <h:form>
+                    <h:panelGrid columns="2" rendered="#{userLogged.administrador || userLogged.secretario || userLogged.profesor}" style="height: 260px">
+                        <p:outputLabel value="Fecha(dd/MM/yyyy):"></p:outputLabel>
+                        <p:calendar pattern="dd/MM/yyyy" navigator="true" value="#{reportesHorariosBean.filtro.fechaInicio}"></p:calendar>
+<!--                        <ice:selectInputDate renderAsPopup="true"   value="#{reportesHorariosBean.filtro.fechaInicio}"
+                                             renderMonthAsDropdown="true"  renderYearAsDropdown="true" 
+                                             >
+                            <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-5"/>
+                        </ice:selectInputDate>-->
+                        
+<!--                        <ace:dateTimeEntry id="fecha2" value="#{reportesHorariosBean.filtro.fechaInicio}" renderAsPopup="true"
+                                           pattern="dd/MM/yyyy"></ace:dateTimeEntry>                   -->
+
+                        <p:outputLabel value="Profesor:" rendered="#{userLogged.administrador || userLogged.secretario}"></p:outputLabel>
+                        <p:selectOneMenu value="#{reportesHorariosBean.filtro.idProfesor}"  rendered="#{userLogged.administrador || userLogged.secretario}" >
+                            <f:selectItem itemValue="0" itemLabel="Seleccione.."/>
+                            <f:selectItems value="#{generalListBean.usuarios}" var="prof" itemValue="#{prof.idUsuario}" itemLabel="#{prof.nombres}" />
+                        </p:selectOneMenu> 
+
+                        <p:outputLabel value="Clase"></p:outputLabel>
+                        <p:selectOneMenu value="#{reportesHorariosBean.filtro.idClase}" >
+                            <f:selectItem itemValue="0" itemLabel="Seleccione.."/>
+                            <f:selectItems value="#{generalListBean.clases}" var="clase" itemValue="#{clase.idClase}" itemLabel="#{clase.descripcion}" />
+                        </p:selectOneMenu>                    
+
+                        <p:outputLabel value="Aula:"></p:outputLabel>
+                        <p:selectOneMenu id="aulas" value="#{reportesHorariosBean.filtro.idAula}" >
+                            <f:selectItem itemValue="0" itemLabel="Seleccione.."/>
+                            <f:selectItems id="items" value="#{generalListBean.aulas}" var="aula" itemValue="#{aula.idAula}" itemLabel="#{aula.descripcion}" />
+                        </p:selectOneMenu>
+                        <p:outputLabel value="Hora:"></p:outputLabel>
+                        <p:selectOneMenu id="hora" value="#{reportesHorariosBean.filtro.hora}" >
+                            <f:selectItem itemValue="0" itemLabel="Seleccione.."/>
+                            <f:selectItem itemValue="06-07" itemLabel="06-07"/>
+                            <f:selectItem itemValue="07-08" itemLabel="07-08"/>
+                            <f:selectItem itemValue="08-09" itemLabel="08-09"/>
+                            <f:selectItem itemValue="09-10" itemLabel="09-10"/>
+                            <f:selectItem itemValue="10-11" itemLabel="10-11"/>
+                            <f:selectItem itemValue="11-12" itemLabel="11-12"/>
+                            <f:selectItem itemValue="12-13" itemLabel="12-13"/>
+                            <f:selectItem itemValue="13-14" itemLabel="13-14"/>
+                            <f:selectItem itemValue="14-15" itemLabel="14-15"/>
+                            <f:selectItem itemValue="15-16" itemLabel="15-16"/>
+                            <f:selectItem itemValue="16-17" itemLabel="16-17"/>
+                            <f:selectItem itemValue="17-18" itemLabel="17-18"/>
+                            <f:selectItem itemValue="18-19" itemLabel="18-19"/>
+                            <f:selectItem itemValue="19-20" itemLabel="19-20"/>
+                            <f:selectItem itemValue="20-21" itemLabel="20-21"/>
+                            
+                            
+                        </p:selectOneMenu>
+                        <p:commandButton value="Consultar" icon="ui-icon-search" action="#{reportesHorariosBean.generarReportesAula()}"/>
+                        
+                    </h:panelGrid>                
+                </h:form>
+                
+            </p:tab>
+            
+        </p:accordionPanel>
+<!--        
+            <ace:accordionPane title="Reporte de horarios por  Sede" rendered="#{userLogged.administrador || userLogged.secretario}">
+                
+
+            </ace:accordionPane>  
+
+            <ace:accordionPane  title="Reporte de clases por docente" rendered="#{userLogged.administrador || userLogged.secretario || userLogged.profesor}">
+               
+
+            </ace:accordionPane>    
+
+            <ace:accordionPane title="Reporte estudiantes por clase" rendered="#{userLogged.administrador || userLogged.secretario || userLogged.profesor}">
+               
+
+            </ace:accordionPane>-->
+
+        
+
+
+
+    </ui:define>
+
+
+
+</ui:composition>

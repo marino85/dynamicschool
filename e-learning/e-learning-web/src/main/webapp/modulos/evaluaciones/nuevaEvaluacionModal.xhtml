@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:component  xmlns="http://www.w3.org/1999/xhtml"
+               xmlns:ui="http://java.sun.com/jsf/facelets"
+               xmlns:p="http://primefaces.org/ui" 
+               xmlns:h="http://java.sun.com/jsf/html"
+               xmlns:f="http://java.sun.com/jsf/core">
+    <h:form id="nuevaevaluacionmodal" style="text-align: center">
+        <p:dialog id="nuevaEvaluacion"
+                  closable="false"
+                  modal="true"
+                  draggable="false"
+                  widgetVar="nuevaEvaluacion"
+                  header="Evaluacion Asignada"
+                  width="800"
+                  height="450"
+                  visible="#{evaluacionesBean.nuevaEvaluacionDialog}">     
+
+            <p:messages/>
+            <h:panelGrid columns="4" style="text-align: left">
+                <p:outputLabel value="Nombre:" />
+                <p:inputText required="true" requiredMessage="Nombre campo obligatorio" style="width: 100%" value="#{evaluacionesBean.evaluacion.nombre}"/>
+                <p:outputLabel value="Descripción:" />
+                <p:inputTextarea required="true" requiredMessage="Descripción campo obligatorio" style="width: 100%" value="#{evaluacionesBean.evaluacion.descripcion}"/>
+
+                <p:outputLabel value="Habilitada Desde:" />                
+                <p:calendar required="true" requiredMessage="Habilitada Desde: campo obligatorio"
+                    pattern="dd/MM/yyyy hh:mm a" navigator="true" value="#{evaluacionesBean.evaluacion.fechaInicio}"></p:calendar>
+
+                <p:outputLabel value="Habilitada Hasta:" />
+                <p:calendar required="true" requiredMessage="Habilitada Hasta: campo obligatorio"
+                    pattern="dd/MM/yyyy hh:mm a" navigator="true" value="#{evaluacionesBean.evaluacion.fechaLimite}" />
+               
+
+               
+               
+
+<!--                <ice:selectInputDate id="Evaluaion1"   value="#{evaluacionesBean.evaluacion.fechaInicio}"
+                            renderMonthAsDropdown="true"  renderYearAsDropdown="true"  >
+           <f:convertDateTime pattern="dd/MM/yyyy hh:mm a" timeZone="GMT-5"/>
+  </ice:selectInputDate>-->
+
+                
+               
+<!--                 <ice:selectInputDate id="Evaluaion2"      value="#{evaluacionesBean.evaluacion.fechaLimite}" 
+                                             renderMonthAsDropdown="true"  renderYearAsDropdown="true" 
+                                             >
+                            <f:convertDateTime pattern="dd/MM/yyyy hh:mm a" timeZone="GMT-5"/>
+                 </ice:selectInputDate>                -->
+
+                <p:outputLabel value="Duración (minutos):" />
+                <p:inputText style="width: 100%" required="true" requiredMessage="Duración: campo obligatorio" 
+                             value="#{evaluacionesBean.evaluacion.duracion}"
+                             converterMessage="la duracion es un campo numerico">
+                    <f:convertNumber type="number"/>
+                </p:inputText>
+                <p:outputLabel value=""/>
+            </h:panelGrid>
+            <p:dataTable value="#{evaluacionesBean.evaluacion.iappPreguntasCollection}" var="pregunta" rowIndexVar="index"
+                         paginator="true" rows="5"
+                         paginatorPosition="bottom" 
+                         >
+                <p:column headerText="No">
+                    <p:outputLabel value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="Pregunta">
+                    <p:outputLabel value="#{pregunta.descripcion}"/>
+                </p:column>
+                <p:column headerText="Evaluacion">
+                    <p:outputLabel value="#{evaluacion.nombre}"/>
+                </p:column>
+                <p:column id="acciones" headerText="Vinculos">
+                    <p:commandLink rendered="#{userLogged.administrador || userLogged.profesor}"
+                                   value="Editar" update=":nuevapreguntamodal"
+                                   action="#{evaluacionesBean.editPregunta()}">
+                        <f:setPropertyActionListener target="#{evaluacionesBean.pregunta}" value="#{pregunta}"/>
+                    </p:commandLink>
+                    <h:outputText  rendered="#{userLogged.administrador || userLogged.profesor}" 
+                                   value="&nbsp;&nbsp;"/>
+                    <p:commandLink rendered="#{userLogged.administrador || userLogged.profesor}"
+                                   value="Eliminar" update=":nuevaevaluacionmodal:verConfirmacionPregunta"
+                                   action="#{evaluacionesBean.confirmarPregunta()}">
+                        <f:setPropertyActionListener target="#{evaluacionesBean.pregunta}" value="#{pregunta}"/>
+                    </p:commandLink>
+                </p:column>
+            </p:dataTable>
+            <br/>
+            <p:commandButton value="Guardar" update=":nuevaevaluacionmodal,:evaluaciones,:mjspopup:verMensaje" icon="ui-icon-disk" action="#{evaluacionesBean.guardar()}"/>
+            <p:commandButton immediate="true" value="Cancelar" icon="ui-icon-close" update=":nuevaevaluacionmodal"  action="#{evaluacionesBean.hideCrearEvaluacion()}"/>
+            <p:commandButton value="Agregar Pregunta" immediate="true"  icon="ui-icon-plus" update=":nuevapreguntamodal" 
+                             action="#{evaluacionesBean.crearPregunta}"/>
+
+        </p:dialog>
+        <p:dialog id="verConfirmacionPregunta"
+                  closable="fasle"
+                  modal="true"
+                  draggable="false"
+                  widgetVar="eliminarPregunta"
+                  header="Eliminar Pregunta"
+                  width="300"
+                  visible="#{evaluacionesBean.verPreguntaConfirmacion}">
+            
+                <h:panelGrid>
+                    <p:outputLabel value="Seguro de eliminar esta pregunta"/>
+                </h:panelGrid>
+                <p:commandButton value="Aceptar" update=":nuevaevaluacionmodal" icon="ui-icon-info" action="#{evaluacionesBean.eliminarPregunta()}"/>
+                <p:commandButton value="Cancelar" update=":nuevaevaluacionmodal" icon="ui-icon-close" action="#{evaluacionesBean.hidePreguntaConfirmar()}"/>
+            
+        </p:dialog>
+        
+    </h:form>
+   <ui:include src="nuevaPreguntaModal.xhtml" />
+    
+</ui:component>
+

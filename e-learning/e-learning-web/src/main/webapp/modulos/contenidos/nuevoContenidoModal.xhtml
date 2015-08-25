@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:component  xmlns:ui="http://java.sun.com/jsf/facelets"
+               xmlns:p="http://primefaces.org/ui"
+               xmlns:h="http://java.sun.com/jsf/html"
+               xmlns:f="http://java.sun.com/jsf/core">
+    <h:form id="nuevocontenido" >
+        <p:dialog id="nuevoContenido"
+                  closable="fasle"
+                  modal="true"
+                  draggable="false"
+                  widgetVar="nuevoContenido"
+                  header="Contenido"
+                  width="500"
+                  visible="#{contenidosBean.nuevoContenidoDialog}">
+
+            <h:panelGrid columns="2" style="text-align: left">
+                <p:outputLabel value="Nombre:" />
+                <p:inputText style="width: 100%" value="#{contenidosBean.contenido.nombre}"/>
+                <p:outputLabel value="Descripción:" />
+                <p:inputTextarea style="width: 100%" value="#{contenidosBean.contenido.descripcion}"/>
+            </h:panelGrid>
+            <p:fileUpload immediate="true" fileUploadListener="#{contenidosBean.handleFileUpload}" mode="advanced" dragDropSupport="false"
+                                update=":nuevocontenido" sizeLimit="4000000" fileLimit="1"  />
+            
+            <h:panelGrid columns="1" style="text-align: left">
+                
+                <p:commandButton rendered="#{contenidosBean.uploadFile !=null}" value="#{contenidosBean.uploadFile.fileName}" ajax="false" icon="ui-icon-arrowthick-1-s">
+                    <p:fileDownload value="#{contenidosBean.downloadFile}" />
+                </p:commandButton>
+                
+<!--                <h:outputText rendered="#{contenidosBean.contenido.file!=null}" value="Adjuntos" style="font-weight: bold"/>-->
+<!--                <p:outputResource rendered="#{contenidosBean.contenido.file!=null}" id="Download" resource="#{contenidosBean.contenidoFileResourse}"
+                            attachment="true"
+                            label="#{contenidosBean.contenido.titulo}"
+                            type="text"
+                            mimeType="pdf"/>-->
+                <h:outputText value=""/>
+            </h:panelGrid>
+            
+            <p:commandButton value="Guardar" icon="ui-icon-disk" update=":nuevocontenido,:contenidos,:mjspopup" action="#{contenidosBean.guardar()}"/>
+            <p:commandButton immediate="true" icon="ui-icon-close" update=":nuevocontenido,:mjspopup" value="Cancelar"  action="#{contenidosBean.hideCrearContenido()}"/>
+
+        </p:dialog>
+    </h:form>
+</ui:component>
+

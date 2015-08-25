@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" 
+                xmlns:pe="http://primefaces.org/ui/extensions" 
+                template="/WEB-INF/template.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core">
+    <ui:define name="popup">
+
+        <h:form id="presentarevaluacion">
+            <p:dialog id="tomarEvaluacionTest"
+                      closable="true"
+                      modal="true"
+                      draggable="true"
+                      widgetVar="nuevaEvaluacion"
+                      header="Tomar  - Evaluación"
+                      width="800"
+                      height="450"
+                      visible="#{evaluacionesBean.presentarEvaluacion}"> 
+        <!--            <h:outputText id="txt_count" value="#{counterView.number}" />
+                    <p:poll interval="1" listener="#{counterView.increment}" update="txt_count" />-->
+              
+                
+                <h:panelGrid columns="2">
+                   <pe:timer format="mm:ss" timeout="#{evaluacionesBean.milisegundosevaluacion}"/> 
+                </h:panelGrid>
+                
+                <h:panelGrid columns="1">
+                    <h:panelGrid columns="1">
+                        <p:dataTable value="#{evaluacionesBean.evaluacion.iappPreguntasCollection}" 
+                                     var="pregunta" rowIndexVar="index" paginatorPosition="bottom" 
+                                     rows="3" paginator="true" rowsPerPageTemplate="2,3,5,10,15,20">
+                            <f:facet name="header">
+                                <p:outputLabel value="EVALUACION #{evaluacionesBean.evaluacion.nombre} "/>
+                            </f:facet>
+                            <p:column style=" text-align: left">
+                                <h:panelGrid columns="1" style="text-align: left">
+                                    <p:outputLabel value="#{index+1}. #{pregunta.descripcion}" style="font-weight: bold"/>
+                                </h:panelGrid>
+                                <h:panelGrid columns="1" style="text-align: left" >
+                                    <!--                                <h:outputText value=""/>-->
+                                    <p:selectManyCheckbox layout="pageDirection" value="#{pregunta.respuestas}" 
+                                                          style="border-color: white"
+                                                          valueChangeListener="#{evaluacionesBean.seleccionPregunta}"
+                                                          rendered="#{pregunta.multiRespuesta()==true}">
+                                        <f:selectItems value="#{pregunta.iappRespuestasCollection}" var="resp" itemLabel="#{resp.descripcion}"/>
+                                    </p:selectManyCheckbox>
+<!--                       onchange="submit()"             -->
+                                    <p:selectOneRadio layout="pageDirection" value="#{pregunta.respuesta}" 
+                                                       style="border-color: white"
+                                                      valueChangeListener="#{evaluacionesBean.seleccionPregunta}"
+                                                      rendered="#{pregunta.multiRespuesta()==false}">
+                                        <f:selectItems value="#{pregunta.iappRespuestasCollection}" var="resp" itemLabel="#{resp.descripcion}"/>
+                                    </p:selectOneRadio>
+                                </h:panelGrid>
+                            </p:column>
+                        </p:dataTable>
+                        <h:outputText value=""/>
+                        <h:panelGroup>
+                            <p:commandButton value="Finalizar" icon="ui-icon-power" update=":presentarevaluacion:confirmar"  
+                                             action="#{evaluacionesBean.finalizarEvaluacion()}"/>
+                            <!--                            <p:commandButton value="Finalizar" icon="ui-icon-power" update=":presentarevaluacion"  
+                                                                         action="#{evaluacionesBean.validarRespuestas()}"/>-->
+                            <!--                            <p:commandButton immediate="true" icon="ui-icon-arrowthickstop-1-w"
+                                                                         value="Regresar"  
+                                                                         action="consultarEvaluaciones"/>                    -->
+                        </h:panelGroup>
+                    </h:panelGrid>
+                </h:panelGrid>
+            </p:dialog>
+            <p:dialog id="verConfirmacion"
+                      closable="false"
+                      modal="true"
+                      draggable="false"
+                      widgetVar="enviarRespuestas"
+                      header="Enviar Respuestas"
+                      width="300"
+                      visible="#{evaluacionesBean.verConfirmacion}">
+                
+                    <h:panelGrid>
+                        <p:outputLabel value="Aun tiene preguntas sin responder esta seguro que desea enviar las respuestas"/>
+                    </h:panelGrid>
+                    <p:commandButton value="Aceptar" icon="ui-icon-info" action="#{evaluacionesBean.enviarRespuestas()}"/>
+                    <p:commandButton value="Cancelar" update=":presentarevaluacion" icon="ui-icon-close" action="#{evaluacionesBean.hideConfirmar()}"/>
+                
+            </p:dialog>
+            <p:dialog id="confirmar"
+                      closable="false"
+                      modal="true"
+                      draggable="false"
+                      widgetVar="confirmar"
+                      header="Finalizar Evaluación"
+                      width="300"
+                      visible="#{evaluacionesBean.dialogConfirmar}">
+                
+                    <h:panelGrid>
+                        <p:outputLabel value="¿ésta seguro de finalizar la evaluación ?"/>
+                    </h:panelGrid>
+                    <p:commandButton value="Aceptar" update=":presentarevaluacion" icon="ui-icon-info" action="#{evaluacionesBean.validarRespuestas()}"/>
+                    <p:commandButton value="Cancelar" update=":presentarevaluacion" icon="ui-icon-close" action="#{evaluacionesBean.cancelarFinalizarEvaluacion()}"/>
+                
+            </p:dialog>
+        </h:form>
+
+
+
+
+    </ui:define>
+</ui:composition>

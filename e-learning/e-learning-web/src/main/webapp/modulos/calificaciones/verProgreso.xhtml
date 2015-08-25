@@ -1,0 +1,123 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core">
+    <ui:define name="content">
+
+        <style>
+            td{
+                text-align: left;
+                font-size: 13px;
+                color: gray;
+                vertical-align: top;
+
+            }
+
+        </style>
+
+        <h:form id="progresonotas">
+            <h:panelGrid columns="2" >
+                <h:panelGrid columns="1">
+                    <h:panelGrid columns="2" >
+
+                        <p:dataTable value="#{calDocenteBean.matricula.iappCalAsignacionesCollection}" var="trabajos"
+                                     paginator="false"  rows="10"
+
+                                     >
+                            <f:facet name="header">
+                                Trabajos
+                            </f:facet>
+                            <p:column headerText="Nombre ">
+                                <h:outputText value="#{trabajos.idAsignacion.nombre}"/>
+                            </p:column>                     
+                            <p:column headerText="Descripción">
+                                <h:outputText  value="#{trabajos.idAsignacion.descripcion}"/>
+                            </p:column> 
+                            <p:column headerText="Modulo">
+                                <h:outputText  value="#{trabajos.idAsignacion.idModulo.nombre}"/>
+                            </p:column> 
+                            <p:column id="acciones" headerText="Nota">
+                                <h:outputText value="#{trabajos.calificacion}"/>
+
+                            </p:column>
+                        </p:dataTable>
+                    </h:panelGrid>            
+                </h:panelGrid>       
+                <h:panelGrid columns="1">
+                    <h:panelGrid columns="2">
+
+                        <p:dataTable value="#{calDocenteBean.matricula.iappCalEvaluacionCollection}" var="evaluacion"
+                                     paginator="false" rows="10"
+
+                                     >
+                            <f:facet name="header">
+                                Evaluaciones
+                            </f:facet>
+                            <p:column headerText="Nombre ">
+                                <h:outputText value="#{evaluacion.idEvaluacion.nombre}"/>
+                            </p:column>                     
+                            <p:column headerText="Descripción">
+                                <h:outputText  value="#{evaluacion.idEvaluacion.descripcion}"/>
+                            </p:column> 
+                            <p:column headerText="Modulo">
+                                <h:outputText  value="#{evaluacion.idEvaluacion.idModulo.nombre}"/>
+                            </p:column> 
+                            <p:column id="acciones" headerText="Nota">
+                                <h:outputText value="#{evaluacion.calificacion}"/>                            
+                            </p:column>
+                        </p:dataTable>
+                    </h:panelGrid>            
+                </h:panelGrid> 
+
+
+                <p:panel header="Resumen">
+                    <h:panelGrid columns="2">
+                        <!--                    <f:facet name="header">
+                                                Resumen
+                                            </f:facet>-->
+
+                        Promedio Trabajos:
+                        <h:outputText rendered="#{calDocenteBean.promedioTrabajos!=null}" value="#{calDocenteBean.promedioTrabajos}"/>
+                        Promedio Evaluaciones:
+                        <h:outputText value="#{calDocenteBean.promedioEvaluaciones}"/>
+                        Final:
+                        <h:panelGroup rendered="#{userLogged.estudiante}">
+
+                            <h:outputText rendered="#{calDocenteBean.matricula.iappCalCurso!=null}" value="#{calDocenteBean.matricula.iappCalCurso.calAdicional}"></h:outputText>
+                        </h:panelGroup>
+                        <h:panelGroup rendered="#{userLogged.profesor}">
+
+                            <h:inputText maxlength="3" style="width: 25px"  value="#{calDocenteBean.matricula.iappCalCurso.calAdicional}" required="true">
+                                <f:validateDoubleRange minimum="1.0" maximum="5.0"/>
+                            </h:inputText>
+                            <p:commandButton value="Calificar" update=":progresonotas" icon="ui-icon-check" action="#{calDocenteBean.calificarCurso()}"/>
+                        </h:panelGroup>
+
+                        Final Curso:
+                        <h:outputText rendered="#{calDocenteBean.matricula.iappCalCurso!=null}" value="#{calDocenteBean.matricula.iappCalCurso.calTotal}"></h:outputText>
+                    </h:panelGrid>
+                </p:panel>
+
+
+
+            </h:panelGrid>
+            <h:panelGrid columns="3">
+                <p:commandButton rendered="#{userLogged.profesor}" value="Regresar"   icon="ui-icon-arrowthickstop-1-w"  
+                                 immediate="true"
+                                 action="calDocente"/>
+
+                <p:commandButton rendered="#{userLogged.estudiante}" value="Regresar"  icon="ui-icon-arrowthickstop-1-w"  
+                                 immediate="true"
+                                 action="misCursos"/>
+
+            </h:panelGrid>    
+        </h:form>
+
+
+
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:component  xmlns:ui="http://java.sun.com/jsf/facelets"
+               xmlns:p="http://primefaces.org/ui"
+               xmlns:h="http://java.sun.com/jsf/html"
+               xmlns:f="http://java.sun.com/jsf/core">
+    <h:form id="inscribir">
+        <p:dialog id="estudiante"
+                  closable="fasle"
+                  modal="true"
+                  draggable="false"
+                  widgetVar="estudiantes"
+                  header="Inscribir Estudiante"
+                  width="600"
+                  height="400"
+                  visible="#{createStreamingBean.mostrarEstudiantesCurso}">
+
+            <p:messages styleClass="messageLogin"/>
+
+            <p:dataTable value="#{createStreamingBean.curso.iappMatriculasCollection}" var="estudiante"
+                         paginator="false" >
+<!--                         paginatorPosition="bottom" 
+                         rowsPerPageTemplate="5,10,15,20,50"
+                         rows="5"-->
+                         
+
+
+                <p:column headerText="Nombres">
+                    <p:outputLabel value="#{estudiante.idUsuario.nombres} #{estudiante.idUsuario.apellidos}"/>
+                </p:column>
+                <p:column headerText="Jornada">
+                    <p:outputLabel value="#{estudiante.idUsuario.idJornada.descripcion}"/>
+                </p:column>
+                <p:column headerText="Nivel">
+                    <p:outputLabel value="#{estudiante.idUsuario.idNivel.descripcion}"/>
+                </p:column>
+                <p:column headerText="Seleccionar">
+                    <p:commandButton update=":inscribir,:estudiantesInscritos" value="Inscribir" action="#{createStreamingBean.inscribirEstudiante(estudiante.idUsuario)}"/>
+                </p:column>
+
+            </p:dataTable>
+   
+            <p:commandButton immediate="true" update=":inscribir" icon="ui-icon-close" value="Cancelar"  action="#{createStreamingBean.cerrarEstudiantes()}"/>
+
+        </p:dialog>
+    </h:form>
+</ui:component>
+

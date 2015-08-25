@@ -1,0 +1,84 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"  
+      xmlns:h="http://java.sun.com/jsf/html"
+      >
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<!--        <link href="${request.getContextPath( )}/resources/css/default.css" rel="stylesheet" type="text/css" />
+        <link href="${request.getContextPath( )}/resources/css/cssLayout.css" rel="stylesheet" type="text/css" />
+        <link href="${request.getContextPath( )}/resources/css/home.css" rel="stylesheet" type="text/css" />-->
+        <link href="${request.getContextPath( )}/resources/css/login.css" rel="stylesheet" type="text/css" />
+        <link href="${request.getContextPath( )}/resources/css/main.css" rel="stylesheet" type="text/css" />
+        <h:outputStylesheet name="main/css/showcase.css" />
+        <h:outputStylesheet name="main/css/sh.css" />
+        <title>Dinamic Teaching Corp</title>
+        <style type="text/css">
+            body {
+                background-color: #FFFFFF;
+            }
+        </style>
+    </h:head>
+
+    <h:body>
+       
+
+        <div id="contenido" >
+
+         
+
+            <div class="formulario">
+                <h:form id="loginform"   >
+                    <h:outputText style="color:#25aae1;" value="#{loginBean.message}"/>                    
+                    <h:panelGrid columns="3">
+                        <p:outputLabel value="Usuario:"></p:outputLabel>
+
+                        <p:inputText id="user" 
+                                     value="#{loginBean.user}" required="true" 
+                                     requiredMessage="usuario: campo obligatorio"></p:inputText>
+
+                        <p:message for="user" />
+                        <p:outputLabel value="Contraseña:"></p:outputLabel>
+
+                        <p:password id="pass" value="#{loginBean.password}"  required="true" 
+                                    requiredMessage="contraseña: campo obligatorio"  
+                                    ></p:password>
+                        <p:message for="pass" />
+
+                        <div align="right">
+                            <h:panelGroup>
+                                <p:commandButton id="login" icon="ui-icon-power" ajax="false" value="Ingresar"  action="#{loginBean.login}" 
+                                                 >
+                                </p:commandButton>
+                            </h:panelGroup>
+                        </div>
+                        <p:defaultCommand target="login"/>
+
+
+
+                    </h:panelGrid>
+
+                </h:form>
+                <div class="footer">
+                    <center>
+<!--                        <h:outputText value="#{loginBean.message}"/>-->
+
+                        <h:form>
+                            <h:commandLink value="Aún no eres miembro" action="pagosonline"/>                         
+                        </h:form>
+                        <h:form>
+                            <h:commandLink value="Recuperar Contraseña" action="lostPass"/>                         
+                        </h:form>
+                        <h:form>
+                            <h:commandLink value="Registro Nuevos Estudiantes" action="nuevosEstudiantes"/>                         
+                        </h:form>
+                    </center>
+                </div>
+            </div>
+
+        </div>
+
+    </h:body>
+
+</html>

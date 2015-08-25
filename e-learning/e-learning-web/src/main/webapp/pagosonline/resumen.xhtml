@@ -1,0 +1,88 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets" 
+                xmlns:p="http://primefaces.org/ui"  
+                xmlns:h="http://java.sun.com/jsf/html"                
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="/WEB-INF/external_template.xhtml" >
+
+
+    <ui:define name="content">
+
+        <h:form>
+            <p:messages styleClass="messageLogin"></p:messages> 
+          
+                    <p:panel header="Información Personal">
+                        <h:panelGrid columns="4">
+
+
+                            <p:outputLabel value="Nombres: "/>
+                            <p:inputText value="#{pagosOnlineBean.userOnline.nombres}" required="true" requiredMessage="Nombres: campo obligatorio"/>
+
+                            <p:outputLabel value="Apellidos: "/>
+                            <p:inputText value="#{pagosOnlineBean.userOnline.apellidos}" required="true" requiredMessage="Apellidos: campo obligatorio"/>
+
+                            <p:outputLabel value=" Dirección: "/>
+                            <p:inputText value="#{pagosOnlineBean.userOnline.direccion}" required="true" requiredMessage="Dirección: campo obligatorio"/>
+
+                            <p:outputLabel value="Teléfono: "/>
+                            <p:inputText value="#{pagosOnlineBean.userOnline.telefono}" required="true" requiredMessage="Telefono: campo obligatorio"/>
+
+                            <p:outputLabel value=" Correo Personal: "/>
+                            <p:inputText id="email" value="#{pagosOnlineBean.userOnline.email}" required="true"  requiredMessage="E-mail : campo obligatorio">
+
+                            </p:inputText>
+
+
+                        </h:panelGrid>
+                    </p:panel>
+                              
+
+            
+
+            <p:panel header="Curso Seleccionado">
+                <h:panelGrid columns="2">
+
+                    <p:outputLabel value="Nombre Curso "/>
+                    <p:outputLabel value="#{pagosOnlineBean.courseSelected.nombre}" />
+
+                    <p:outputLabel value="Descripción"/>
+                    <p:outputLabel value="#{pagosOnlineBean.courseSelected.nombre}" />
+
+                    <p:outputLabel value="Valor Curso "/>
+                    <p:outputLabel value="#{pagosOnlineBean.courseSelected.valor}" />                                   
+
+                </h:panelGrid>  
+            </p:panel>
+
+            <h:panelGrid columns="2">
+                <p:selectManyCheckbox required="true" requiredMessage="Debe Aceptar Terminos y Condiciones">
+                    <f:selectItem itemLabel="He leido y Acepto, Terminos Y Condiciones de Uso" itemValue="S"/>
+
+                </p:selectManyCheckbox>
+
+
+            </h:panelGrid>
+            <p:panel header="Forma de Pago">
+                <h:panelGrid columns="1">
+
+                    <p:selectOneRadio value="#{pagosOnlineBean.payImmediatly}" required="true" requiredMessage="Debe Seleccionar una opción de pago">                   
+
+                        <f:selectItem itemLabel="Pagar Immediantamente" itemValue="S"></f:selectItem>
+                        <f:selectItem itemLabel="Solo inscribirme" itemValue="N"></f:selectItem>
+                    </p:selectOneRadio>
+                </h:panelGrid>  
+
+
+            </p:panel>
+
+            <h:panelGrid columns="2">
+                <p:commandButton value="Continuar Inscripción" ajax="false" icon="iu-icon-ok" action="#{pagosOnlineBean.continuarPago()}"/>
+                <p:commandButton value="Cancelar" immediate="true" ajax="false" icon="ui-icon-cancel" actionListener="#{pagosOnlineBean.resetPagosOnline()}" action="login"/>
+            </h:panelGrid>
+
+
+        </h:form>
+        <ui:include src="condicionesuso.xhtml"/>
+        <ui:include src="terminosycondiciones.xhtml"/>
+    </ui:define>
+</ui:composition>

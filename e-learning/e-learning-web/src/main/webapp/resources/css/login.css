@@ -1,0 +1,94 @@
+/* 
+    Document   : login
+    Created on : 18/10/2012, 04:34:41 PM
+    Author     : marino
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+#logo_contenido {
+    position: absolute;
+    top:45%;
+    left:50%;
+    margin-top:-240px;
+    margin-left:-220px;
+    width:440px;
+    height:95px;
+    text-align: right;
+    
+    
+}
+#contenido {
+    position:absolute;
+    top:45%;
+    left:50%;
+    margin-top:-200px;
+    margin-left:-400px;
+    width:800px;
+    height:400px;
+    background: #FFF;
+    background: url("../../resources/img/imagen_home.png")no-repeat scroll  transparent;    
+    overflow:auto;
+    text-align:left;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    border: 1px solid #bfc3c5;
+    -webkit-box-shadow: 0 8px 6px -6px #333;
+    -moz-box-shadow: 0 8px 6px -6px #333;
+    box-shadow: 0 8px 6px -6px #333;
+}
+
+
+#contenido .top_contenido {
+    min-height: 46px;
+    width: 100%;
+    font-variant: small-caps;
+    font-size: 24px;
+    color:#F36F08;
+    font-weight: 600;
+    text-align: center;
+    margin-top: 5px;
+    text-shadow: 1px 1px white;
+}
+/*body {
+   
+    font-family: 'Open Sans', Helvetica ;
+    color: #606060;
+    text-align: center;
+    background-color: #FAFAFA;
+    min-height: 302px;
+}*/
+/*#contenido .formulario {
+    margin-top: 15px;
+    margin-bottom: 15px;
+    text-align: center;
+}
+*/
+#contenido .formulario {
+    margin-top: 120px;
+    margin-bottom: 15px;
+    margin-left: 200px;
+    text-align: left;
+}
+
+#contenido .footer {
+    
+    text-align: center;
+    font-variant: small-caps;
+    font-size: 15px;
+    margin-bottom: 15px;
+    margin-left: 220px;
+    color:#F36F08;
+}
+/*#contenido .formulario form input[type="text"], #contenido .formulario form input[type="password"] {
+    -moz-box-sizing: border-box;
+    background: url("../img/portal/background_input_off.png") no-repeat scroll left center transparent;
+    background: white;
+    border: medium none;
+    font-size: 12px;
+    height: 40px;
+    margin-bottom: 15px;
+    padding: 9px 20px 9px 10px;
+    width: 340px;
+}*/
+

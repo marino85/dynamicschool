@@ -1,0 +1,164 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <ui:define name="content">
+
+        <ui:include src="/cursos/headerCurso.xhtml" />
+        <h:form id="evaluaciones">
+            <h:panelGrid columns="1">
+                <h:panelGrid columns="2">
+
+                    <p:dataTable value="#{evaluacionesBean.editModule.iappEvaluacionesCollection}" var="evaluacion"
+                                 paginator="true" 
+                                 paginatorPosition="bottom" 
+                                 >
+                        <f:facet name="header">
+                            <p:outputLabel value="EVALUACIONES DISPONIBLES"/>
+                        </f:facet>
+                        <p:column headerText="Evaluacion">
+                            <p:outputLabel value="#{evaluacion.nombre}"/>
+                        </p:column>
+                        <p:column headerText="Descripción" style="text-align: left">
+                            <p:outputLabel value="#{evaluacion.shortDescripcion}"/>
+                        </p:column>
+                        <p:column headerText="Habilitado Desde">
+                            <p:outputLabel value="#{evaluacion.fechaInicio}">  
+                                <f:convertDateTime pattern="EEEE, dd MMM YYYY hh:mm a" timeZone="GMT-5"/>
+                            </p:outputLabel>
+                        </p:column>
+                        <p:column headerText="Habilitado Hasta">
+                            <p:outputLabel value="#{evaluacion.fechaLimite}">
+                                <f:convertDateTime pattern="EEEE, dd MMM YYYY hh:mm a" timeZone="GMT-5"/>
+                            </p:outputLabel>
+                        </p:column>
+                        <p:column headerText="Duracion">
+                            <p:outputLabel value="#{evaluacion.duracion} minutos"/>
+                        </p:column>
+                        <p:column headerText="Calificación" rendered="#{not(userLogged.administrador || userLogged.profesor)}">
+
+                            <c:if test="#{evaluacion.getCalificacion(evaluacionesBean.matricula).noCorrectas==0}">
+                                <p:outputLabel rendered="#{evaluacion.getCalificacion(evaluacionesBean.matricula)!=null and evaluacion.getCalificacion(evaluacionesBean.matricula).usuarioCreacion==1}"
+                                              value="0.0"/>
+
+
+                            </c:if>
+                            <c:if test="#{evaluacion.getCalificacion(evaluacionesBean.matricula).noCorrectas!=0}">
+
+                                <p:outputLabel rendered="#{evaluacion.getCalificacion(evaluacionesBean.matricula)!=null and evaluacion.getCalificacion(evaluacionesBean.matricula).usuarioCreacion==1}"
+                                              value="#{evaluacion.getCalificacion(evaluacionesBean.matricula).noCorrectas/evaluacion.iappPreguntasCollection.size()*5}"/>
+
+                            </c:if>
+
+<!--                            <h:outputText rendered="#{evaluacion.getCalificacion(evaluacionesBean.matricula)!=null and evaluacion.getCalificacion(evaluacionesBean.matricula).usuarioCreacion==1}"
+              value="#{evaluacion.getCalificacion(evaluacionesBean.matricula).noCorrectas/evaluacion.iappPreguntasCollection.size()*5}"/>-->
+                            <p:commandLink rendered="#{evaluacion.getCalificacion(evaluacionesBean.matricula)==null || evaluacion.getCalificacion(evaluacionesBean.matricula).usuarioCreacion==0}"
+                                           disabled="#{evaluacion.editable||evaluacion.getCalificacion(evaluacionesBean.matricula).isEditable(evaluacion.duracion)}"
+                                           value="Iniciar" update=":comenzarevaluacion"
+                                           action="#{evaluacionesBean.iniciarEvaluacion}">
+                                <f:setPropertyActionListener target="#{evaluacionesBean.evaluacion}" value="#{evaluacion}"/>
+                            </p:commandLink>
+                        </p:column>
+                        <p:column id="acciones" rendered="#{userLogged.administrador || userLogged.profesor}" headerText="Vinculos">
+                            <p:commandLink value="Ver" ajax="false"
+                                           action="verEvaluaciones">
+                                <f:setPropertyActionListener target="#{evaluacionesBean.evaluacion}" value="#{evaluacion}"/>
+                            </p:commandLink>
+                            <h:outputText  value="&nbsp; | &nbsp;"/>
+                            <p:commandLink value="Editar" update=":nuevaevaluacionmodal"  
+                                           disabled="#{not evaluacion.editable}"
+                                           action="#{evaluacionesBean.editEvaluacion}">
+                                <f:setPropertyActionListener target="#{evaluacionesBean.evaluacion}" value="#{evaluacion}"/>
+                            </p:commandLink>
+                            <h:outputText  value="&nbsp; | &nbsp;"/>
+                            <p:commandLink value="Eliminar" update=":mjspopup" 
+                                           disabled="#{not evaluacion.editable}"
+                                           action="#{evaluacionesBean.confirmar}">
+                                <f:setPropertyActionListener target="#{evaluacionesBean.evaluacion}" value="#{evaluacion}"/>
+                            </p:commandLink>
+                        </p:column>
+                    </p:dataTable>
+                </h:panelGrid>            
+            </h:panelGrid>            
+            <h:panelGrid columns="3">
+                <p:commandButton value="Regresar" icon="ui-icon-arrowthickstop-1-w"  
+                                 immediate="true" ajax="false"
+                                 action="verCurso"/>
+                <p:commandButton value="Crear Evaluacion" icon="ui-icon-plus"
+                                 update=":nuevaevaluacionmodal"
+                                 rendered="#{userLogged.profesor}"
+                                 action="#{evaluacionesBean.createEvaluacion}"/>
+            </h:panelGrid> 
+           
+        </h:form>
+    </ui:define>
+    <ui:define name="popup">
+        <h:form id="mjspopup">
+           <p:dialog id="verMensaje"
+                      closable="false"
+                      modal="true"
+                      draggable="false"
+                      widgetVar="verEvaluacion"
+                      header="Evaluación Asignada"
+                      width="300"
+                      visible="#{evaluacionesBean.verMensaje}">
+
+                <h:panelGrid columns="1">
+                    <p:outputLabel value="#{evaluacionesBean.messaje}"/>
+                    <p:commandButton value="Aceptar" update=":evaluaciones,:mjspopup" icon="ui-icon-info" action="#{evaluacionesBean.aceptar}"/>
+                </h:panelGrid>
+
+            </p:dialog>
+            <p:dialog id="verConfirmacion"
+                      closable="false"
+                      modal="true"
+                      draggable="false"
+                      widgetVar="eliminarEvaluacion"
+                      header="Eliminar Evaluacion"
+                      width="300"
+                      visible="#{evaluacionesBean.verConfirmacion}">
+                <h:form style="text-align: center">
+                    <h:panelGrid>
+                        <p:outputLabel value="Seguro de eliminar la evaluacion #{evaluacionesBean.evaluacion.nombre}"/>
+                    </h:panelGrid>
+                    <p:commandButton value="Aceptar" icon="ui-icon-info"
+                                     update=":evaluaciones,:mjspopup" action="#{evaluacionesBean.eliminarEvaluacion()}"/>
+                    <p:commandButton value="Cancelar" icon="ui-icon-close"
+                                     update=":mjspopup" action="#{evaluacionesBean.hideConfirmar()}"/>
+                </h:form>
+            </p:dialog>
+            
+        </h:form>
+         
+
+        <h:form id="comenzarevaluacion">
+            <p:dialog id="tomarEvaluacion"
+                      closable="false"
+                      modal="true"
+                      draggable="false"
+                      widgetVar="tomarevaluacion"
+                      header="Tomar Evaluacion"
+                      width="400"
+                      visible="#{evaluacionesBean.tomarEvaluacionDialog}">
+
+                <h:panelGrid>
+                    <p:outputLabel value="Usted esta apunto de tomar la evaluación ' #{evaluacionesBean.evaluacion.nombre} ' recuerde que usted tiene #{evaluacionesBean.evaluacion.duracion} minutos para terminarla y realizar una revisión general antes de enviarla, de lo contrario el sistema la enviara automaticamente"/>
+                </h:panelGrid>
+                <p:commandButton value="Comenzar" ajax="false" icon="ui-icon-play" action="#{evaluacionesBean.tomarEvaluacion()}"/>
+                <p:commandButton value="Cancelar" update=":comenzarevaluacion" icon="ui-icon-close" action="#{evaluacionesBean.hideTomarEvaluacionDialog()}"/>
+
+            </p:dialog>
+        </h:form>
+
+        <ui:include src="nuevaEvaluacionModal.xhtml" />
+        
+        
+        
+    </ui:define>
+    
+</ui:composition>

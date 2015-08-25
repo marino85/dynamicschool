@@ -1,0 +1,38 @@
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+
+    <ui:define name="content">
+
+        <p:panel header="Descargar Carnet">
+            <h:form >
+
+                <p:panelGrid columns="2">
+                    <h:outputText value="Recuerda imprimirlo y mantenerlo para ser presentado en las areas administrativas"/>
+                    <p:commandButton icon="ui-icon-arrowthick-1-s" value="Descargar Carnet" ajax="false" >
+
+                        <p:fileDownload value="#{carnetBean.file}"/>
+                    </p:commandButton>
+       <!--            <ice:outputResource id="Download" resource="#{carnetBean.pdfResourse}"
+                                       image="./resources/img/PDF.png"
+                                       attachment="true"
+                                       label="Descargar Carnet"
+                                       type="text"
+                                       mimeType="pdf"/>-->
+       <!--            <h:commandButton value="Descargar" actionListener="#{usuariosBean.generarCarnet}"></h:commandButton>-->
+
+                </p:panelGrid>
+            </h:form>
+        </p:panel>
+
+
+    </ui:define>
+
+
+
+</ui:composition>

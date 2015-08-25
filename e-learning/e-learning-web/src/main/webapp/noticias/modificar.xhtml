@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+    <ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                    xmlns:ui="http://java.sun.com/jsf/facelets"
+                    xmlns:p="http://primefaces.org/ui" 
+                    template="/WEB-INF/template.xhtml"
+                    xmlns:h="http://java.sun.com/jsf/html"
+                    xmlns:f="http://java.sun.com/jsf/core">
+
+
+        <ui:define name="content">
+
+
+            <h:form id="Noticias">
+
+
+
+                <p:panel header="Noticias">
+                    <p:messages styleClass="messageLogin"></p:messages> 
+                    <h:panelGrid columns="2">
+
+
+                        <p:outputLabel value="Titulo"/>
+                        <p:inputText value="#{noticiasBean.editNoticia.titulo}" required="true" requiredMessage="Titulo campo obligatorio"></p:inputText>
+
+                        <p:outputLabel value="Estado"/>
+                        <p:selectOneMenu value="#{noticiasBean.editNoticia.estado}" > 
+                            <f:selectItem itemLabel="Activa" itemValue="A"/>
+                            <f:selectItem itemLabel="Inactiva" itemValue="I"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="Contenido"/>
+                        <p:inputTextarea cols="70"  rows="4" value="#{noticiasBean.editNoticia.contenido}"/>
+
+
+                        <p:commandButton value="Modificar" update=":mjspopup" icon="ui-icon-disk"  actionListener="#{noticiasBean.editarNoticia()}" > 
+                        </p:commandButton>
+                        <p:commandButton immediate="true" ajax="false" icon="ui-icon-close" value="Cancelar"  action="consultarnoticias" > 
+                        </p:commandButton>
+
+
+                    </h:panelGrid>
+
+                </p:panel>
+
+
+
+            </h:form>
+
+
+
+
+
+        </ui:define>
+
+        <ui:define name="popup">
+            <h:form id="mjspopup">
+                <p:dialog id="dialog"
+                          closable="fasle"
+                          modal="true"
+                          draggable="false"
+                          widgetVar="comfirm"
+                          header="Mensaje Confirmación"
+                          width="400"
+                          visible="#{noticiasBean.showDialog}">
+
+
+                    <h:panelGrid>
+                        <h:outputText value="#{noticiasBean.messaje}"></h:outputText>
+
+                    </h:panelGrid>
+                    <p:commandButton value="Aceptar" icon="ui-icon-info"
+                                     actionListener="#{noticiasBean.aceptar(evt)}"
+                                     update=":mjspopup,:Noticias"
+                                     ></p:commandButton>
+
+
+
+                </p:dialog>
+            </h:form>
+        </ui:define>
+
+
+
+
+    </ui:composition>
+</html>

@@ -1,0 +1,146 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets" 
+                xmlns:p="http://primefaces.org/ui"  
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="/WEB-INF/external_template.xhtml" >
+
+    <ui:define name="content">
+
+        <h:form id="nuevosestudiante" >
+            <p:panel header="Nuevos Estudiantes">
+
+                <h:panelGrid columns="2">
+                    <h:panelGroup>
+                        <h:panelGrid columns="4">
+                            <!--                            <f:facet name="header">
+                                                            <p:outputLabel value="Información Personal"/>                            
+                                                        </f:facet>                     -->
+                            <p:outputLabel value="Código Matricula:"/>
+                            <p:inputText id="codigo" value="#{nuevosEstudiantesBean.userOnline.codigo}" 
+                                         required="true" requiredMessage="Código Matricula: campo obligatorio"/>
+
+                            <p:outputLabel value="Tipo Documento:"/>
+                            <p:selectOneMenu value="#{nuevosEstudiantesBean.userOnline.tipoDoc}" converter="#{convertersBean.tipoDocConverter}"> 
+                                <f:selectItems value="#{generalListBean.tiposDoc}" var="tipoDoc" itemLabel="#{tipoDoc.descripcion}"/>
+                            </p:selectOneMenu>
+
+                            <p:outputLabel value=" Número Documento:"/>
+                            <p:inputText value="#{nuevosEstudiantesBean.userOnline.numeroDoc}" required="true" requiredMessage="Número Documento Obligatorio"></p:inputText>                       
+
+
+
+                            <p:outputLabel value=" Jornada:"/>
+                            <p:selectOneMenu value="#{nuevosEstudiantesBean.idJornada}" > 
+                                <f:selectItem itemLabel="Presencial" itemValue="1"/>
+                                <f:selectItem itemLabel="Ingles Blended" itemValue="3"/>
+                                <f:selectItem itemLabel="Frances Blended" itemValue="6"/>
+                                <f:selectItem itemLabel="Portugues Blended" itemValue="4"/>
+                                <f:selectItem itemLabel="Mandarin Blended" itemValue="5"/>
+                                <f:selectItem itemLabel="Kids" itemValue="7"/>
+                                <f:selectItem itemLabel="Intensivo" itemValue="8"/>
+
+                            </p:selectOneMenu>
+
+                            <p:outputLabel value="Nombres Estudiante: "/>
+                            <p:inputText value="#{nuevosEstudiantesBean.userOnline.nombres}" required="true" requiredMessage="Nombres: campo obligatorio"/>
+
+                            <p:outputLabel value="Apellidos Estudiante: "/>
+                            <p:inputText value="#{nuevosEstudiantesBean.userOnline.apellidos}" required="true" requiredMessage="Apellidos: campo obligatorio"/>
+
+                            <p:outputLabel value=" Dirección: "/>
+                            <p:inputText value="#{nuevosEstudiantesBean.userOnline.direccion}" required="true" requiredMessage="Dirección: campo obligatorio"/>
+
+                            <p:outputLabel value="Teléfono: "/>
+                            <p:inputText value="#{nuevosEstudiantesBean.userOnline.telefono}" required="true" requiredMessage="Telefono: campo obligatorio"/>
+
+                            <p:outputLabel value=" Correo Personal: "/>
+                            <p:inputText id="email" value="#{nuevosEstudiantesBean.userOnline.email}" required="true"  requiredMessage="E-mail : campo obligatorio">
+
+
+                            </p:inputText>
+
+                            <p:outputLabel value=" Fecha de Nacimiento:"/> 
+                            <p:calendar navigator="true"  pattern="dd/MM/yyy" value="#{nuevosEstudiantesBean.userOnline.fechaNacimiento}"></p:calendar>
+                            <!--                        <p:selectInputDate renderAsPopup="true"   
+                                                                         renderMonthAsDropdown="true"  renderYearAsDropdown="true" 
+                                                                         >
+                                                        <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-5"/>
+                                                    </p:selectInputDate>-->
+
+                            <!--                        <ace:dateTimeEntry id="cal"
+                                                                       value="#{usuariosBean.newUser.fechaNacimiento}"
+                                                                       timeZone="GMT-5"
+                                                                       pattern="dd/MM/yyyy"                                           
+                                                                       popupIconOnly="true"
+                                                                       renderAsPopup="true"                                          
+                                                                       rendered="true"
+                                                                       showOtherMonths="true"
+                                                                       navigator="true"
+                                                                       
+                                                                       />-->
+                            <p:outputLabel value="Sexo:"/>
+                            <p:selectOneMenu  value="#{nuevosEstudiantesBean.userOnline.sexo}"> 
+                                <f:selectItem itemLabel="M" itemValue="M"></f:selectItem>
+                                <f:selectItem itemLabel="F" itemValue="F"></f:selectItem>
+                            </p:selectOneMenu>
+                            <p:outputLabel value="Nivel de Educación:"/>
+                            <p:selectOneMenu value="#{nuevosEstudiantesBean.userOnline.nivelEducacion}">
+                                <f:selectItem itemValue="P" itemLabel="Primaria"/>
+                                <f:selectItem itemValue="B" itemLabel="Bachillerato"/>
+                                <f:selectItem itemValue="T" itemLabel="Técnico"/>
+                                <f:selectItem itemValue="R" itemLabel="Tecnólogo"/>
+                                <f:selectItem itemValue="W" itemLabel="Profesional"/>
+                                <f:selectItem itemValue="O" itemLabel="Otro"/>
+                            </p:selectOneMenu>
+
+                            <p:outputLabel value="Sede:"/>
+                            <p:selectOneMenu   id="sedes"  value="#{nuevosEstudiantesBean.sede}"                         
+                                               >
+
+
+                                <f:selectItems  value="#{nuevosEstudiantesBean.itemsSedes}"  >                       
+                                </f:selectItems>
+
+                            </p:selectOneMenu>
+
+                            <p:outputLabel value="Titular Responsable del Contrato de Servicio Educativo:"/>
+                            <p:inputText value="#{nuevosEstudiantesBean.nombreBeneficiario}" ></p:inputText>
+                            <p:outputLabel value="Identificación Responsable:"/>
+                            <p:inputText value="#{nuevosEstudiantesBean.idResponsable}" required="true" requiredMessage="Identificacion Responsable: campo obligatorio"/>
+                            <p:outputLabel value="Teléfono Celular:"/>
+                            <p:inputText value="#{nuevosEstudiantesBean.celularResposable}" required="true" requiredMessage="Teléfono Celular: campo obligatorio"/>
+                            <p:outputLabel value="Teléfono Fijo:"/>
+                            <p:inputText value="#{nuevosEstudiantesBean.telFijoResponsable}" required="true" requiredMessage="Teléfono Fijo: campo obligatorio"/>
+                            <p:outputLabel value="Correo Electrónico:"/>
+                            <p:inputText value="#{nuevosEstudiantesBean.emailResponsable}" required="true" requiredMessage="Correo Electrónico: campo obligatorio"/>
+                        </h:panelGrid>
+                    </h:panelGroup>
+
+                    <p:messages ></p:messages> 
+                </h:panelGrid>
+
+                <h:panelGrid columns="1">
+
+                    <p:captcha label="Captcha" id="capcha" />
+
+
+
+
+
+                </h:panelGrid>    
+                <h:panelGroup>
+                    <p:commandButton value="Siguiente" ajax="false" action="#{nuevosEstudiantesBean.continuar()}" icon="ui-icon-arrowthickstop-1-e"> 
+                    </p:commandButton>
+
+                    <p:commandButton immediate="true" ajax="false" icon="ui-icon-arrowthickstop-1-w" value="Cancelar"  action="#{loginBean.cerrarSession()}" > 
+                    </p:commandButton>
+
+
+                </h:panelGroup>
+            </p:panel>
+
+        </h:form>
+
+    </ui:define>
+</ui:composition>

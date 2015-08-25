@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+              xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/external_template.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html">
+
+
+    <ui:define name="content">
+        
+        <p:outputLabel value=" Ocurrio un error al procesar su solitud. por favor contacte al administrador del sistema"></p:outputLabel>
+       
+        
+        <h:form id="forms">
+            <p:commandButton value="Regresar" action="login" ajax="false"/>
+        </h:form>
+        
+    </ui:define>
+
+    
+
+</ui:composition>

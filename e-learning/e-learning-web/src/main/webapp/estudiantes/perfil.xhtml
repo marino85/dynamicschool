@@ -1,0 +1,62 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"       
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="/WEB-INF/template.xhtml">
+
+
+    <ui:define name="content">
+        <div class="cursos">
+            <div class="noticias">
+
+                <h:form title="">
+                    <h:panelGrid columns="2">
+                        <h:panelGrid columns="2">
+
+                            <h:outputText value="Nombres"/>
+                            <h:outputText value="#{userLogged.nombre}"/>
+                            <h:outputText value="Apellidos"/>
+                            <h:outputText value="#{userLogged.apellido}"/>
+                            <h:outputText value="Número de Identificación"/>
+                            <h:outputText value="#{userLogged.numDoc}"/>             
+
+                            <h:outputText value="email"/>
+                            <h:outputText value="#{userLogged.email}"/>
+                            <h:outputText value="Perfil"/>
+                            <h:outputText value="#{userLogged.perfil}"/>
+
+
+                        </h:panelGrid>
+                        <h:graphicImage url="/resources/img/inicio_sesion.gif"  height="100" width="70"/>
+                    </h:panelGrid>
+
+
+                    <h:panelGrid columns="2" rendered="#{userLogged.estudiante}" title="Descargar Manual Estudiantil">
+                        <p:commandButton icon="ui-icon-arrowthick-1-s" value="Descarga Manual Estudiantil" ajax="false" rendered="#{userLogged.estudiante}">
+
+                            <p:fileDownload value="#{reportesEstudiante.file}"/>
+                        </p:commandButton>
+<!--                        <h:outputText value="Descarga Manual Estudiantil" rendered="#{userLogged.estudiante}"/>-->
+        <!--                <ice:outputResource id="Download" resource="#{reportesEstudiante.horarioEstudiantil}"
+                                         image="/resources/img/PDF.png"
+                                        fileName="ManualEstudiantil"                                
+                                        rendered="#{userLogged.estudiante}"
+                                        attachment="true"
+                                        label="Descargar Horario"
+                                        type="text"
+                                        mimeType="pdf"/>-->
+                    </h:panelGrid>
+
+                </h:form>
+
+            </div>
+        </div>
+
+
+
+    </ui:define>
+
+
+
+</ui:composition>

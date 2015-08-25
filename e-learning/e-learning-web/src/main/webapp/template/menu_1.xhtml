@@ -1,0 +1,186 @@
+<ui:component xmlns="http://www.w3.org/1999/xhtml"                             
+       xmlns:h="http://java.sun.com/jsf/html"
+       xmlns:ui="http://java.sun.com/jsf/facelets" 
+       xmlns:p="http://primefaces.org/ui"
+       xmlns:f="http://java.sun.com/jsf/core">
+    
+
+    <h:form id="menuformprincipal">  
+<!--        <p:ajaxStatus >
+            <f:facet name="default">
+                <h:outputText value="Status: StandBy" />
+            </f:facet>
+
+            <f:facet name="start">
+                <h:outputText value="loading..."></h:outputText>
+            </f:facet>
+
+            <f:facet name="complete">
+                <h:outputText value="Status: Completed" />
+            </f:facet>
+        </p:ajaxStatus>-->
+
+        <p:panelMenu  >
+            <p:submenu label="Home"   >
+                 <p:menuitem  ajax="false"  action="main" value="Home" icon="ui-icon-home"/>                
+                
+            </p:submenu>
+            
+            <p:submenu label="Mis Cursos"  >
+                <p:menuitem rendered="#{userLogged.estudiante || userLogged.profesor}" ajax="false"  action="misCursos" value="Cursos" icon="ui-icon-note"/>                
+                <p:menuitem rendered="#{userLogged.administrador}" ajax="false"   action="consultarCurso" value="Cursos" icon="ui-icon-note"/>                
+
+            </p:submenu>
+            <p:submenu label="Datos Personales"  >
+                <p:menuitem action="actualizarestudiantes" ajax="false"  value="Actualizar Datos" icon="ui-icon-person"/>
+                <p:menuitem  action="changePass" ajax="false"  value="Cambiar Clave" icon="ui-icon"/>
+                <p:menuitem  action="carnet" ajax="false"  value="Generar Carnet" icon="ui-icon" rendered="#{userLogged.estudiante}"/>
+                <p:menuitem  action="verperfil" ajax="false"  value="Mi Perfil" icon="ui-icon" />
+
+            </p:submenu>
+            <p:submenu label="Noticias" rendered="#{userLogged.administrador || userLogged.perfil=='Secretario'}">
+                <p:menuitem value="Crear Noticias" ajax="false" rendered="#{userLogged.administrador ||   userLogged.perfil=='Secretario'}"
+                            action="crearnoticias"  icon="ui-icon"/>
+                <p:menuitem value="Consultar Noticias" ajax="false"
+                            rendered="#{userLogged.perfil=='Administrador' || userLogged.perfil=='Secretario'}" 
+                            action="consultarnoticias" icon="ui-icon"/>
+
+
+            </p:submenu>
+
+            <p:submenu label="Personas"  rendered="#{userLogged.administrador || userLogged.perfil=='Secretario'}">
+                <p:menuitem value="Crear Personas" ajax="false" rendered="#{userLogged.administrador ||   userLogged.perfil=='Secretario'}" action="crear" icon="ui-icon"/>
+                <p:menuitem value="Consultar Personas" ajax="false" rendered="#{userLogged.perfil=='Administrador' || userLogged.perfil=='Secretario'}" action="consultarEstudiante"  icon="ui-icon"/>
+                <p:menuitem value="Reporte Estudiantes Activos" ajax="false" rendered="#{userLogged.administrador}"  action="consultarestudiante" icon="ui-icon"/>
+
+
+
+            </p:submenu>
+
+            <p:submenu label="Horarios"  rendered="#{userLogged.administrador || userLogged.perfil=='Secretario' || userLogged.perfil=='Estudiante'}">
+                <p:menuitem value="Horarios" ajax="false" rendered="#{userLogged.perfil=='Administrador' || userLogged.perfil=='Secretario'}" action="#{menuBean.irAHorarios}" icon="ui-icon"/>
+                <p:menuitem value="Reportes Horario" ajax="false" rendered="#{userLogged.administrador || userLogged.secretario || userLogged.profesor}"  action="reporteshorarios"  icon="ui-icon"/>
+                <p:menuitem value="Consultar" ajax="false" rendered="#{userLogged.perfil=='Estudiante'}" action="horariosEstudiante" icon="ui-icon"/>
+                <p:menuitem value="Reporte Horario" ajax="false" rendered="#{userLogged.perfil=='Estudiante'}"  action="consultarhorario" icon="ui-icon"/>
+
+            </p:submenu>
+
+
+            <p:submenu label="Pagos Online"  rendered="#{userLogged.perfil=='Estudiante'}">
+                <p:menuitem value="Pagos online" ajax="false"  action="mensualidad" icon="ui-icon"/>   
+            </p:submenu>
+
+            <p:submenu label="Salir" >
+                <p:menuitem value="Salir" ajax="false"  action="#{loginBean.cerrarSession()}" icon="ui-icon"/>        
+
+
+            </p:submenu>
+
+
+        </p:panelMenu >
+    </h:form>
+
+<!--        <p:accordion collapsible="true"  autoHeight="false" activeIndex="#{menuBean.openTab}">
+
+            <p:accordionPane title="Datos Personales">
+
+                <h:commandLink value="Actualizar Datos" action="actualizarestudiantes" class="a">
+                </h:commandLink> 
+
+                <br></br>                      
+
+                <h:commandLink value="Cambiar Clave" action="changePass" class="a">
+
+                </h:commandLink>
+                <br></br>
+                <h:commandLink value="Generar Carnet" action="carnet" rendered="#{userLogged.estudiante}" class="a" >
+                </h:commandLink>
+
+
+
+
+
+            </p:accordionPane>
+
+
+
+            <p:accordionPane title="Noticias" rendered="#{userLogged.administrador || userLogged.perfil=='Secretario'}" >
+                <h:commandLink value="Crear Noticias" rendered="#{userLogged.administrador ||   userLogged.perfil=='Secretario'}"
+                               action="crearnoticias" class="a" >
+
+                </h:commandLink>
+                <br></br>    
+                <h:commandLink value="Consultar Noticias" 
+                               rendered="#{userLogged.perfil=='Administrador' || userLogged.perfil=='Secretario'}" 
+                               action="consultarnoticias" class="a" >
+
+                </h:commandLink>
+
+
+            </p:accordionPane>
+
+
+            <p:accordionPane title="Personas" rendered="#{userLogged.administrador || userLogged.perfil=='Secretario'}" >
+                <h:commandLink value="Crear Personas" rendered="#{userLogged.administrador ||   userLogged.perfil=='Secretario'}" action="crear"  class="a">
+
+                </h:commandLink>
+                <br></br>    
+                <h:commandLink value="Consultar Personas" rendered="#{userLogged.perfil=='Administrador' || userLogged.perfil=='Secretario'}" action="consultarEstudiante" class="a">
+
+                </h:commandLink>
+                <br></br>    
+                <h:commandLink value="Reporte Estudiantes Activos" rendered="#{userLogged.administrador}"  action="consultarestudiante" class="a" >
+
+                </h:commandLink>
+            </p:accordionPane>
+
+
+            <p:accordionPane title="Acceso A Horarios" rendered="#{userLogged.administrador || userLogged.estudiante || userLogged.perfil=='Secretario' || userLogged.profesor}">
+
+                <h:commandLink value="Horarios" rendered="#{userLogged.perfil=='Administrador' || userLogged.perfil=='Secretario'}" action="#{menuBean.irAHorarios}" class="a">
+
+                </h:commandLink>
+
+
+                <br></br>    
+                <h:commandLink value="Reportes Horario" rendered="#{userLogged.administrador || userLogged.secretario || userLogged.profesor}"  action="reporteshorarios" class="a">
+
+                </h:commandLink>
+
+                <br></br>    
+                <h:commandLink value="Consultar" rendered="#{userLogged.perfil=='Estudiante'}" action="horariosEstudiante" class="a">
+
+                </h:commandLink>
+                <br></br>    
+                <h:commandLink value="Reporte Horario" rendered="#{userLogged.perfil=='Estudiante'}"  action="consultarhorario" class="a">
+
+                </h:commandLink>
+
+            </p:accordionPane>-->
+    <!--                            <p:accordionPane title="Pagos Online">
+                                    <p:menu style="border:0">
+                                        <p:menuitem value="Realizar Pagos" url="http://dynamic-teaching.edu.co/" target="_blank" icon="ui-icon ui-icon-extlink"/>
+                                    </p:menu>
+                                </p:accordionPane>-->
+<!--            <p:accordionPane title="Aula Virtual" rendered="#{userLogged.administrador || userLogged.estudiante || userLogged.profesor}">
+
+        <h:commandLink value="Administrar Cursos" rendered="#{userLogged.administrador}" action="consultarCurso" class="a">
+          
+        </h:commandLink>
+        
+        <h:commandLink value="Mis Cursos" rendered="#{userLogged.estudiante || userLogged.profesor}"  action="misCursos"  class="a">
+            
+        </h:commandLink>
+
+
+    </p:accordionPane>-->
+
+    <!--        </p:accordion>
+    
+    
+    
+        </h:form>-->
+
+
+</ui:component>
+

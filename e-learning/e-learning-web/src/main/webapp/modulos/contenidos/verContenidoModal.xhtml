@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:component  xmlns:ui="http://java.sun.com/jsf/facelets"
+               xmlns:p="http://primefaces.org/ui"
+               xmlns:h="http://java.sun.com/jsf/html"
+               xmlns:f="http://java.sun.com/jsf/core">
+    <h:form id="verContenido" style="text-align: center" >
+        <p:dialog id="verContenido"
+                  closable="fasle"
+                  modal="true"
+                  draggable="false"
+                  widgetVar="verContenido"
+                  header="Contenido"
+                  width="500"
+                  visible="#{contenidosBean.verContenidoDialog}">
+
+            <h:panelGrid columns="2" style="text-align: left">
+                <p:outputLabel value="Nombre:" style="font-weight: bold"/>
+                <p:outputLabel value="#{contenidosBean.contenido.nombre}"/>
+                <p:outputLabel value="Descripción:" style="font-weight: bold"/>
+                <p:outputLabel value="#{contenidosBean.contenido.descripcion}"/>
+                <p:outputLabel value="Documentos" style="font-weight: bold"/>
+                <p:commandButton value="#{contenidosBean.contenido.nombre}" ajax="false" icon="ui-icon-arrowthick-1-s">
+                    <p:fileDownload value="#{contenidosBean.file}" />
+                </p:commandButton>
+
+<!--                <h:outputResource id="Download" resource="#{contenidosBean.contenidoFileResourse}"
+            attachment="true"
+            label="#{contenidosBean.contenido.titulo}"
+            type="text"/>-->
+                <h:outputText value=""/>
+            </h:panelGrid>
+            <p:commandButton immediate="true" update=":verContenido,:mjspopup" value="Cerrar" icon="ui-icon-close"  action="#{contenidosBean.hideVerContenido()}"/>
+
+        </p:dialog>
+    </h:form>
+</ui:component>
+

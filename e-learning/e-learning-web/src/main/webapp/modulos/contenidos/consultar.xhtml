@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core">
+    <ui:define name="content">
+        <ui:include src="/cursos/headerCurso.xhtml" />
+        <h:form id="contenidos">
+            <h:panelGrid columns="1">
+                <h:panelGrid columns="2">
+
+                    <p:dataTable value="#{contenidosBean.editModule.iappContenidosCollection}" var="contenido"
+                                 paginator="true" 
+                                 paginatorPosition="bottom" 
+                                 >
+                        <f:facet name="header">
+                            <h:outputText value="CONTENIDOS DEL MODULO"/>
+                        </f:facet>
+                        <p:column headerText="Contenido">
+                            <p:outputLabel value="#{contenido.nombre}"/>
+                        </p:column>
+                        <p:column headerText="Descripción" style="text-align: left">
+                            <p:outputLabel value="#{contenido.shortDescripcion}"/>
+                        </p:column>
+                        <p:column id="acciones" headerText="Vinculos">
+                            <p:commandLink value="Ver" update=":verContenido"
+                                           action="#{contenidosBean.verContenido}">
+                                <f:setPropertyActionListener target="#{contenidosBean.contenido}" value="#{contenido}"/>
+                            </p:commandLink>
+                            <!--                             <h:commandLink value="Ver" 
+                                                                        action="#{contenidosBean.verContenidoAudio()}" rendered="#{contenido.file.endsWith(".mp3")}">
+                                                            <f:setPropertyActionListener target="#{contenidosBean.contenido}" value="#{contenido}"/>
+                                                        </h:commandLink>
+                                                         <h:commandLink value="Ver" rendered="#{contenido.file.endsWith(".mp4")}"
+                                                                        action="#{contenidosBean.verContenidoVideo()}">
+                                                            <f:setPropertyActionListener target="#{contenidosBean.contenido}" value="#{contenido}"/>
+                                                        </h:commandLink>-->
+                            <h:outputText  rendered="#{userLogged.administrador || userLogged.profesor}" 
+                                           value="&nbsp;&nbsp;"/>
+                            <p:commandLink rendered="#{userLogged.administrador || userLogged.profesor}" 
+                                           value="Editar" update=":nuevocontenido"
+                                           action="#{contenidosBean.editContenido}">
+                                <f:setPropertyActionListener target="#{contenidosBean.contenido}" value="#{contenido}"/>
+                            </p:commandLink>
+                            <h:outputText  rendered="#{userLogged.administrador || userLogged.profesor}" 
+                                           value="&nbsp;&nbsp;"/>
+                            <p:commandLink rendered="#{userLogged.administrador || userLogged.profesor}" 
+                                           value="Eliminar" update=":mjspopup" 
+                                           action="#{contenidosBean.confirmar}">
+                                <f:setPropertyActionListener target="#{contenidosBean.contenido}" value="#{contenido}"/>
+                            </p:commandLink>
+                        </p:column>
+                    </p:dataTable>
+                </h:panelGrid>            
+            </h:panelGrid>            
+            <h:panelGrid columns="3">
+                <p:commandButton value="Regresar" ajax="false" icon="ui-icon-arrowthickstop-1-w"  
+                                 immediate="true"
+                                 action="verCurso"/>
+                <p:commandButton value="Crear Contenido"  icon="ui-icon-plus" 
+                                 update=":nuevocontenido"                                 
+                                 rendered="#{userLogged.administrador || userLogged.profesor}" 
+                                 action="#{contenidosBean.createContenido}"/>
+            </h:panelGrid>  
+            
+
+        </h:form>
+
+        
+
+    </ui:define>
+    
+    <ui:define name="popup">
+        <h:form id="mjspopup">
+            <p:dialog id="verMensaje"
+                      closable="fasle"
+                      modal="true"
+                      draggable="false"
+                      widgetVar="verMensaje"
+                      header="Información"
+                      width="300"
+                      visible="#{contenidosBean.verMensaje}">
+
+                <h:panelGrid columns="1">
+                    <p:outputLabel value="#{contenidosBean.messaje}"/>
+                    <p:commandButton value="Aceptar" icon="ui-icon-info" update=":mjspopup,:contenidos" action="#{contenidosBean.aceptar}"/>
+                </h:panelGrid>
+
+            </p:dialog>
+            <p:dialog id="verConfirmacion"
+                      closable="fasle"
+                      modal="true"
+                      draggable="false"
+                      widgetVar="verConfirmacion"
+                      header="Eliminar Contenido"
+                      width="300"
+                      visible="#{contenidosBean.verConfirmacion}">
+
+                <h:panelGrid>
+                    <p:outputLabel value="Seguro de eliminar el contenido #{contenidosBean.contenido.nombre}"/>
+                </h:panelGrid>
+                <p:commandButton value="Aceptar" icon="ui-icon-info" update=":mjspopup,:contenidos" action="#{contenidosBean.eliminarContenido()}"/>
+                <p:commandButton value="Cancelar" icon="ui-icon-close" update="mjspopup,:contenidos" action="#{contenidosBean.hideConfirmar()}"/>
+
+            </p:dialog>
+            
+        </h:form>
+        <ui:include src="verContenidoModal.xhtml" />
+        <ui:include   src="nuevoContenidoModal.xhtml" />
+        
+    </ui:define>
+</ui:composition>

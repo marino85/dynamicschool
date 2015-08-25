@@ -1,0 +1,208 @@
+<!--<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <h:outputStylesheet name="main/css/showcase.css" />
+        <h:outputStylesheet name="main/css/sh.css" />
+        <style type="text/css">
+            body {
+                background-color: #FFFFFF;
+            }
+        </style>
+        <style type="text/css">
+            .ui-layout-north {
+                z-index:20 !important;
+                overflow:visible !important;;
+            }
+
+            .ui-layout-north .ui-layout-unit-content {
+                overflow:visible !important;
+            }
+
+            body {
+                background-color: #FFFFFF;
+            }
+        </style>
+
+    </h:head>
+    <h:body>
+
+        <p:layout fullPage="true">
+            <p:layoutUnit position="north" size="100" >
+                <div align="left" >
+                    <p:graphicImage url="/resources/img/logo.jpg" height="80" />
+                </div>
+                <div  align="right"  >
+
+                    <h:panelGrid columns="2">
+
+                        <h:panelGroup>
+                            <h:outputText value=" Bienvenido(a) nnanan:" />
+
+                            <h:outputText value=" ${userLogged.nombre}" style="color: black"/>
+
+
+                            <h:outputText value="Hoy es: " style="color: black"/>
+                            <h:outputText value="   ${userLogged.date}" style="color: black"/>
+
+                        </h:panelGroup>
+                        <h:form>
+                            <h:commandLink id="menuSalir" title="Salir" action="#{loginBean.cerrarSession()}" >
+                                <h:graphicImage  url="/resources/img/cerrarsesion.png" height="20" ></h:graphicImage >
+                            </h:commandLink>
+                        </h:form>
+                    </h:panelGrid>
+
+
+
+                </div>  
+            </p:layoutUnit>
+
+            <p:layoutUnit position="south" size="50" >
+                <h:outputText value="South unit content." />
+            </p:layoutUnit>
+
+            <p:layoutUnit position="west" size="200" header="Menu" resizable="true"  collapsible="true">
+                <ui:include src="/template/menu_1.xhtml"/>
+            </p:layoutUnit>
+
+            <p:layoutUnit position="east" size="200" header="Right" resizable="true" closable="true" collapsible="true" effect="drop">
+                <h:outputText value="Right unit content." />
+            </p:layoutUnit>
+
+            <p:layoutUnit position="center">
+                <h:panelGrid columns="1" cellpadding="5">
+                        <p:commandButton value="Basic" type="button" onclick="PF('dlg1').show();" />
+
+                        <p:commandButton value="Modal" type="button" onclick="PF('dlg2').show();" />
+
+                        <p:commandButton value="Effects" type="button" onclick="PF('dlg3').show();" /> 
+                    </h:panelGrid>
+
+                    <p:dialog header="Basic Dialog" widgetVar="dlg1" minHeight="40">
+                        <h:outputText value="Resistance to PrimeFaces is futile!" />
+                    </p:dialog>
+
+                    <p:dialog header="Modal Dialog" widgetVar="dlg2" modal="true" height="100">
+                        <h:outputText value="This is a Modal Dialog." />
+                    </p:dialog>	
+
+                    <p:dialog header="Effects" widgetVar="dlg3" showEffect="explode" hideEffect="bounce" height="100">
+                        <h:outputText value="This dialog has nice effects." />
+                    </p:dialog>
+            </p:layoutUnit>
+        </p:layout>
+
+        <script language="javascript" src="#{request.contextPath}/resources/main/js/sh.js"></script>
+        <script language="javascript">
+            SyntaxHighlighter.all();
+        </script>
+
+
+
+
+    </h:body>
+</html>-->
+
+
+
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+
+
+    <ui:define name="content">
+
+        <center>
+
+
+            <h:form >
+
+
+                <p:dataTable id="noticias" value="#{noticiasBean.lastNews}" 
+                             var="noti" paginator="true"  style="width: 60%;"   
+                             paginatorPosition="bottom"  rows="10" rowsPerPageTemplate="5,10,15,20"                              
+                             >
+                    <f:facet name="header">
+                        <p:outputLabel  value="Noticias"></p:outputLabel>  
+
+                    </f:facet>
+
+                    <p:column  headerText="Titulo" >
+                        <p:outputLabel  value="#{noti.titulo}"></p:outputLabel>                        
+                    </p:column>
+
+                    <p:column  headerText="Fecha Publicacion">
+                        <p:outputLabel  value="#{noti.fechaCreacion}">
+                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                        </p:outputLabel>                        
+                    </p:column>
+
+                    <p:column id="acciones" headerText="Acciones">
+                        <p:commandLink  value="Abrir Noticia" update=":mjspopup:dialog"  action="#{noticiasBean.verNoticia()}" >
+                            <f:setPropertyActionListener target="#{noticiasBean.viewNoticia}" value="#{noti}"/>
+                        </p:commandLink>
+
+
+                    </p:column>
+
+                </p:dataTable>
+
+
+
+
+            </h:form>
+        </center>
+
+
+
+
+
+    </ui:define>
+    <ui:define name="popup">
+        <h:form id="mjspopup">
+
+            <p:dialog id="dialog"
+                      closable="true"
+                      modal="true"
+                      draggable="false"
+                      widgetVar="comfirm"
+                      header="#{noticiasBean.viewNoticia.titulo}"
+                      width="400"
+                      visible="#{noticiasBean.showNoticia}"
+
+                      >
+
+
+
+
+                <h:panelGrid columns="2">
+
+                    <p:outputLabel value="Fecha Publicación:" ></p:outputLabel>
+                    <p:outputLabel value="#{noticiasBean.viewNoticia.fechaCreacion}" >                    
+                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                    </p:outputLabel>
+                    <p:outputLabel value="Noticia:" ></p:outputLabel>
+                    <p:outputLabel value="#{noticiasBean.viewNoticia.contenido}" ></p:outputLabel>
+
+                </h:panelGrid>
+
+                <p:commandButton icon="ui-icon-info" value="Aceptar" update=":mjspopup"
+                                 action="#{noticiasBean.closeNoticia()}"></p:commandButton>
+
+
+
+            </p:dialog>
+
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>

@@ -1,0 +1,99 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets" 
+                xmlns:p="http://primefaces.org/ui"  
+                xmlns:h="http://java.sun.com/jsf/html"                
+                xmlns:f="http://java.sun.com/jsf/core"
+
+                template="/WEB-INF/external_template.xhtml" >
+
+
+    <ui:define name="content">
+
+        <p:panel header="Resumen Compra">
+            <h:panelGrid columns="2">
+                <p:outputLabel value="Tipo Idenficacion:"/>
+                <p:outputLabel value="#{pagosOnlineBean.userOnline.tipoDoc.descripcion}"/>
+                <p:outputLabel value="Numero Identificación:"/>
+                <p:outputLabel value="#{pagosOnlineBean.userOnline.numeroDoc}"/>
+                <p:outputLabel value="Nombre:"/>
+                <p:outputLabel value="#{pagosOnlineBean.userOnline.nombres}"/>
+                <p:outputLabel value="Teléfono"/>
+                <p:outputLabel value="#{pagosOnlineBean.userOnline.telefono}"/>
+                <p:outputLabel value="Valor a Pagar"/>
+                <p:outputLabel value="#{pagosOnlineBean.invoice.valor}">
+                    <f:convertNumber currencySymbol="$" parent="###.###"/>
+                </p:outputLabel>
+                <p:outputLabel value="Descripción Compra:"/>
+                <p:outputLabel value="#{pagosOnlineBean.courseSelected.descripcion}"/>
+                
+            </h:panelGrid>
+            
+<!--            <table>
+                <tr>
+                    <td>Tipo Idenficacion:</td>
+                    <td><input type="text" disabled="true" name="tipoid" value="#{pagosOnlineBean.userOnline.tipoDoc.descripcion}"/></td>                  
+
+                </tr>
+
+                <tr>
+                    <td>Numero Identificación:</td>
+                    <td><input type="text" disabled="true" name="tipoDocumentoIdentificacion" value="#{pagosOnlineBean.userOnline.numeroDoc}"/></td>                
+
+                </tr>
+
+                <tr>
+                    <td>Nombre:</td>
+                    <td><input type="text" disabled="true" name="nombreComprador" value="#{pagosOnlineBean.userOnline.nombres}"/></td>                
+
+                </tr>
+                <tr>
+                    <td>Teléfono</td>
+                    <td><input type="text" disabled="true" name="telefonoMovil" value="#{pagosOnlineBean.userOnline.nombres}"/></td>                
+
+                </tr>
+                <tr>
+
+                    <td>Valor a Pagar</td>
+                    <td><input type="text" disabled="true" name="valor1" value="#{pagosOnlineBean.invoice.valor}"/> </td>                
+
+                </tr>
+                <tr>
+                    <td>Descripción Compra</td>
+                    <td><input type="text" disabled="true" name="descripcion2" value="#{pagosOnlineBean.courseSelected.descripcion}"/> </td>                
+
+                </tr>
+
+
+            </table>-->
+
+        </p:panel>
+
+        
+
+        <form action="https://gateway.pagosonline.net/apps/gateway/index.html" method="POST">
+
+            <input name="usuarioId" type="hidden" value="#{pagosOnlineBean.idClient}"/>     
+            <input name="refVenta" type="hidden"  value="#{pagosOnlineBean.invoice.refVenta}"/> 
+            <input name="iva" type="hidden"  value="0"/> 
+            <input name="valor" type="hidden"  value="#{pagosOnlineBean.invoice.valor}"/>             
+            <input name="baseDevolucionIva" type="hidden"  value="0.00"/> 
+            <input name="descripcion" type="hidden"  value="#{pagosOnlineBean.courseSelected.descripcion}"/>
+            <input name="moneda" type="hidden" value="COP"/> 
+            <input name="firma" type="hidden"  value="#{pagosOnlineBean.key}"/> 
+            <input name="prueba"  type="hidden" value="0"/> 
+            <input name="emailComprador" type="hidden" value="#{pagosOnlineBean.userOnline.email}"/>            
+            <input name="url_respuesta" type="hidden"  value="#{pagosOnlineBean.urlRespuesta}"/> 
+            <input name="url_confirmacion" type="hidden"  value="#{pagosOnlineBean.urlConfirmacion}"/>
+
+
+<!--            <input type="submit" value="Pagar Ahora"/>-->
+            <p:commandButton value="Pagar Ahora" icon="iu-icon-ok" onclick="submit();"/>
+
+        </form>
+        <h:form>
+            <p:commandButton icon="ui-icon-cancel" value="Cancelar Transacción" ajax="false"  action="#{loginBean.cerrarSession()}"/>
+        </h:form>
+
+
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,76 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets" 
+                xmlns:p="http://primefaces.org/ui"  
+                xmlns:h="http://java.sun.com/jsf/html"                
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="/WEB-INF/external_template.xhtml" 
+                xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+   
+    <ui:define name="content">
+
+
+        <p:panel header=" Los datos de tu transacción son los siguientes">
+<!--        <h:panelGrid>
+            <f:facet name="header">
+
+               
+
+            </f:facet>
+
+        </h:panelGrid>-->
+
+
+        <h:panelGrid>
+            <a href="http://www.pagosonline.com/" target="_blank">
+                <h:graphicImage alt="j"  url="http://www.pagosonline.com/logos/images/transgrande_03_460x60.png"/>
+            </a>           
+        </h:panelGrid>
+
+        <h:panelGrid columns="2">
+            Fecha de Procesamiento:
+            <h:outputText value="#{pagosOnlineResponse.fecha_procesamiento}"/>
+            Estado de la transacción:
+            <h:outputText value="#{pagosOnlineResponse.mensaje}"/>
+            referencia de la venta:
+            <h:outputText value="#{pagosOnlineResponse.ref_venta}"/>
+            Referencia de la transacción:
+            <h:outputText value="#{pagosOnlineResponse.ref_pol}"/>
+            <c:if test="#{pagosOnlineResponse.banco_pse != ''}">
+                cus:
+                <h:outputText value="#{pagosOnlineResponse.cus}"/>
+                Banco:
+                <h:outputText value="#{pagosOnlineResponse.banco_pse}"/>
+            </c:if>
+
+           Valor total:
+
+           <h:outputText value="#{pagosOnlineResponse.valor}"/>
+
+
+        </h:panelGrid>
+
+        <h:panelGrid columns="2">
+            <h:form >
+                
+                <p:commandButton icon="ui-icon-arrowthickstop-1-w" ajax="false" value="Regresar al Portal" action="#{loginBean.cerrarSession()}"></p:commandButton>
+                <p:commandButton icon="ui-icon-print" value="Imprimir" onclick="window.print();"/>
+                
+            </h:form>
+            
+            
+        </h:panelGrid>
+        <center>
+        <h3>Si tiene alguna duda acerca de esta transacción por favor cumuníquese
+            con nuestro departamento de servicio al cliente.</h3>
+        </center>
+        
+        <h3>Gracias por elegirnos</h3>
+
+       </p:panel>
+
+
+
+
+    </ui:define>
+</ui:composition>

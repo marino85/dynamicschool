@@ -1,0 +1,114 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+
+    <ui:define name="content">
+       
+            <h:form>
+                
+                    <h:panelGrid columns="1" >
+                       
+
+                        <p:dataTable rendered="#{userLogged.estudiante}"
+                                     value="#{usuarioAutenticadoBean.user.iappMatriculasCollection}" var="course"
+                                     paginator="true" 
+                                     paginatorPosition="bottom" 
+                                     rowsPerPageTemplate="5,10,15,20"
+                                     rows="5"
+                                     >
+                            <f:facet name="header">
+                                MIS CURSOS 
+                            </f:facet>
+                            <p:column headerText="Curso"  style="text-align: left">
+                                <p:outputLabel value="#{course.idCurso.nombre}"/>
+                            </p:column>
+                            <p:column headerText="Descripción" style="width: 250px; text-align: left">
+                                <p:outputLabel value="#{course.idCurso.descripcion}"/>
+                            </p:column>
+                            <p:column headerText="Nivel">
+                                <p:outputLabel value="#{course.idCurso.idNivel.descripcion}"/>
+                            </p:column>
+                            <p:column headerText="Tipo de Curso">
+                                <p:outputLabel rendered="#{course.idCurso.cursoVirtual}" value="Virtual"/>
+                                <p:outputLabel rendered="#{course.idCurso.cursoPresencial}" value="Presencial"/>
+                            </p:column>
+                            <p:column headerText="Profesor">
+                                <p:outputLabel value="#{course.idCurso.idProfesor.nombres} #{course.idCurso.idProfesor.apellidos}"/>
+                            </p:column>
+                            <p:column id="acciones" headerText="Acciones">
+                                <p:commandLink  value="Ingresar" ajax="false" action="#{usuarioAutenticadoBean.viewCourse}">
+                                    <f:setPropertyActionListener target="#{cursosBean.editCourse}" value="#{course.idCurso}"/>
+                                    <f:setPropertyActionListener target="#{trabajosBean.matricula}" value="#{course}"/>
+                                    <f:setPropertyActionListener target="#{evaluacionesBean.matricula}" value="#{course}"/>
+                                </p:commandLink>
+                                <p:outputLabel value="  |  "/>
+                                <p:commandLink   value="Calificaciones" ajax="false" action="verProgreso">
+                                    <f:setPropertyActionListener target="#{cursosBean.editCourse}" value="#{course.idCurso}"/>
+                                    <f:setPropertyActionListener target="#{calDocenteBean.matricula}" value="#{course}"/>
+                                </p:commandLink> 
+                                  <p:outputLabel value="  |  "/>
+                                  <p:commandLink ajax="false"  value="streaming" action="#{createStreamingBean.consultarClasesEstudianteOnline()}">
+                                     <f:setPropertyActionListener target="#{cursosBean.editCourse}" value="#{course.idCurso}"/>
+                                    <f:setPropertyActionListener target="#{createStreamingBean.curso}" value="#{course.idCurso}"/>
+                                </p:commandLink> 
+                            </p:column>
+                        </p:dataTable>
+                        <p:dataTable rendered="#{userLogged.profesor}"
+                                     value="#{usuarioAutenticadoBean.user.iappCursosCollection}" var="course"
+                                     paginator="true" 
+                                     paginatorPosition="bottom" 
+                                     rowsPerPageTemplate="5,10,15,20"
+                                     rows="5"
+                                     >
+                            <f:facet name="header">
+                                MIS CURSOS 
+                            </f:facet>
+
+                            <p:column headerText="Curso"  style="text-align: left">
+                                <p:outputLabel value="#{course.nombre}"/>
+                            </p:column>
+                            <p:column headerText="Descripción" style="width: 250px; text-align: left">
+                                <p:outputLabel value="#{course.descripcion}"/>
+                            </p:column>
+                            <p:column headerText="Nivel">
+                                <p:outputLabel value="#{course.idNivel.descripcion}"/>
+                            </p:column>
+                            <p:column headerText="Tipo de Curso">
+                                <p:outputLabel rendered="#{course.cursoVirtual}" value="Virtual"/>
+                                <p:outputLabel rendered="#{course.cursoPresencial}" value="Presencial"/>
+                            </p:column>
+                            <p:column headerText="Profesor">
+                                <p:outputLabel value="#{course.idProfesor.nombres} #{course.idProfesor.apellidos}"/>
+                            </p:column>
+                            <p:column id="acciones" headerText="Acciones">
+                                <p:commandLink  ajax="false" value="Ingresar" action="#{usuarioAutenticadoBean.viewCourse}">
+                                    <f:setPropertyActionListener target="#{cursosBean.editCourse}" value="#{course}"/>
+                                </p:commandLink>
+                                <p:outputLabel value="  |  "/>
+
+                                <p:commandLink ajax="false"  value="Calificaciones" action="calDocente">
+                                    <f:setPropertyActionListener target="#{cursosBean.editCourse}" value="#{course}"/>
+                                    <f:setPropertyActionListener target="#{calDocenteBean.curso}" value="#{course}"/>
+                                </p:commandLink> 
+                                
+                                <p:outputLabel value="  |  "/>
+                                
+                                <p:commandLink ajax="false"  value="streaming" action="#{createStreamingBean.crearSesion()}">
+                                    <f:setPropertyActionListener target="#{cursosBean.editCourse}" value="#{course}"/>
+                                    <f:setPropertyActionListener target="#{createStreamingBean.curso}" value="#{course}"/>
+                                </p:commandLink> 
+
+                            </p:column>
+                        </p:dataTable>
+                    </h:panelGrid>
+                
+            </h:form>
+       
+    </ui:define>
+</ui:composition>

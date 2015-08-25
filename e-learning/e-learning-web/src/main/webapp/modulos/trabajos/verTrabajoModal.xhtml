@@ -1,0 +1,82 @@
+<ui:component  xmlns="http://www.w3.org/1999/xhtml"
+               xmlns:ui="http://java.sun.com/jsf/facelets"
+               xmlns:p="http://primefaces.org/ui"  
+               xmlns:h="http://java.sun.com/jsf/html"
+               xmlns:f="http://java.sun.com/jsf/core">
+    <h:form id="vertrabajomodal" >
+        <p:dialog id="verTrabajo"
+                  closable="fasle"
+                  modal="true"
+                  draggable="false"
+                  widgetVar="verTrabajo"
+                  header="Trabajo Asignado"
+                  width="500"
+                  visible="#{trabajosBean.verTrabajoDialog}">
+
+            <h:panelGrid columns="2" style="text-align: left">
+                <p:outputLabel value="Nombre:" style="font-weight: bold"/>
+                <p:outputLabel value="#{trabajosBean.trabajo.nombre}"/>
+                <p:outputLabel value="Descripción:" style="font-weight: bold"/>
+                <p:outputLabel value="#{trabajosBean.trabajo.descripcion}"/>
+                <p:outputLabel value="Publicado Desde:" style="font-weight: bold"/>
+                <p:outputLabel value="#{trabajosBean.trabajo.fechaInicial}">  
+                    <f:convertDateTime pattern="EEEE, dd MMM YYYY hh:mm a" timeZone="GMT-5"/>
+                </p:outputLabel>
+                <p:outputLabel value="Limite de Entrega:" style="font-weight: bold"/>
+                <p:outputLabel value="#{trabajosBean.trabajo.fechaFinal}">  
+                    <f:convertDateTime pattern="EEEE, dd MMM YYYY hh:mm a" timeZone="GMT-5"/>
+                </p:outputLabel>
+                <p:outputLabel value="Documentos Adjuntos:" style="font-weight: bold"/>
+
+
+<!--                <p:outputResource id="Download" resource="#{trabajosBean.trabajoFileResourse}"
+            attachment="true"
+            label="#{trabajosBean.trabajo.nombreFile}"
+            type="text"
+            style="font-weight: bold;"/>-->
+                <!--                <h:outputText value="Adjuntos:" style="font-weight: bold"/>-->
+                <p:commandButton rendered="#{trabajosBean.trabajo !=null}" value="#{trabajosBean.trabajo.nombreFile}" ajax="false" icon="ui-icon-arrowthick-1-s">
+                    <p:fileDownload value="#{trabajosBean.currentFile}" />
+                </p:commandButton>
+
+            </h:panelGrid>
+            <h:panelGrid>
+                <p:fileUpload immediate="true" fileUploadListener="#{trabajosBean.handleFileUploadEstudiante}" mode="advanced" dragDropSupport="false"
+                              update=":vertrabajomodal" sizeLimit="4000000" fileLimit="4"  />
+            </h:panelGrid>
+            <h:panelGrid>
+                <!--                <h:panelGrid columns="2">
+                                                        <p:fileEntry id="file-entry" 
+                                                                        fileEntryListener="#{trabajosBean.fileEntryListener}" 
+                                                                        useOriginalFilename="true" 
+                                                                        useSessionSubdir="true"/>
+                                    <h:commandButton value="Adjuntar"/>
+                                </h:panelGrid>-->
+                <p:outputLabel value="Documentos:" style="font-weight: bold"
+                              rendered="#{trabajosBean.trabajo.iappEntregasFromUserCollection(trabajosBean.matricula).size()!=0}"/>
+                <p:dataTable value="#{trabajosBean.trabajo.iappEntregasFromUserCollection(trabajosBean.matricula)}"
+                             var="entrega" 
+                             rendered="#{trabajosBean.trabajo.iappEntregasFromUserCollection(trabajosBean.matricula).size()!=0}">
+                    <p:column>
+                        <!--                        <p:outputResource id="Download" 
+                                                                    resource="#{trabajosBean.entregaFileResourse(entrega)}"
+                                                                    attachment="true"
+                                                                    label="#{entrega.nombre}"
+                                                                    mimeType="pdf"/>-->
+                        <p:commandButton  value="#{entrega.nombre}" ajax="false" icon="ui-icon-arrowthick-1-s">
+                            <p:fileDownload value="#{trabajosBean.getCurrentUploadedFile(entrega)}" />
+                        </p:commandButton>
+                    </p:column>
+<!--                    <p:column>
+                        <p:commandButton icon="ui-icon-close" title="Eliminar"  label="Eliminar"/>
+                    </p:column>                    -->
+                </p:dataTable>
+                
+            </h:panelGrid>
+            <p:commandButton value="Enviar" icon="ui-icon-disk" update=":vertrabajomodal,:trabajo,:popupmjs" action="#{trabajosBean.enviarTrabajo}"/>
+            <p:commandButton immediate="true" update=":vertrabajomodal" icon="ui-icon-close" value="Cancelar"  action="#{trabajosBean.hideVerTrabajo()}"/>
+
+        </p:dialog>
+    </h:form>
+</ui:component>
+

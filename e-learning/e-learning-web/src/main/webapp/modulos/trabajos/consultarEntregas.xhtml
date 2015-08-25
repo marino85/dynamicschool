@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" 
+                template="/WEB-INF/template.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core">
+    <ui:define name="content">
+        <ui:include src="/cursos/headerCurso.xhtml" />
+        <h:form id="entregas">
+            
+            <p:panel header="Estudiantes"> 
+            <h:panelGrid columns="2">
+                <p:outputLabel value="Código Matricula"></p:outputLabel>
+                <p:inputText value="#{trabajosBean.codigo}"></p:inputText>
+                <p:outputLabel value="Nombre"></p:outputLabel>
+                <p:inputText value="#{trabajosBean.nombres}"></p:inputText>
+                <p:commandButton update=":entregas" icon="ui-icon-search" value="Consultar" action="#{trabajosBean.buscarEstudiantes()}"></p:commandButton>
+            </h:panelGrid>
+            
+            </p:panel>
+            <h:panelGrid columns="1">
+                <h:panelGrid columns="2">
+
+                    <p:dataTable value="#{trabajosBean.matriculas}" var="matricula"
+                                 paginator="true" rows="10"
+                                 paginatorPosition="bottom" 
+                                 >
+                        <f:facet name="header">
+                            <p:outputLabel value="Entregas Trabajo #{trabajosBean.trabajo.nombre}"/>
+                        </f:facet>
+                        <p:column headerText="Estudiante">
+                            <p:outputLabel value="#{matricula.idUsuario.nombres} #{matricula.idUsuario.apellidos}"/>
+                        </p:column>
+                        <p:column headerText="Fecha de entrega">
+                            <p:outputLabel rendered="#{trabajosBean.trabajo.iappEntregasFromUserCollection(matricula).size()!=0}"
+                                          value="#{trabajosBean.trabajo.iappEntregasFromUserCollection(matricula).get(0).fechaEntrega}">
+                                <f:convertDateTime pattern="EEEE, dd MMM YYYY hh:mm a" timeZone="GMT-5"/>
+                            </p:outputLabel>
+                        </p:column>
+                        <p:column headerText="Archivos Adjuntos">
+                            <h:dataTable value="#{trabajosBean.trabajo.iappEntregasFromUserCollection(matricula)}"
+                                         var="entrega" 
+                                         style="text-align: right"
+                                         rendered="#{trabajosBean.trabajo.iappEntregasFromUserCollection(matricula).size()!=0}">
+                                <h:column>
+                                    <!--                                    <ice:outputResource id="Download" 
+                                                                                            resource="#{trabajosBean.entregaFileResourse(entrega)}"
+                                                                                            attachment="true"
+                                                                                            label="#{entrega.nombre}"
+                                                                                            mimeType="pdf"/>-->
+
+                                    <p:commandButton  value="#{entrega.nombre}" ajax="false" icon="ui-icon-arrowthick-1-s">
+                                        <f:setPropertyActionListener target="#{trabajosBean.entrega}" value="#{entrega}"/>
+                                        <p:fileDownload value="#{trabajosBean.descargarArchivo()}" />
+                                    </p:commandButton>
+<!--                                    <h:commandLink value="#{entrega.nombre}" action="#{trabajosBean.descargarArchivo()}">
+
+                                        <f:setPropertyActionListener target="#{trabajosBean.entrega}" value="#{entrega}"/>
+
+                                    </h:commandLink>-->
+                                </h:column>
+                            </h:dataTable>
+                        </p:column>
+                        <p:column id="acciones" headerText="Calificación">
+                            <p:commandLink rendered="#{trabajosBean.trabajo.calificacion(matricula)!=null}" 
+                                           value="#{trabajosBean.trabajo.calificacion(matricula).calificacion}" 
+                                           action="#{trabajosBean.calificarTrabajo(matricula)}"
+                                           update=":calificartrabajo"/>
+                            <p:commandLink rendered="#{trabajosBean.trabajo.calificacion(matricula)==null}" 
+                                           value="Calificar" update=":calificartrabajo" action="#{trabajosBean.calificarTrabajo(matricula)}"/>
+                        </p:column>
+                    </p:dataTable>
+                </h:panelGrid>            
+            </h:panelGrid>            
+            <h:panelGrid columns="3">
+                <p:commandButton value="Regresar"  icon="ui-icon-arrowthickstop-1-w" 
+                                 immediate="true" ajax="false"
+                                 action="consultarTrabajos"/>
+            </h:panelGrid>  
+
+        </h:form>
+        
+    </ui:define>
+    <ui:define name="popup">
+        <h:form id="calificartrabajo">
+            <p:dialog id="calificarTrabajo"
+                      closable="fasle"
+                      modal="true"
+                      draggable="false"
+                      widgetVar="calificarTrabajo"
+                      header="Calificar Trabajo"
+                      width="400"
+                      visible="#{trabajosBean.verCalificacion}">
+
+                <h:panelGrid columns="2">
+                    <p:outputLabel value="Digite la nota"/>
+                    <p:inputText value="#{trabajosBean.calificacion.calificacion}" 
+                                 validatorMessage="La calificacion debe ser un numero decimal entre 1 y 5"
+                                 converterMessage="La calificacion debe ser un numero decimal entre 1 y 5">
+                        <f:convertNumber type="number" maxFractionDigits="1" maxIntegerDigits="1" />
+                        <f:validateDoubleRange minimum="0" maximum="5" />
+                    </p:inputText>
+                </h:panelGrid>
+                <p:messages/>
+                <p:outputLabel/>
+                <p:commandButton value="Guardar" icon="ui-icon-disk" update=":entregas,:calificartrabajo" action="#{trabajosBean.guardarCalificacion()}"/>
+                <p:commandButton value="Cancelar" immediate="true" icon="ui-icon-close" update=":entregas,:calificartrabajo" action="#{trabajosBean.hideVerCalificacion()}"/>
+
+            </p:dialog> 
+        </h:form>
+        
+    </ui:define>
+    
+</ui:composition>

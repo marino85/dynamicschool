@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html  xmlns="http://www.w3.org/1999/xhtml"
+       xmlns:ui="http://java.sun.com/jsf/facelets"
+       xmlns:p="http://primefaces.org/ui" 
+       xmlns:h="http://java.sun.com/jsf/html"               
+       xmlns:f="http://java.sun.com/jsf/core"
+       >
+    <h:head>
+        <h:outputStylesheet name="main/css/showcase.css" />
+        <h:outputStylesheet name="main/css/sh.css" />
+    </h:head>
+    <h:body>
+        <h:form >
+
+            <p:commandButton value="Show Dialog" onclick="PF('dlg').show();" type="button" style="margin-top:10px"/>
+            <p:dialog header="Basic Dialog" widgetVar="dlg" modal="true">
+                <h:outputText value="Resistance to PrimeFaces is futile!" />
+            </p:dialog>
+            <p:dataTable id="noticias" value="#{noticiasBean.lastNews}" 
+                         var="noti" paginator="true"    
+                         paginatorPosition="bottom"  rows="10"                              
+                         >
+
+                <p:column  headerText="Titulo" >
+                    <h:outputText  value="#{noti.titulo}"></h:outputText>                        
+                </p:column>
+
+                <p:column  headerText="Fecha Publicacion">
+                    <h:outputText  value="#{noti.fechaCreacion}">
+                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                    </h:outputText>                        
+                </p:column>
+
+                <p:column id="acciones" headerText="Acciones">
+                    <h:commandLink  value="Abrir Noticia" onclick="PF('comfirm').show();" action="#{noticiasBean.verNoticia()}" >
+                        <f:setPropertyActionListener target="#{noticiasBean.viewNoticia}" value="#{noti}"/>
+                    </h:commandLink>
+                    &nbsp;
+
+                </p:column>
+
+            </p:dataTable>
+
+            <p:dialog id="dialog"
+                      closable="true"
+                      modal="true"
+                      draggable="false"
+                      widgetVar="comfirm"
+                      header="#{noticiasBean.viewNoticia.titulo}"
+                      width="400"
+                      visible="#{noticiasBean.showNoticia}"
+
+                      >
+
+                <h:form>
+
+
+                    <h:panelGrid columns="2">
+
+                        <h:outputText value="Fecha Publicación:" ></h:outputText>
+                        <h:outputText value="#{noticiasBean.viewNoticia.fechaCreacion}" >                    
+                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                        </h:outputText>
+                        <h:outputText value="Noticia:" ></h:outputText>
+                        <h:outputText value="#{noticiasBean.viewNoticia.contenido}" ></h:outputText>
+
+                    </h:panelGrid>
+
+                    <h:commandButton value="Aceptar" 
+                                     onclick="comfirm.hide();" action="#{noticiasBean.closeNoticia()}"></h:commandButton>
+
+                </h:form>
+
+            </p:dialog>
+
+
+        </h:form>
+
+
+    </h:body>
+
+
+
+
+</html>
+

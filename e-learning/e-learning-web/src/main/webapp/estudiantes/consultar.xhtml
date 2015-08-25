@@ -1,0 +1,148 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"                
+                template="/WEB-INF/template.xhtml"
+                xmlns:p="http://primefaces.org/ui" 
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+
+    <ui:define name="content">        
+        <h:form id="busquedapersonas">
+            <p:panel header="Búsqueda de personas">
+                <h:panelGrid columns="6">
+
+                    <p:outputLabel value="Número de identificación"/>
+                    <p:inputText  value="#{usuariosTable.filtroUsuarios.numeroDoc}"></p:inputText>
+
+                    <p:outputLabel value="Nombres"/>
+                    <p:inputText value="#{usuariosTable.filtroUsuarios.nombres}" ></p:inputText>
+
+                    <p:outputLabel value="Apellidos"/>
+                    <p:inputText value="#{usuariosTable.filtroUsuarios.apellidos}"></p:inputText>
+
+                    <p:outputLabel value="Código: "/>
+                    <p:inputText value="#{usuariosTable.filtroUsuarios.codigo}"></p:inputText>
+
+                    <p:outputLabel value="Fecha Inicio: "/>
+
+                    <p:calendar  value="#{usuariosTable.filtroUsuarios.fechaInicio}" pattern="dd/MM/yyyy"/>
+
+<!--                <p:selectInputDate renderAsPopup="true"   value="#{usuariosTable.filtroUsuarios.fechaInicio}"
+                                     renderMonthAsDropdown="true"  renderYearAsDropdown="true" 
+                                     >
+                    <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-5"/>
+                </p:selectInputDate>-->
+
+                    <p:outputLabel value="Fecha Fin:  "/>
+                    <p:calendar  value="#{usuariosTable.filtroUsuarios.fechaFin}" pattern="dd/MM/yyyy"/>
+
+<!--                <p:selectInputDate renderAsPopup="true"   value="#{usuariosTable.filtroUsuarios.fechaFin}"
+                     renderMonthAsDropdown="true"  renderYearAsDropdown="true" 
+                     >
+    <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-5"/>
+</p:selectInputDate>-->
+
+                    <p:outputLabel value="Email:  "/>
+                    <p:inputText value="#{usuariosTable.filtroUsuarios.email}"></p:inputText>
+                    <h:panelGroup>
+                        <p:commandButton value="Buscar" update="estudiantes" icon="ui-icon-search " actionListener="#{usuariosTable.buscarUsuarios()}"/>
+
+                    </h:panelGroup>
+                </h:panelGrid>
+            </p:panel>
+
+
+            <h:panelGrid columns="1">
+
+
+                <p:dataTable id="estudiantes" value="#{usuariosTable.users}" var="user"
+                             paginator="true" 
+                             paginatorPosition="bottom"  rows="5"
+                             rowsPerPageTemplate="5,10,15,20"
+                             >
+
+                    <p:column id="tipoDoc" headerText="Tipo Doc">
+                        <p:outputLabel id="tipoDocCell" value="#{user.tipoDoc.descripcion}"></p:outputLabel>                        
+                    </p:column>
+                    <p:column id="numeroDoc" headerText="Número Doc">
+                        <p:outputLabel id="numeroDocCell" value="#{user.numeroDoc}"></p:outputLabel>                        
+                    </p:column>
+                    <p:column id="nombres" headerText="Nombres">
+                        <p:outputLabel id="nombresCell" value="#{user.nombres}"></p:outputLabel>                        
+                    </p:column>
+                    <p:column id="apellidos" headerText="Apellidos">
+                        <p:outputLabel id="apellidosCell" value="#{user.apellidos}"></p:outputLabel>                        
+                    </p:column>
+                    <p:column id="estado" headerText="Estado" >
+                        <p:outputLabel id="estadoCell" value="#{user.estadoUsuario.descripcion}"></p:outputLabel>                        
+                    </p:column>
+                    <p:column id="jornada" headerText="Jornada" >
+                        <p:outputLabel id="jornadaCell" value="#{user.idJornada.descripcion}"></p:outputLabel>                        
+                    </p:column>
+                    <p:column id="perfiles" headerText="Perfiles" >
+                        <p:outputLabel id="perfilesCell" value="#{user.idPerfil.descripcion}"></p:outputLabel>                        
+                    </p:column>
+                    <p:column id="acciones" headerText="Acciones">
+                        <p:commandLink  value="Editar" action="#{usuariosTable.edit}" ajax="false">
+                            <f:setPropertyActionListener target="#{usuariosBean.editUser}" value="#{user}"/>
+                        </p:commandLink>
+                        <h:outputText value=" | "/>
+                        <p:commandLink value="Eliminar" update=":popupmjs" actionListener="#{usuariosTable.confirmar(evt)}">
+
+                            <f:setPropertyActionListener target="#{usuariosTable.userDelete}" value="#{user}"/>
+
+                        </p:commandLink>
+                        <h:outputText value=" | "/>
+                        
+                        <p:commandLink value="Matricular" ajax="false" rendered="#{user.idPerfil.descripcion=='Estudiante'}" action="#{matriculasBean.irMatriculas()}">
+
+                            <f:setPropertyActionListener target="#{matriculasBean.usuario}" value="#{user}"/>
+
+                        </p:commandLink>
+                    </p:column>
+
+                </p:dataTable>
+
+            </h:panelGrid>
+
+
+        </h:form>
+
+
+
+    </ui:define>
+    <ui:define name="popup">
+        <h:form id="popupmjs">
+            <p:dialog id="dialog"
+                      closable="fasle"
+                      modal="true"
+                      draggable="false"
+                      widgetVar="comfirm"
+                      header="Mensaje Confirmación"
+                      width="400"
+                      visible="#{usuariosTable.showDialog}">
+
+
+
+
+                <h:panelGrid>
+                    <p:outputLabel value="Seguro de eliminar el usuario #{usuariosTable.userDelete.nombres}
+                                  #{usuariosTable.userDelete.apellidos}"></p:outputLabel>
+
+                </h:panelGrid>
+                <p:commandButton value="Aceptar" icon="ui-icon-info" update=":popupmjs,:busquedapersonas"  actionListener="#{usuariosTable.eliminar(evt)}"
+                                 ></p:commandButton>
+                <p:commandButton value="Cancelar" icon="ui-icon-close"
+                                 update=":popupmjs" 
+                                 actionListener="#{usuariosTable.cancelarEliminar(evt)}"></p:commandButton>
+
+
+
+            </p:dialog>
+
+        </h:form>
+
+    </ui:define>
+
+
+</ui:composition>

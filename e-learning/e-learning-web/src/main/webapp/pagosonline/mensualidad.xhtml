@@ -1,0 +1,54 @@
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"  
+                template="/WEB-INF/template.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+
+    <ui:define name="content">
+
+        <p:panel header="Pagos Online">
+
+            <h:form id="PagoMensualidades">
+                <p:messages></p:messages>
+                <h:panelGrid columns="1">
+
+                    <p:outputLabel value="Señor usuario a través de este modulo ud podra realizar el pago de su mensualidad"/>
+
+
+                </h:panelGrid>
+
+                <h:panelGrid columns="2">
+
+                    <f:facet name="header">
+                        Información Pago
+                    </f:facet>
+                    <p:outputLabel value="Descripcion."/>
+                    
+                    <p:inputText value="#{pagosOnlineBean.courseSelected.descripcion}" required="true" requiredMessage="Descripción Campo Obligatorio"/>
+                    <p:outputLabel value="Valor a pagar."/>
+                    
+                    <p:inputText id="ValorPagar" value="#{pagosOnlineBean.pagoMensualidad}" required="true" 
+                                 requiredMessage="Valor a Pagar Campo Requerido">
+                        <f:validateDoubleRange minimum="10000.00" maximum="340000.00" />
+                    </p:inputText>
+
+                    <p:commandButton value="Pagar" icon="ui-icon-power" ajax="false" update="PagoMensualidades" action="#{pagosOnlineBean.pagarMensualidad()}">
+                        <f:setPropertyActionListener  target="#{pagosOnlineBean.userOnline}" value="#{usuarioAutenticadoBean.userDto.iappUsuario}"/>
+
+                    </p:commandButton>
+
+
+                </h:panelGrid>
+
+            </h:form>    
+        </p:panel>
+
+
+    </ui:define>
+
+
+
+</ui:composition>

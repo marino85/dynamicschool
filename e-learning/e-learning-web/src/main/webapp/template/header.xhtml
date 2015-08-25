@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:component  xmlns="http://www.w3.org/1999/xhtml"
+               xmlns:ui="http://java.sun.com/jsf/facelets"              
+               xmlns:h="http://java.sun.com/jsf/html">
+
+
+    <h:form>
+<!--        <div align="left" style="position: absolute; width: 90px;" >
+            
+                <h:graphicImage url="/resources/img/logo.jpg" height="70" width="110"/>
+
+
+
+            
+        </div>-->
+        
+        
+        <div id="menu_top" >            
+<!--            <h:commandLink value="Mis Cursos" style="color: white;font-weight: 500;" ></h:commandLink>-->
+             <h:commandLink value="Mis Cursos" style="color: white;font-weight: 500;" rendered="#{userLogged.administrador}" action="consultarCurso" >
+                  
+            </h:commandLink>
+                
+            <h:commandLink value="Mis Cursos" style="color: white;font-weight: 500;" rendered="#{userLogged.estudiante || userLogged.profesor}"  action="misCursos"  >
+                    
+             </h:commandLink>
+
+            
+            
+            |
+            <h:commandLink id="menuAdmin" value="Admin" style="color: white;font-weight: 500;" action="admin"></h:commandLink>            |
+            <h:commandLink value="Mi Perfil" style="color: white;font-weight: 500;" action="verperfil"></h:commandLink>            
+        </div>
+        
+        
+        <div id="menu_top_rigth" align="right"  >
+
+            <h:panelGrid columns="2">
+
+                <h:panelGroup>
+                    <h:outputText value=" Bienvenido(a):" style="color: black"/>
+                    
+                    <h:outputText value=" ${userLogged.nombre}" style="color: black"/>
+                    
+                    &nbsp; 
+                    <h:outputText value="Hoy es: " style="color: black"/>
+                    <h:outputText value="   ${userLogged.date}" style="color: black"/>
+                  
+                </h:panelGroup>
+                
+                <h:commandLink id="menuSalir" title="Salir" action="#{loginBean.cerrarSession()}" >
+                        <h:graphicImage  url="/resources/img/cerrarsesion.png" height="20" ></h:graphicImage >
+                </h:commandLink>
+                
+            </h:panelGrid>
+
+
+
+        </div>  
+
+    </h:form>
+
+
+</ui:component>
+

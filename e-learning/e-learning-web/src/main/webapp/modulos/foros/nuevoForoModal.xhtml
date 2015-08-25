@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:component  xmlns:ui="http://java.sun.com/jsf/facelets"
+               xmlns:p="http://primefaces.org/ui" 
+               xmlns:h="http://java.sun.com/jsf/html"
+               xmlns:f="http://java.sun.com/jsf/core">
+    <h:form id="foroModal"
+            >
+        <p:dialog id="nuevoForo"
+                  closable="false"
+                  modal="true"
+                  draggable="false"
+                  widgetVar="nuevoContenido"
+                  header="Foro"
+                  width="500"
+                  visible="#{foroBean.showNewModal}">
+
+            <h:panelGrid columns="2" style="text-align: left">
+                <p:outputLabel value="Tema:" style="font-weight: bold"/>
+                <p:inputText style="width: 100%" value="#{foroBean.newForo.tema}"/>
+                <p:outputLabel value="Descripción:" style="font-weight: bold"/>
+                <p:inputTextarea style="width: 100%" cols="50" rows="10" value="#{foroBean.newForo.descripcion}"/>
+
+
+            </h:panelGrid>
+            <p:commandButton value="Guardar" icon="ui-icon-disk" update=":foroModal,:foro,:mjspopup" action="#{foroBean.createForo()}"/>
+            <p:commandButton immediate="true" icon="ui-icon-close" update=":foroModal" value="Cancelar"  action="#{foroBean.hideCreateForo()}"/>
+
+        </p:dialog>
+    </h:form>
+</ui:component>
+

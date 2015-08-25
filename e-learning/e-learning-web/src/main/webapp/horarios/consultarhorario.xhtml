@@ -1,0 +1,31 @@
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" 
+                template="/WEB-INF/template.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+
+    <ui:define name="content"  >
+
+        <p:panel header="Descargar Horario">
+            <h:form title="Descargar Horario">
+                <h:panelGrid>
+                    <p:outputLabel value="Pulsa el icono pdf para descargar el horario de la semana"/>
+
+                    <p:commandLink  action="#{horarioConsulta.descargarReporteHorario()}">
+                        <h:graphicImage  url="/resources/img/PDF.png"/>
+                    </p:commandLink>
+
+
+                </h:panelGrid>
+
+
+            </h:form>
+        </p:panel>
+
+
+    </ui:define>
+
+
+
+</ui:composition>

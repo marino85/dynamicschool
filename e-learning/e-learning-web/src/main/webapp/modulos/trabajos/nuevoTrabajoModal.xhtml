@@ -1,0 +1,57 @@
+<ui:component  xmlns:ui="http://java.sun.com/jsf/facelets"
+               xmlns:p="http://primefaces.org/ui"  
+               xmlns:h="http://java.sun.com/jsf/html"
+               xmlns:f="http://java.sun.com/jsf/core">
+    <h:form id="nuevoTrabajoForm" >
+        <p:dialog id="nuevoTrabajo"
+                  closable="fasle"
+                  modal="true"
+                  draggable="false"
+                  widgetVar="nuevoTrabajo"
+                  header="Trabajo Asignado"
+                  width="800"
+                  height="450"
+                  visible="#{trabajosBean.nuevoTrabajoDialog}">
+
+            <p:messages></p:messages>
+            <h:panelGrid columns="4" style="text-align: left">
+                <p:outputLabel value="Nombre:" />                
+                <p:inputText  value="#{trabajosBean.trabajo.nombre}"/>
+                <p:outputLabel value="Descripción:" />
+                <p:inputTextarea  value="#{trabajosBean.trabajo.descripcion}"/>
+                <p:outputLabel value="Publicado Desde:" />
+                <p:calendar pattern="dd/MM/yyyy hh:mm a" navigator="true" value="#{trabajosBean.trabajo.fechaInicial}" />
+<!--                <h:outputText value="#{trabajosBean.trabajo.fechaInicial}">
+                    <f:convertDateTime pattern="dd/MM/yyyy hh:mm a" timeZone="GMT-5"/>
+                </h:outputText>-->
+                <p:outputLabel value="Limite de Entrega:" />
+                <p:calendar  pattern="dd/MM/yyyy hh:mm a" navigator="true" value="#{trabajosBean.trabajo.fechaFinal}" />
+
+
+
+
+
+
+            </h:panelGrid>
+
+
+            <p:fileUpload immediate="true" fileUploadListener="#{trabajosBean.handleFileUpload}" mode="advanced" dragDropSupport="false"
+                          update=":nuevoTrabajoForm" sizeLimit="4000000" fileLimit="1"  />
+
+
+            <h:panelGrid>
+
+                <p:outputLabel rendered="#{trabajosBean.downloadFile !=null}" value="Adjuntos" style="font-weight: bold"/>
+                <p:commandButton rendered="#{trabajosBean.downloadFile !=null}" value="#{trabajosBean.downloadFile.name}" ajax="false" icon="ui-icon-arrowthick-1-s">
+                    <p:fileDownload value="#{trabajosBean.downloadFile}" />
+                </p:commandButton>
+
+                <p:outputLabel value=""/>
+            </h:panelGrid>
+            <p:commandButton value="Guardar" update=":nuevoTrabajoForm,:trabajo,:popupmjs" icon="ui-icon-disk" action="#{trabajosBean.guardar()}"/>
+            <p:commandButton immediate="true" icon="ui-icon-close" update=":nuevoTrabajoForm" value="Cancelar"  action="#{trabajosBean.hideCrearTrabajo()}"/>
+
+        </p:dialog>
+    </h:form>
+</ui:component>
+

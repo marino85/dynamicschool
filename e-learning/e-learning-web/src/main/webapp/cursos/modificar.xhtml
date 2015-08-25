@@ -1,0 +1,220 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core">
+    <ui:define name="content">
+
+
+        <h:form id="form1cursos">
+            <p:panel header="DATOS CURSO">
+                <p:messages styleClass="messageLogin"/>
+                <h:panelGrid columns="1">
+
+                    <h:panelGrid columns="6">
+                        <!--                        <f:facet name="header">
+                                                    EDITAR DATOS CURSO
+                                                </f:facet>-->
+                        <p:outputLabel value=" Nombre del curso:"/>
+
+                        <p:inputText value="#{cursosBean.editCourse.nombre}" 
+                                     required="true" 
+                                     requiredMessage="Nombre del Curso Obligatorio"
+                                     maxlength="50"/>
+                        <p:outputLabel value="Nivel del Curso:"/>
+
+                        <p:selectOneMenu value="#{cursosBean.editCourse.idNivel}" 
+                                         converter="#{convertersBean.nivelesConverter}"> 
+                            <f:selectItems value="#{generalListBean.nivelesCurso}" 
+                                           var="nivel" 
+                                           itemLabel="#{nivel.descripcion}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value=" Docente Asignado:"/>
+
+                        <p:selectOneMenu value="#{cursosBean.editCourse.idProfesor}" style="width: 300px;"
+                                         converter="#{convertersBean.usuariosConverter}"> 
+                            <f:selectItems value="#{generalListBean.usuarios}" 
+                                           var="usuario" 
+                                           itemLabel="#{usuario.nombres} #{usuario.apellidos}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value=" Tipo de Curso"/>
+
+
+                        <p:selectOneMenu value="#{cursosBean.editCourse.tipoCurso}">
+                            <f:selectItem itemValue="V" itemLabel="Curso Virtual"/>
+                            <f:selectItem itemValue="P" itemLabel="Curso Presencial"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="Valor del Curso"/>
+
+                        <p:inputText value="#{cursosBean.editCourse.valor}" 
+                                     converterMessage="El valor del curso es un atributo Numerico"
+                                     required="true" 
+                                     requiredMessage="Valor del Curso Obligatorio"
+                                     maxlength="13">
+                            <f:convertNumber type="number" />
+                        </p:inputText>
+                        <p:outputLabel value="Estado:"/>
+
+                        <p:selectOneMenu value="#{cursosBean.editCourse.idEstadoCurso}"
+                                         converter="#{convertersBean.estadosCursoConverter}"> 
+                            <f:selectItems value="#{generalListBean.estadosCurso}" 
+                                           var="estado" 
+                                           itemLabel="#{estado.descripcion}"/>
+                        </p:selectOneMenu>
+                    </h:panelGrid>
+                    <h:panelGroup >
+                        <p:outputLabel value="Descripción:"/>
+
+                        <p:inputTextarea value="#{cursosBean.editCourse.descripcion}" 
+                                         required="true" 
+                                         requiredMessage="Descripción del Curso Obligatoria"
+                                         maxlength="300" cols="100" rows="3" autoResize="false"/>
+                    </h:panelGroup>
+                    <h:panelGrid columns="6">
+
+                        <p:outputLabel value="Porcentaje Trabajos:"/>
+
+                        <p:inputText maxlength="3"  value="#{cursosBean.editCourse.porcentajetrabajos}">
+                            <f:validateDoubleRange maximum="1" minimum="0.1"/>
+                        </p:inputText>
+                        <p:outputLabel value="Pocentaje Evaluaciones:"/>
+
+                        <p:inputText maxlength="3"  value="#{cursosBean.editCourse.porcentajeevaluaciones}">
+                            <f:validateDoubleRange maximum="1" minimum="0.1"/>
+                        </p:inputText>
+                        <p:outputLabel value="Porcentaje Final:"/>
+
+                        <p:inputText maxlength="3"  value="#{cursosBean.editCourse.porcentajefinal}">
+                            <f:validateDoubleRange maximum="1" minimum="0.1"/>
+                        </p:inputText>
+                        <p:outputLabel value="Fecha Inicio Curso:"/>
+
+                        <p:calendar required="true"
+                                    requiredMessage="Fecha Incicio Obligatorio" pattern="dd/MM/yyyy" navigator="true"  value="#{cursosBean.editCourse.fechaInicio}"/>
+<!--                        <p:selectInputDate renderAsPopup="true"   value="#{cursosBean.editCourse.fechaInicio}"
+                                             renderMonthAsDropdown="true"  renderYearAsDropdown="true" 
+                                             >
+                            <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-5"/>
+                        </p:selectInputDate>-->
+                        <p:outputLabel value="Fecha Fin Curso:"/>     
+
+                        <p:calendar required="true" requiredMessage="Fecha Fin Obligatorio"
+                                    pattern="dd/MM/yyyy" navigator="true" value="#{cursosBean.editCourse.fechaFin}"/>
+        <!--                        <p:selectInputDate renderAsPopup="true"   value="#{cursosBean.editCourse.fechaFin}"
+                                                    renderMonthAsDropdown="true"  renderYearAsDropdown="true" 
+                                                    >
+                                   <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-5"/>
+                               </p:selectInputDate>-->
+
+                    </h:panelGrid>
+
+                </h:panelGrid>
+                <h:panelGrid columns="2">
+
+
+                    <p:dataTable value="#{cursosBean.editCourse.iappModulosCollection}" var="modulo"
+
+                                 >
+                        <f:facet name="header">
+                            MODULOS DEL CURSO
+                        </f:facet>
+                        <p:column headerText="Modulo">
+                            <p:outputLabel value="#{modulo.nombre}"/>     
+
+                        </p:column>
+                        <p:column headerText="Descripción">
+                            <p:outputLabel value="#{modulo.descripcion}"/>  
+
+                        </p:column>
+                        <p:column headerText="Porcentaje del Curso">
+                            <p:outputLabel value="#{modulo.porcentaje}">
+                                <f:convertNumber type="percent"/>
+                            </p:outputLabel>  
+
+                        </p:column>
+                        <p:column id="acciones" headerText="Acciones">
+                            <p:commandLink  value="Editar" action="#{cursosBean.edit}" ajax="false">
+                                <f:setPropertyActionListener target="#{modulosBean.editCourse}" value="#{cursosBean.editCourse}"/>
+                                <f:setPropertyActionListener target="#{modulosBean.module}" value="#{modulo}"/>
+                            </p:commandLink>
+                            &nbsp; &nbsp;
+                            <p:commandLink value="Eliminar" action="#{cursosBean.confirmar}" update=":formpopupcursos:dialog2">
+                                <f:setPropertyActionListener target="#{modulosBean.editCourse}" value="#{cursosBean.editCourse}"/>
+                                <f:setPropertyActionListener target="#{modulosBean.module}" value="#{modulo}"/>
+                            </p:commandLink>
+                        </p:column>
+                    </p:dataTable>
+                </h:panelGrid>            
+
+                <h:panelGrid columns="4"> 
+                    <p:commandButton value="Guardar"  icon="ui-icon-disk" update="form1cursos,:formpopupcursos:dialog1"
+                                     actionListener="#{cursosBean.guardar(evt)}"/>
+                    <p:commandButton value="Regresar" icon="ui-icon-arrowthickstop-1-w"
+                                     ajax="false" immediate="true"
+                                     action="consultarCurso"/>
+                    <p:commandButton value="Agregar Modulo"  icon="ui-icon-squaresmall-plus" ajax="false" immediate="true"
+                                     action="#{modulosBean.createModule}">
+                        <f:setPropertyActionListener target="#{modulosBean.editCourse}" value="#{cursosBean.editCourse}"/>
+                    </p:commandButton>
+                    <p:commandButton value="Estudiantes Inscritos"  icon="ui-icon-squaresmall-plus"
+                                     immediate="true" update=":inscribir:inscribirEstudiantesDialog"
+                                     action="#{cursosBean.inscribirEstudiantes}">
+                    </p:commandButton>
+                </h:panelGrid> 
+            </p:panel>
+
+        </h:form>
+
+
+
+    </ui:define>
+
+    <ui:define  name="popup">
+        <h:form id="formpopupcursos">
+
+            <p:dialog id="dialog1"
+                      closable="true"
+                      modal="true"
+                      draggable="false"
+                      widgetVar="comfirm1"
+                      header="Mensaje Confirmación"
+                      width="400"
+                      visible="#{cursosBean.showDialog1}">
+
+                <h:panelGrid>
+                    <p:outputLabel value="#{cursosBean.messaje}"/>
+                </h:panelGrid>
+                <p:commandButton value="Aceptar" icon="ui-icon-info" update=":formpopupcursos"
+                                 actionListener="#{cursosBean.aceptar(evt)}"
+                                 />
+
+            </p:dialog>
+            <p:dialog id="dialog2"
+                      closable="fasle"
+                      modal="true"
+                      draggable="false"
+                      widgetVar="comfirm2"
+                      header="Mensaje Confirmación"
+                      width="400"
+                      visible="#{cursosBean.showDialog2}">
+
+                <h:panelGrid>
+                    <p:outputLabel value="Seguro de eliminar el modulo #{modulosBean.module.nombre}"/>
+                </h:panelGrid>
+                <p:commandButton value="Aceptar"  icon="ui-icon-disk" update=":form1cursos,:formpopupcursos" action="#{cursosBean.hideConfirmar}" actionListener="#{modulosBean.eliminar(evt)}"/>
+                <p:commandButton value="Cancelar"  icon="ui-icon-close" update=":formpopupcursos" action="#{cursosBean.hideConfirmar()}" />
+
+            </p:dialog>
+
+        </h:form>
+
+        <ui:include src="inscribirEstudiantesModal.xhtml"/>
+        <ui:include src="estudiantesModal.xhtml"/>
+
+
+    </ui:define>
+</ui:composition>

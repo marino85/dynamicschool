@@ -1,0 +1,119 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:component  xmlns:ui="http://java.sun.com/jsf/facelets"
+               xmlns:p="http://primefaces.org/ui"
+               xmlns:h="http://java.sun.com/jsf/html"
+               xmlns:f="http://java.sun.com/jsf/core">
+    <h:form id="inscribirEstudiantes">
+        <p:dialog id="estudiante"
+                  closable="fasle"
+                  modal="true"
+                  draggable="false"
+                  widgetVar="estudiantes"
+                  header="Inscribir Estudiante"
+                  width="600"
+                  height="400"
+                  visible="#{cursosBean.showEstudiante}">
+
+            <h:outputText value="Estudiantes" style="font-weight: bold"/>
+
+<!--             <p:dataTable  value="#{generalListBean.getEstudiantesList(cursosBean.editCourse)}" var="estudiante"
+                paginator="true" pageCount="15" rows="15"
+                paginatorPosition="bottom" selectionMode="single" 
+                stateMap="#{cursosBean.stateMap}">
+     
+     <p:column headerText="Seleccionar">
+         <h:selectBooleanCheckbox ></h:selectBooleanCheckbox>
+     </p:column>
+    <p:column headerText="Nombres">
+        <h:outputText value="#{estudiante.nombres} #{estudiante.apellidos}"/>
+    </p:column>
+    
+     <p:column headerText="Jornada">
+         <h:outputText value="#{estudiante.idJornada.descripcion}"/>
+    </p:column>
+      <p:column headerText="Nivel">
+          <h:outputText value="#{estudiante.idNivel.descripcion}"/>
+    </p:column>
+     
+</p:dataTable> -->
+
+            <p:messages styleClass="messageLogin"/>
+
+
+            <h:panelGrid columns="4">
+                <p:outputLabel value="Matricula:"></p:outputLabel>
+                <p:inputText value="#{cursosBean.matricula}"/>
+                <p:outputLabel value="Nombres:"></p:outputLabel>
+                <p:inputText value="#{cursosBean.nombres}"/>
+                <p:outputLabel value="Apellidos"></p:outputLabel>
+                <p:inputText value="#{cursosBean.apellidos}"/>
+                <p:outputLabel value="Id Jornada"></p:outputLabel>
+                <p:selectOneMenu value="#{cursosBean.idJornada}" > 
+                    <f:selectItem itemLabel="Seleccione" itemValue="-1"/>
+                    <f:selectItems value="#{generalListBean.jornada}" var="jornada" 
+                                   itemValue="#{jornada.idJornada}" itemLabel="#{jornada.descripcion}"/>
+                </p:selectOneMenu>
+                <p:outputLabel value="Id Nivel"></p:outputLabel>
+                <p:selectOneMenu id="cmpNivel" value="#{cursosBean.idNivel}" 
+                                 > 
+                    <f:selectItem itemLabel="Seleccione" itemValue="-1"/>
+                    <f:selectItems value="#{generalListBean.nivelesCurso}" 
+                                   var="nivel" 
+                                   itemLabel="#{nivel.descripcion}" itemValue="#{nivel.idNivel}"/>
+                </p:selectOneMenu>
+
+
+            </h:panelGrid>
+            <p:commandButton value="buscar estudiantes" icon="ui-icon-search" update=":inscribirEstudiantes" action="#{cursosBean.consultarEstudiantes()}"/>
+
+<!--            value="#{generalListBean.getEstudiantesList(cursosBean.editCourse)}"-->
+
+            <p:dataTable value="#{cursosBean.estudiantesNocurso}"  var="estudiante"
+                         paginator="true" 
+                         rows="10"
+                         paginatorPosition="bottom" 
+                         rowsPerPageTemplate="5,10,15,20"
+                         >
+
+                <p:column headerText="Seleccionar">
+                    <p:selectBooleanCheckbox >                    
+                        <p:ajax update=":form1cursos" event="change" listener="#{cursosBean.adicionarEstudiante(estudiante)}" />
+                    </p:selectBooleanCheckbox>
+                </p:column>
+                <p:column headerText="Id Matricula">
+                    <p:outputLabel value="#{estudiante.codigo}"/>
+                </p:column>
+                <p:column headerText="Nombres">
+                    <p:outputLabel value="#{estudiante.nombres}"/>
+                </p:column>
+                <p:column headerText="Nombres">
+                    <p:outputLabel value="#{estudiante.apellidos}"/>
+                </p:column>
+                <p:column headerText="Jornada - Nivel">
+                    <p:outputLabel value="#{estudiante.idJornada.descripcion}  #{estudiante.idNivel.descripcion}"/>
+                </p:column>
+                <!--            <p:column headerText="Nivel">
+                                <p:outputLabel value="#{estudiante.idNivel.descripcion}"/>
+                            </p:column>-->
+
+            </p:dataTable>
+
+<!--        <p:selectManyCheckbox value="#{cursosBean.estudiantesSelected}" 
+                              style="text-align: left" 
+                              layout="pageDirection" 
+                              converter="#{convertersBean.estudiantesConverter}">
+            <f:selectItems value="#{generalListBean.getEstudiantesList(cursosBean.editCourse)}" 
+                           var="estudiante" 
+                           itemLabel="#{estudiante.nombres} #{estudiante.apellidos}  - #{estudiante.idJornada.descripcion} - #{estudiante.idNivel.descripcion}"/>
+        </p:selectManyCheckbox>-->
+
+
+
+            <p:commandButton value="Guardar" update=":inscribir,:inscribirEstudiantes" icon="ui-icon-disk"  action="#{cursosBean.guardarEstudiante()}"/>
+            <p:commandButton immediate="true" update=":inscribir,:inscribirEstudiantes" icon="ui-icon-close" value="Cancelar"  action="#{cursosBean.hideEstudiante()}"/>
+
+        </p:dialog>
+    </h:form>
+</ui:component>
+

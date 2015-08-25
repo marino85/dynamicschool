@@ -1,0 +1,66 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets" 
+                xmlns:p="http://primefaces.org/ui"                
+                xmlns:h="http://java.sun.com/jsf/html"                
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="/WEB-INF/external_template.xhtml" >
+
+
+    <ui:define name="content">       
+        <h:form id="Personas" title="">
+            <p:messages ></p:messages> 
+            <h:panelGrid columns="2">
+                <h:panelGroup>
+                    <h:panelGrid columns="4">
+
+
+                        <p:dataTable value="#{cursosTable.courses}" var="course"
+                                   
+                                     >
+                            <f:facet name="header">
+                                <p:outputLabel value="Cursos Disponibles"/>                            
+                            </f:facet>
+                            <p:column headerText="Curso"  style="text-align: left">
+                                <p:outputLabel value="#{course.nombre}"/>
+                            </p:column>
+                            <p:column headerText="Descripción" style="width: 250px; text-align: left">
+                                <p:outputLabel value="#{course.descripcion}"/>
+                            </p:column>
+                            <p:column headerText="Nivel">
+                                <p:outputLabel value="#{course.idNivel.descripcion}"/>
+                            </p:column>
+                            <p:column headerText="Tipo de Curso">
+                                <p:outputLabel rendered="#{course.cursoVirtual}" value="Virtual"/>
+                                <p:outputLabel rendered="#{course.cursoPresencial}" value="Presencial"/>
+                            </p:column>
+                            <p:column headerText="Valor" style="text-align: right">
+                                <p:outputLabel value="#{course.valor}">
+                                    <f:convertNumber type="currency" currencyCode="COP"/>
+                                </p:outputLabel>
+                            </p:column>
+                            <p:column headerText="Nivel">
+                                <p:outputLabel value="#{course.idNivel.descripcion}"/>
+                            </p:column>
+
+
+                            <p:column id="acciones" headerText="Acciones">
+                                <p:commandLink value="Inscribirme" ajax="false" action="resumen">
+                                    <f:setPropertyActionListener target="#{pagosOnlineBean.courseSelected}" value="#{course}"/>
+
+                                </p:commandLink>
+                            </p:column>
+                        </p:dataTable>
+                    </h:panelGrid>
+                </h:panelGroup>
+
+
+            </h:panelGrid>
+
+
+            <p:commandButton value="Cancelar" immediate="true" actionListener="#{pagosOnlineBean.resetPagosOnline()}" ajax="false" icon="ui-icon-cancel" action="login" > </p:commandButton>
+
+
+        </h:form>
+
+    </ui:define>
+</ui:composition>

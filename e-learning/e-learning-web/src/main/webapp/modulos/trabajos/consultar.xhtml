@@ -1,0 +1,123 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" 
+                template="/WEB-INF/template.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core">
+    <ui:define name="content">        
+        <ui:include src="/cursos/headerCurso.xhtml" />
+        <h:form id="trabajo">
+            <h:panelGrid columns="1">
+                <h:panelGrid columns="2">
+
+                    <p:dataTable value="#{trabajosBean.editModule.iappAsignacionesCollection}" var="trabajo"
+
+                                 >
+                        <f:facet name="header">
+                            <h:outputText value="TRABAJOS DEL MODULO  #{trabajosBean.editModule.nombre}"/>
+                        </f:facet>
+                        <p:column headerText="Trabajo">
+                            <p:outputLabel value="#{trabajo.nombre}"/>
+                        </p:column>
+                        <p:column headerText="Descripción" style="text-align: left">
+                            <p:outputLabel value="#{trabajo.shortDescripcion}"/>
+                        </p:column>
+                        <p:column headerText="Habilitado Desde">
+                            <p:outputLabel value="#{trabajo.fechaInicial}">  
+                                <f:convertDateTime pattern="EEEE, dd MMM YYYY hh:mm a" timeZone="GMT-5"/>
+                            </p:outputLabel>
+                        </p:column>
+                        <p:column headerText="Habilitado Hasta">
+                            <p:outputLabel value="#{trabajo.fechaFinal}">
+                                <f:convertDateTime pattern="EEEE, dd MMM YYYY hh:mm a" timeZone="GMT-5"/>
+                            </p:outputLabel>
+                        </p:column>
+                        <p:column id="acciones" headerText="Vinculos">
+                            <p:commandLink rendered="#{trabajo.iappEntregasFromUserCollection(trabajosBean.matricula).size()==0 and trabajo.entregaHabilitada() and userLogged.estudiante}" 
+                                           value="Ver" update=":vertrabajomodal"
+                                           action="#{trabajosBean.verTrabajo}">
+                                <f:setPropertyActionListener target="#{trabajosBean.trabajo}" value="#{trabajo}"/>
+                            </p:commandLink>
+                            <p:outputLabel rendered="#{trabajo.iappEntregasFromUserCollection(trabajosBean.matricula).size()==0 and trabajo.entregaHabilitada() and userLogged.estudiante}"
+                                           value="&nbsp;&nbsp;"/>
+                            <p:commandLink rendered="#{userLogged.administrador || userLogged.profesor}" 
+                                           value="Ver"  ajax="false"
+                                           action="consultarEntregas">
+                                <f:setPropertyActionListener target="#{trabajosBean.trabajo}" value="#{trabajo}"/>
+                            </p:commandLink>
+                            <p:outputLabel  rendered="#{userLogged.administrador || userLogged.profesor}" 
+                                            value="&nbsp;&nbsp;"/>
+                            <p:commandLink rendered="#{userLogged.administrador || userLogged.profesor}"
+                                           value="Editar"   
+                                           update=":nuevoTrabajoForm"
+                                           action="#{trabajosBean.editTrabajo}">
+                                <f:setPropertyActionListener target="#{trabajosBean.trabajo}" value="#{trabajo}"/>
+                            </p:commandLink>
+                            <p:outputLabel  rendered="#{userLogged.administrador || userLogged.profesor}" 
+                                            value="&nbsp;&nbsp;"/>
+                            <p:commandLink rendered="#{userLogged.administrador || userLogged.profesor}"
+                                           value="Eliminar"  update=":popupmjs"
+                                           action="#{trabajosBean.confirmar}">
+                                <f:setPropertyActionListener target="#{trabajosBean.trabajo}" value="#{trabajo}"/>
+                            </p:commandLink>
+                        </p:column>
+                    </p:dataTable>
+                </h:panelGrid>            
+            </h:panelGrid>            
+            <h:panelGrid columns="3">
+                <p:commandButton value="Regresar" icon="ui-icon-arrowthickstop-1-w" 
+                                 immediate="true" ajax="false"
+                                 action="verCurso"/>
+                <p:commandButton value="Crear Trabajo" icon="ui-icon-plus" 
+                                 update=":nuevoTrabajoForm"
+                                 rendered="#{userLogged.profesor}"
+                                 action="#{trabajosBean.createTrabajo}"/>
+            </h:panelGrid> 
+
+        </h:form>
+
+
+
+
+    </ui:define>
+
+    <ui:define name="popup">
+        <h:form id="popupmjs">
+            <p:dialog id="verMensaje"
+                      closable="fasle"
+                      modal="true"
+                      draggable="false"
+                      widgetVar="verTrabajo"
+                      header="Trabajo Asignado"
+                      width="300"
+                      visible="#{trabajosBean.verMensaje}">
+
+                <h:panelGrid columns="1">
+                    <p:outputLabel value="#{trabajosBean.messaje}"/>
+                    <p:commandButton icon="ui-icon-info" value="Aceptar" update=":trabajo,:popupmjs" action="#{trabajosBean.aceptar}"/>
+                </h:panelGrid>
+
+            </p:dialog>
+            <p:dialog id="verConfirmacion"
+                      closable="fasle"
+                      modal="true"
+                      draggable="false"
+                      widgetVar="verTrabajo"
+                      header="Eliminar Trabajo"
+                      width="300"
+                      visible="#{trabajosBean.verConfirmacion}">
+
+                <h:panelGrid>
+                    <p:outputLabel value="Seguro de eliminar el trabajo #{trabajosBean.trabajo.nombre}"/>
+                </h:panelGrid>
+                <p:commandButton value="Aceptar" update=":trabajo,:popupmjs" icon="ui-icon-info" action="#{trabajosBean.eliminarTrabajo()}"/>
+                <p:commandButton value="Cancelar" update=":popupmjs" icon="ui-icon-close" action="#{trabajosBean.hideConfirmar()}"/>
+
+            </p:dialog>
+        </h:form>
+        <ui:include src="verTrabajoModal.xhtml" />
+        <ui:include src="nuevoTrabajoModal.xhtml" />
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:component  xmlns="http://www.w3.org/1999/xhtml"
+               xmlns:ui="http://java.sun.com/jsf/facelets"
+               xmlns:p="http://primefaces.org/ui" 
+               xmlns:h="http://java.sun.com/jsf/html"
+               xmlns:f="http://java.sun.com/jsf/core">
+    <h:form id="verforo">
+        <p:dialog id="verForo"
+                  closable="fasle"
+                  modal="true"
+                  draggable="false"
+                  widgetVar="nuevoContenido"
+                  header="Foro"
+                  width="600"
+                  visible="#{mensajesBean.verForo}">
+
+            <h:panelGrid columns="2" style="text-align: left">
+                <p:outputLabel value="Tema:" />
+                <p:outputLabel style="width: 100%" value="#{mensajesBean.mensajeSeleccionado.titulo}"/>
+                <p:outputLabel value="Descripción:" />
+                <p:inputTextarea  disabled="true" cols="50" rows="5" value="#{mensajesBean.mensajeSeleccionado.mensaje}"/>
+
+
+            </h:panelGrid>
+
+            <p:commandButton immediate="true" icon="ui-icon-info" value="Aceptar" update=":verforo" action="#{mensajesBean.hideVerforo()}"/>
+
+        </p:dialog>
+    </h:form>
+</ui:component>
+

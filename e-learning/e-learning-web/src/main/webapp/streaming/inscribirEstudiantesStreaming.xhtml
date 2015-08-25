@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:component  xmlns="http://www.w3.org/1999/xhtml"
+               xmlns:ui="http://java.sun.com/jsf/facelets"
+               xmlns:p="http://primefaces.org/ui"
+               xmlns:h="http://java.sun.com/jsf/html"
+               xmlns:f="http://java.sun.com/jsf/core">
+    <h:form id="estudiantesInscritos">
+        <p:dialog id="inscribirEstudiantes"
+                  closable="false"
+                  modal="true"
+                  draggable="false"
+                  widgetVar="inscribirEstudiantes"
+                  header="Estudiantes Inscritos"
+                  width="500"
+                  visible="#{createStreamingBean.mostrarInscribirEstudiantes}">
+<!--            <p:messages styleClass="messageLogin"/>-->
+            <p:dataTable  value="#{createStreamingBean.listadoEstudiantes}" var="matricula"
+                          paginator="true"  rows="10"
+                          paginatorPosition="bottom" 
+                          >
+                <p:column headerText="Nombre">
+                    <p:outputLabel value="#{matricula.idUsuario.nombres} #{matricula.idUsuario.apellidos}"/>
+                </p:column>
+
+            </p:dataTable> 
+
+            <p:commandButton value="Agregar Estudiante" update=":inscribir" icon="ui-icon-squaresmall-plus" action="#{createStreamingBean.mostrarEstudiantes()}"/>
+            
+            <p:commandButton immediate="true" update=":estudiantesInscritos" icon="ui-icon-close" value="Cancelar"  action="#{createStreamingBean.cerrarInscribirEstudiantes()}"/>
+
+        </p:dialog>
+    </h:form>
+    <ui:include src="estudiantesModalStreaming.xhtml"/>
+</ui:component>
+

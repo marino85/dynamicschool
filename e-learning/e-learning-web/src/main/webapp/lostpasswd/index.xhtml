@@ -1,0 +1,84 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets" 
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html"
+
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="/WEB-INF/external_template.xhtml" >
+
+    <ui:define name="header">
+
+    </ui:define>
+    <ui:define name="menu">
+
+    </ui:define>
+    <ui:define name="content">
+        
+        <h:form id="lostpass" >
+
+            <p:panel id="panel" header="Recuperar Contraseña"
+                     closable="false"
+                     >
+
+                <p:messages showDetail="true"/>
+                <h:panelGrid columns="2">
+
+
+
+                    <p:outputLabel value="Código de Matricula"/>
+                    <p:inputText value="#{lostPassBean.userOnline.codigo}" required="true" requiredMessage="Número Documento Obligatorio"></p:inputText>     
+
+                    <p:outputLabel value=" Número Documento:"/>
+                    <p:inputText value="#{lostPassBean.userOnline.numeroDoc}" required="true" requiredMessage="Número Documento Obligatorio"></p:inputText>                       
+
+
+
+                    <p:outputLabel value=" Correo Personal: "/>
+                    <p:inputText id="email" size="60" value="#{lostPassBean.userOnline.email}" required="true"  requiredMessage="E-mail : campo obligatorio">
+
+                    </p:inputText>
+                    
+                    <p:captcha label="Captcha" />
+                     <h:outputText value=""/>
+                    
+
+                     <p:commandButton value="Siguiente" ajax="false"  icon="ui-icon-arrowthickstop-1-e"  action="#{lostPassBean.cambiarPasswd()}"> 
+                    </p:commandButton>
+
+                     <p:commandButton immediate="true" ajax="false" value="Regresar" icon="ui-icon-arrowthickstop-1-w"  action="login" > 
+                    </p:commandButton>
+
+                  
+
+                </h:panelGrid>
+
+
+
+            </p:panel>
+
+
+        </h:form>
+
+        <!--        <p:dialog id="dialog"
+                            closable="fasle"
+                            modal="true"
+                            draggable="false"
+                            widgetVar="comfirm"
+                            header="Mensaje Confirmación"
+                            width="400"
+                            visible="#{usuariosBean.showDialog}">
+                    
+                    <h:form>
+                        
+                        
+                        <h:panelGrid>
+                                <h:outputText value="#{usuariosBean.messaje}"></h:outputText>                    
+                        </h:panelGrid>
+                        <h:commandButton value="Aceptar" actionListener="#{usuariosBean.aceptar(evt)}"
+                                           onclick="comfirm.hide();"></h:commandButton>
+                        
+                    </h:form>
+                    
+                </p:dialog>-->
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,225 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+
+    <ui:define name="content">
+
+
+
+        <h:form id="Personas" title="">
+            <p:panel header="EDITAR DATOS PERSONA">
+                <h:panelGrid columns="2">
+                    <h:panelGroup>
+                        <h:panelGrid columns="4">
+                            <p:outputLabel value="Perfil:"/>
+
+                            <p:selectOneMenu value="#{usuariosBean.editUser.idPerfil}"  converter="#{convertersBean.perfilesConverter}"> 
+
+                                <f:selectItems value="#{generalListBean.perfiles}" var="perfil" itemLabel="#{perfil.descripcion}"/>
+                            </p:selectOneMenu>
+                            <p:outputLabel value=" Tipo Documento:"/>
+
+                            <p:selectOneMenu value="#{usuariosBean.editUser.tipoDoc}" converter="#{convertersBean.tipoDocConverter}"> 
+                                <f:selectItems value="#{generalListBean.tiposDoc}" var="tipoDoc" itemLabel="#{tipoDoc.descripcion}"/>
+                            </p:selectOneMenu>
+                            <p:outputLabel value="Número Documento:"/>
+
+                            <p:inputText value="#{usuariosBean.editUser.numeroDoc}" required="true" requiredMessage="Número Documento Obligatorio"></p:inputText>
+                            <p:outputLabel value=" Código:"/>
+
+                            <p:inputText id="codigo" value="#{usuariosBean.editUser.codigo}" required="true" requiredMessage="Codigo: campo obligatorio" title="Código empleado para identificar cuando el usuario es un estudiante">
+
+
+                            </p:inputText>
+                            <p:outputLabel value="Jornada:"/>
+
+                            <p:selectOneMenu value="#{usuariosBean.editUser.idJornada}" converter="#{convertersBean.jornadaConverter}"> 
+                                <f:selectItems value="#{generalListBean.jornada}" var="jornada" itemLabel="#{jornada.descripcion}"/>
+                            </p:selectOneMenu>
+                            <p:outputLabel value="Nombres:"/>
+
+                            <p:inputText value="#{usuariosBean.editUser.nombres}" required="true" requiredMessage="Nombres: campo obligatorio"/>
+                            <p:outputLabel value=" Apellidos:"/>
+
+                            <p:inputText value="#{usuariosBean.editUser.apellidos}" required="true" requiredMessage="Apellidos: campo obligatorio"/>
+                            <p:outputLabel value=" Dirección: "/>
+
+                            <p:inputText value="#{usuariosBean.editUser.direccion}" required="true" requiredMessage="Dirección: campo obligatorio"/>
+                            <p:outputLabel value="Telefono:"/>
+
+                            <p:inputText value="#{usuariosBean.editUser.telefono}" required="true" requiredMessage="Telefono: campo obligatorio"/>
+                            <p:outputLabel value=" Correo Personal: "/>
+
+                            <p:inputText id="email" value="#{usuariosBean.editUser.email}" required="true"  requiredMessage="E-mail : campo obligatorio">
+
+
+                            </p:inputText>
+                            <p:outputLabel value="Fecha de Nacimiento: "/>
+
+                            <p:calendar value="#{usuariosBean.editUser.fechaNacimiento}" pattern="dd/MM/yyyy" navigator="true"/>
+    <!--                        <p:selectInputDate renderAsPopup="true"    value="#{usuariosBean.editUser.fechaNacimiento}"
+                                                 renderMonthAsDropdown="true"  renderYearAsDropdown="true" 
+                                                 >
+                                <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-5"/>
+                            </p:selectInputDate>-->
+                            <!--                        <ace:dateTimeEntry id="fechaNacimiento"
+                                                                       value="#{usuariosBean.editUser.fechaNacimiento}"
+                                                                       required="true"
+                                                                       requiredMessage="Fecha Nacimiento: campo obligatorio"
+                                                                       renderAsPopup="true"
+                                                                       timeZone="GMT-5"
+                                                                       pattern="dd/MM/yyyy"
+                                                                       showOtherMonths="true"
+                                                                       navigator="true"/>-->
+
+                            <p:outputLabel value=" Sexo:"/>
+                            <p:selectOneMenu  value="#{usuariosBean.editUser.sexo}"> 
+                                <f:selectItem itemLabel="M" itemValue="M"></f:selectItem>
+                                <f:selectItem itemLabel="F" itemValue="F"></f:selectItem>
+                            </p:selectOneMenu>
+                            <p:outputLabel value=" Estado:"/>
+
+                            <p:selectOneMenu value="#{usuariosBean.editUser.estadoUsuario}" converter="#{convertersBean.estadosUsuarioConverter}"> 
+                                <f:selectItems value="#{generalListBean.estadosUsuario}" var="estado" itemLabel="#{estado.descripcion}"/>
+                            </p:selectOneMenu>
+
+
+                            <p:outputLabel value="Nivel:" rendered="#{usuariosBean.editUser.idPerfil.idPerfil==1}"/>
+                            <p:selectOneMenu value="#{usuariosBean.editUser.idNivel}" converter="#{convertersBean.nivelesConverter}"
+                                             rendered="#{usuariosBean.editUser.idPerfil.idPerfil==1}"> 
+                                <f:selectItems value="#{generalListBean.nivelesCurso}" 
+                                               var="nivel" 
+                                               itemLabel="#{nivel.descripcion}"/>
+                            </p:selectOneMenu>
+
+
+                            <p:outputLabel value=" Fecha Inicio:"   rendered="#{usuariosBean.editUser.idPerfil.idPerfil==1}"/>
+
+                            <p:calendar  value="#{usuariosBean.editUser.fechaInicio}" pattern="dd/MM/yyyy" navigator="true" rendered="#{usuariosBean.editUser.idPerfil.idPerfil==1}"/>
+    <!--                             <p:selectInputDate renderAsPopup="true" rendered="#{usuariosBean.editUser.idPerfil.idPerfil==1}"
+                                                       value="#{usuariosBean.editUser.fechaInicio}"
+                                                 renderMonthAsDropdown="true"  renderYearAsDropdown="true" 
+                                                 >
+                                <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-5"/>
+                            </p:selectInputDate>-->
+
+<!--                        <ace:dateTimeEntry id="fechaInicio" rendered="#{usuariosBean.editUser.idPerfil.idPerfil==1}"
+                   value="#{usuariosBean.editUser.fechaInicio}"
+                   renderAsPopup="true"
+                   timeZone="GMT-5"
+                   pattern="dd/MM/yyyy"
+                   showOtherMonths="true"
+                   navigator="true"/>-->
+
+
+                            <p:outputLabel value="Fecha Fin:" rendered="#{usuariosBean.editUser.idPerfil.idPerfil==1}"/>
+                            <p:calendar  value="#{usuariosBean.editUser.fechaFin}" pattern="dd/MM/yyyy"  navigator="true"  rendered="#{usuariosBean.editUser.idPerfil.idPerfil==1}"/>
+    <!--                             <p:selectInputDate renderAsPopup="true"     value="#{usuariosBean.editUser.fechaFin}"
+                                                      rendered="#{usuariosBean.editUser.idPerfil.idPerfil==1}"
+                                                 renderMonthAsDropdown="true"  renderYearAsDropdown="true" 
+                                                 >
+                                <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-5"/>
+                            </p:selectInputDate>-->
+    <!--                        <ace:dateTimeEntry id="fechaFin" rendered="#{usuariosBean.editUser.idPerfil.idPerfil==1}"
+                                               value="#{usuariosBean.editUser.fechaFin}"
+                                               renderAsPopup="true"
+                                               timeZone="GMT-5"
+                                               pattern="dd/MM/yyyy"
+                                               showOtherMonths="true"
+                                               navigator="true"/>-->
+
+                            <p:outputLabel value="Docente:" rendered="#{usuariosBean.editUser.idPerfil.idPerfil==1}"/>
+                            <p:selectOneMenu value="#{usuariosBean.editUser.idProfesor}"
+                                             rendered="#{usuariosBean.editUser.idPerfil.idPerfil==1}" style="width: 300px;"
+                                             > 
+                                <f:selectItem itemLabel="Seleccione" itemValue="0"></f:selectItem>
+                                <f:selectItems value="#{generalListBean.usuarios}" 
+                                               var="usuario" 
+                                               itemLabel="#{usuario.nombres} #{usuario.apellidos}"
+                                               itemValue="#{usuario.idUsuario}"/>
+                            </p:selectOneMenu>
+
+                            <p:outputLabel value="Jornada Asistencia:" rendered="#{usuariosBean.editUser.idPerfil.idPerfil==1}"/>
+                            <p:selectOneMenu value="#{usuariosBean.editUser.asistencia}"
+                                             rendered="#{usuariosBean.editUser.idPerfil.idPerfil==1}" 
+                                             >
+                                 <f:selectItem itemLabel="Seleccione" itemValue=""></f:selectItem>
+                                <f:selectItem itemLabel="Manaña" itemValue="Manaña"></f:selectItem>
+                                <f:selectItem itemLabel="Tarde" itemValue="Tarde"></f:selectItem>
+
+                            </p:selectOneMenu>
+                        </h:panelGrid>
+                    </h:panelGroup>
+                    <h:messages styleClass="messageLogin"></h:messages>
+
+                </h:panelGrid>
+
+                <h:panelGrid columns="1">
+                    <h:panelGroup>
+                        <h:panelGrid columns="2">
+                            <p:outputLabel value="Nivel de Educación:"/>
+
+                            <p:selectOneMenu value="#{usuariosBean.editUser.nivelEducacion}">
+                                <f:selectItem itemValue="P" itemLabel="Primaria"/>
+                                <f:selectItem itemValue="B" itemLabel="Bachillerato"/>
+                                <f:selectItem itemValue="T" itemLabel="Técnico"/>
+                                <f:selectItem itemValue="R" itemLabel="Tecnólogo"/>
+                                <f:selectItem itemValue="W" itemLabel="Profesional"/>
+                                <f:selectItem itemValue="O" itemLabel="Otro"/>
+                            </p:selectOneMenu>
+
+                        </h:panelGrid>
+                    </h:panelGroup>
+
+                    <h:panelGroup>
+                        <p:commandButton value="Guardar" update=":mjspopup" icon="ui-icon-disk"   actionListener="#{usuariosBean.modificar(evt)}" > 
+                        </p:commandButton>
+                        <p:commandButton value="Regresar" icon="ui-icon-arrowthickstop-1-w" immediate="true" action="consultarEstudiante" > 
+                        </p:commandButton>
+                    </h:panelGroup>
+
+                </h:panelGrid>    
+            </p:panel>
+
+
+        </h:form>
+
+
+
+
+    </ui:define>
+
+    <ui:define name="popup">
+        <h:form id="mjspopup">
+            <p:dialog id="dialog"
+                      closable="false"
+                      modal="true"
+                      draggable="false"
+                      widgetVar="comfirm"
+                      header="Mensaje Confirmación"
+                      width="400"
+                      visible="#{usuariosBean.showDialog}">
+
+
+
+
+                <h:panelGrid id="panelres">
+                    <p:outputLabel value="#{usuariosBean.messaje}"></p:outputLabel>
+
+                </h:panelGrid>
+                <p:commandButton value="Aceptar" icon="ui-icon-info" actionListener="#{usuariosBean.aceptar(evt)}"
+                                 update=":mjspopup,:Personas"   ></p:commandButton>
+
+
+
+            </p:dialog>
+        </h:form>
+    </ui:define>
+
+
+
+</ui:composition>

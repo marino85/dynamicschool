@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" 
+                template="/WEB-INF/template.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core">
+    <ui:define name="content">
+        <ui:include src="/cursos/headerCurso.xhtml" />
+        <h:form id="foro">
+            <h:panelGrid columns="1" style="width: 100%">
+                <h:panelGrid columns="2" >
+
+                    <p:dataTable value="#{foroBean.editModule.iappForoCollection}" var="foro"
+                                 paginator="true" 
+                                 paginatorPosition="bottom"  
+                                 >
+                        <f:facet name="header">
+                            <h:outputText value="FOROS DISPONIBLES"/>
+                        </f:facet>
+                        <p:column headerText="Tema">
+                            <p:outputLabel value="#{foro.tema}"/>
+                        </p:column>                        
+                        <p:column headerText="Desripcion">
+                            <p:outputLabel value="#{foro.descripcion}">  
+                                <f:convertDateTime pattern="EEEE, dd MMM YYYY hh:mm a" timeZone="GMT-5"/>
+                            </p:outputLabel>
+                        </p:column>                       
+                        <p:column id="acciones"  headerText="Vinculos">
+                            <p:commandLink value="Editar" update=":editarForo"   rendered="#{userLogged.administrador || userLogged.profesor}"                                       
+                                           action="#{foroBean.openEditForo()}">
+                                <f:setPropertyActionListener target="#{foroBean.editForo}" value="#{foro}"/>
+                            </p:commandLink>
+                            <h:outputText  value="&nbsp;&nbsp;"/>
+                            <p:commandLink value="Eliminar" update=":mjspopup:verConfirmacion" rendered="#{userLogged.administrador || userLogged.profesor}"
+
+                                           action="#{foroBean.openConfirmar()}">
+                                <f:setPropertyActionListener target="#{foroBean.editForo}" value="#{foro}"/>
+                            </p:commandLink>
+                            <h:outputText  value="&nbsp;&nbsp;"/>
+                            <p:commandLink value="Ver" ajax="false" 
+                                           action="verforo">
+                                <f:setPropertyActionListener target="#{mensajesBean.foroSeleccionado}" value="#{foro}"/>
+                            </p:commandLink>
+                        </p:column>
+                    </p:dataTable>
+                </h:panelGrid>            
+            </h:panelGrid>            
+            <h:panelGrid columns="3">
+                <p:commandButton value="Regresar" icon="ui-icon-arrowthickstop-1-w"  
+                                 immediate="true" ajax="false"
+                                 action="verCurso"/>
+                <p:commandButton value="Crear Foro" icon="ui-icon-plus" update=":foroModal"
+                                 rendered="#{userLogged.profesor}"
+                                 action="#{foroBean.openCreateForo()}"/>
+            </h:panelGrid> 
+
+
+        </h:form>
+
+
+
+
+
+    </ui:define>
+
+    <ui:define name="popup">
+
+        <h:form id="mjspopup">
+            <p:dialog id="verMensaje"
+                      closable="fasle"
+                      modal="true"
+                      draggable="false"
+                      widgetVar="verEvaluacion"
+                      header="Foro"
+                      width="300"
+                      visible="#{foroBean.verMensaje}">
+
+                <h:panelGrid columns="1">
+                    <p:outputLabel value="#{foroBean.mensaje}"/>
+                    <p:commandButton icon="ui-icon-info" update=":foro,:mjspopup" value="Aceptar" action="#{foroBean.hideVerMensaje()}"/>
+                </h:panelGrid>
+
+            </p:dialog>
+
+            <p:dialog id="verConfirmacion"
+                      closable="fasle"
+                      modal="true"
+                      draggable="false"
+                      widgetVar="verConfirmacion"
+                      header="Eliminar Foro"
+                      width="300"
+                      visible="#{foroBean.verConfirmacion}">
+
+                <h:panelGrid>
+                    <p:outputLabel value="Seguro de eliminar el foro #{foroBean.editForo.tema}"/>
+                </h:panelGrid>
+                <p:commandButton icon="ui-icon-info" update=":foro,:mjspopup" value="Aceptar" action="#{foroBean.eliminarForo()}" />
+                <p:commandButton icon="ui-icon-close" update=":mjspopup" value="Cancelar" action="#{foroBean.hideConfirmar()}"/>
+
+            </p:dialog>
+
+
+        </h:form>
+
+        <ui:include src="nuevoForoModal.xhtml" />
+        <ui:include src="editarForoModal.xhtml" />
+    </ui:define>
+
+</ui:composition>
