@@ -6,6 +6,7 @@ package com.ccit.web.bean;
 
 import com.ccit.ejb.constants.Constants;
 import com.ccit.ejb.fachada.UsuariosFacade;
+import com.ccit.ejb.fachada.impl.IappUsuarioFacade;
 import com.ccit.ejb.modelo.*;
 import com.ccit.ejb.utilidades.EncrytUtil;
 import com.ccit.exception.IappException;
@@ -25,9 +26,14 @@ import javax.faces.event.ActionEvent;
 @ManagedBean
 @SessionScoped
 public class UsuariosBean implements Serializable {
+    
+    
 
     @EJB
     private UsuariosFacade usuariosFacade;
+    
+    
+    
     private IappUser newUser;
     private IappUser editUser;
     private boolean showDialog = false;
@@ -81,7 +87,7 @@ public class UsuariosBean implements Serializable {
             }
 
             newUser.setCont(0);
-            newUser.setPasswd(EncrytUtil.encrypPwd(newUser.getNumeroDoc()));
+            newUser.setPasswd(EncrytUtil.encrypPwd(newUser.getIdNumber()));
             newUser.setIdUsuario(null);
             if (!newUser.getIdPerfil().getIdPerfil().equals(Constants.PERFIL_ESTUDIANTE)) {
               //  newUser.setIdNivel(new IappNiveles(1));

@@ -60,7 +60,7 @@ public class LostPassBean implements Serializable {
     public void cambiarPasswd(){
         FiltroUsuariosDto dto = new FiltroUsuariosDto();
         dto.setEmail(userOnline.getEmail());
-        dto.setNumeroDoc(userOnline.getNumeroDoc());
+        dto.setNumeroDoc(userOnline.getIdNumber());
         dto.setCodigo(userOnline.getCodigo());
         
         List<IappUser> consulta = usuariosFacade.getEstudiantes(dto);
